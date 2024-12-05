@@ -1,0 +1,1 @@
+Here, I first extracted all the data we need from DrugBank into the DrugBank_filter folder. Then, I merged Uniprot with DrugBank; the result is in CompletedUniprot. The embedded document is not needed anymore because this relationship will be handled in the Graph.

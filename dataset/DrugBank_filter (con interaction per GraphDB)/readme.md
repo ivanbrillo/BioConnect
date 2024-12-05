@@ -1,0 +1,1 @@
+They are the same scripts from the DrugBank-DocumentDB folder, but here I've also included all the interaction fields for a possible GraphDB (initially, we were supposed to insert this data into DocumentDB).
