@@ -1,21 +1,10 @@
 drugbank_id:ID,name,:LABEL
-DB08262,2.6-dicarboxynaphthalene,Drug
-DB07427,2-[(2-methoxy-5-methylphenoxy)methyl]pyridine,Drug
-DB08077,2-[4-({[(3.5-DICHLOROPHENYL)AMINO]CARBONYL}AMINO)PHENOXY]-2-METHYLPROPANOIC ACID,Drug
-DB07428,4-[(5-methoxy-2-methylphenoxy)methyl]pyridine,Drug
-DB02126,4-Carboxycinnamic Acid,Drug
-DB09130,Copper,Drug
-DB08486,Efaproxiral,Drug
 DB09147,Ferric pyrophosphate,Drug
 DB13995,Ferric pyrophosphate citrate,Drug
 DB00893,Iron Dextran,Drug
 DB09112,Nitrous acid,Drug
 DB09140,Oxygen,Drug
 DB06154,Pentaerythritol tetranitrate,Drug
-DB07645,Sebacic acid,Drug
 DB09517,Sodium ferric gluconate complex,Drug
-DB08632,Trimesic acid,Drug
-DB01593,Zinc,Drug
-DB14487,Zinc acetate,Drug
 DB14533,Zinc chloride,Drug
 DB14548,Zinc sulfate. unspecified form,Drug

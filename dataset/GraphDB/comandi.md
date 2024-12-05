@@ -35,6 +35,11 @@ Dopo aver importato i file CSV nella cartella di import di Neo4j:
 ## Da risolvere
 - Trovare un modo per tipo di relazione dinamico in unico file per evitare un file diverso per ogni tipo di relazione. 
 - Provare con unico file con intero codice Cypher.
+- Aggiunge virgolette alla fine di una malattia e non si riesce a risolvere senza incasinare gli altri
 
 ## Da aggiungere
 - Dettagli sui disease coinvolti.
+- Interazioni con altre proteine
+
+## Dubbi
+- Interazioni Drug-Protein o viceversa?
