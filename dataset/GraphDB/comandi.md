@@ -30,6 +30,22 @@ Dopo aver importato i file CSV nella cartella di import di Neo4j:
     MATCH (p:Protein {uniprot_id: row.`:END_ID`})  // Trova la proteina con UniProtID
     CREATE (d)-[r:ENHANCE]->(p)  // Crea la relazione ENHANCE tra farmaco e proteina
     SET r.type = row.`:TYPE`;  // Imposta il tipo della relazione (INHIBIT, ENHANCE)
+
+    - **Caricare malattie**:
+        ```cypher
+        LOAD CSV WITH HEADERS FROM 'file:///disease_nodes.csv' AS row
+        MERGE (d:Disease {disease_id: row.`disease_id:ID`})  // Usa DiseaseID come identificatore principale
+        SET d.name = row.name;
+        ```
+
+    - **Relazione Disease**:
+        ```cypher
+        LOAD CSV WITH HEADERS FROM 'file:///relationships_disease.csv' AS row
+        MATCH (d:Disease {disease_id: row.`:START_ID`})  // Trova la malattia con DiseaseID
+        MATCH (p:Protein {uniprot_id: row.`:END_ID`})  // Trova la proteina con UniProtID
+        CREATE (p)-[r:INVOLVED_IN]->(d) 
+        SET r.type = row.`:TYPE`;  // Imposta il tipo della relazione
+        ```
     ```
 
 ## Da risolvere
