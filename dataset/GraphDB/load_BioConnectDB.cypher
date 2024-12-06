@@ -3,6 +3,13 @@ LOAD CSV WITH HEADERS FROM 'file:///protein_nodes.csv' AS row
 MERGE (p:Protein {uniprot_id: row.`uniprot_id:ID`})  // Usa UniProtID come identificatore principale
 SET p.name = row.name;
 
+// Relazione Protein-protein
+LOAD CSV WITH HEADERS FROM 'file:///relationships_proteins.csv' AS row
+MATCH (p1:Protein {uniprot_id: row.`:START_ID`})  // Trova la prima proteina con UniProtID
+MATCH (p2:Protein {uniprot_id: row.`:END_ID`})  // Trova la seconda proteina con UniProtID
+CREATE (p1)-[r:INTERACTS_WITH]->(p2)  // Crea la relazione INTERACTS_WITH tra le due proteine
+SET r.type = row.`:TYPE`;  // Imposta il tipo della relazione (INTERACTS_WITH, INHIBIT, ENHANCE)
+
 // Caricare farmaci
 LOAD CSV WITH HEADERS FROM 'file:///drug_nodes.csv' AS row
 MERGE (d:Drug {drugbank_id: row.`drugbank_id:ID`})  // Usa DrugBankID come identificatore principale
