@@ -49,15 +49,24 @@ Dopo aver importato i file CSV nella cartella di import di Neo4j:
     ```
 
 ### Da risolvere
-- [ ] Trovare un modo per tipo di relazione dinamico in unico file per evitare un file diverso per ogni tipo di relazione.
+- [x] Trovare un modo per tipo di relazione dinamico in unico file per evitare un file diverso per ogni tipo di relazione.
 - [x] Provare con unico file con intero codice Cypher.
-- [ ] Aggiunge virgolette alla fine di una malattia e non si riesce a risolvere senza incasinare gli altri.
+- [x] Aggiunge virgolette alla fine di una malattia e non si riesce a risolvere senza incasinare gli altri.
 - [x] Un farmaco rimane solo
+- [ ] Togliere interazioni duplicate tra due proteine
+- [ ] Modificare questo file
 
 ### Da aggiungere
 - [x] Dettagli sui disease coinvolti.
 - [x] Interazioni con altre proteine.
+- [ ] proteine simili
 
 ### Dubbi
-- [ ] Interazioni Drug-Protein o viceversa?
-- [ ] Come definiamo il similar to tra protein-protein?
+- [x] Interazioni Drug-Protein o viceversa?
+- [x] Come definiamo il similar to tra protein-protein?
+
+neo4j-admin database import full ^
+   --nodes="C:\Users\danie\.Neo4jDesktop\relate-data\dbmss\dbms-d0c7f232-59a5-46f7-8886-7610afb73ff7\import\nodes.csv" ^
+   --relationships="C:\Users\danie\.Neo4jDesktop\relate-data\dbmss\dbms-d0c7f232-59a5-46f7-8886-7610afb73ff7\import\relationships.csv" ^
+   --overwrite-destination ^
+   --verbose

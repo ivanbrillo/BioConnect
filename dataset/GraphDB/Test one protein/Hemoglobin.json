@@ -1,0 +1,118 @@
+{
+    "Entry": "P68871",
+    "Entry Name": "HBB_HUMAN",
+    "Protein names": "Hemoglobin subunit beta (Beta-globin) (Hemoglobin beta chain) [Cleaved into: LVV-hemorphin-7; Spinorphin]",
+    "Gene Names": "HBB",
+    "Mass": "15998",
+    "Length": "147",
+    "Sequence": "MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPENFRLLGNVLVCVLAHHFGKEFTPPVQAAYQKVVAGVANALAHKYH",
+    "Pathway": "",
+    "Developmental stage": "",
+    "Induction": "",
+    "Tissue specificity": "TISSUE SPECIFICITY: Red blood cells. {ECO:0000269|PubMed:6539334}.",
+    "DrugCentral": "P68871;",
+    "Involvement in disease": "DISEASE: Heinz body anemias (HEIBAN) [MIM:140700]: Form of non-spherocytic hemolytic anemia of Dacie type 1. After splenectomy, which has little benefit, basophilic inclusions called Heinz bodies are demonstrable in the erythrocytes. Before splenectomy, diffuse or punctate basophilia may be evident. Most of these cases are probably instances of hemoglobinopathy. The hemoglobin demonstrates heat lability. Heinz bodies are observed also with the Ivemark syndrome (asplenia with cardiovascular anomalies) and with glutathione peroxidase deficiency. {ECO:0000269|PubMed:186485, ECO:0000269|PubMed:2599881, ECO:0000269|PubMed:6259091, ECO:0000269|PubMed:8704193}. Note=The disease may be caused by variants affecting the gene represented in this entry.; DISEASE: Beta-thalassemia (B-THAL) [MIM:613985]: A form of thalassemia. Thalassemias are common monogenic diseases occurring mostly in Mediterranean and Southeast Asian populations. The hallmark of beta-thalassemia is an imbalance in globin-chain production in the adult HbA molecule. Absence of beta chain causes beta(0)-thalassemia, while reduced amounts of detectable beta globin causes beta(+)-thalassemia. In the severe forms of beta-thalassemia, the excess alpha globin chains accumulate in the developing erythroid precursors in the marrow. Their deposition leads to a vast increase in erythroid apoptosis that in turn causes ineffective erythropoiesis and severe microcytic hypochromic anemia. Clinically, beta-thalassemia is divided into thalassemia major which is transfusion dependent, thalassemia intermedia (of intermediate severity), and thalassemia minor that is asymptomatic. {ECO:0000269|PubMed:12144064, ECO:0000269|PubMed:12149194, ECO:0000269|PubMed:15481886, ECO:0000269|PubMed:2399911, ECO:0000269|PubMed:6166632, ECO:0000269|PubMed:7693620}. Note=The disease is caused by variants affecting the gene represented in this entry.; DISEASE: Sickle cell disease (SKCA) [MIM:603903]: Characterized by abnormally shaped red cells resulting in chronic anemia and periodic episodes of pain, serious infections and damage to vital organs. Normal red blood cells are round and flexible and flow easily through blood vessels, but in sickle cell anemia, the abnormal hemoglobin (called Hb S) causes red blood cells to become stiff. They are C-shaped and resembles a sickle. These stiffer red blood cells can led to microvascular occlusion thus cutting off the blood supply to nearby tissues. {ECO:0000269|PubMed:1195378, ECO:0000269|PubMed:13464827, ECO:0000269|PubMed:16001361, ECO:0000269|PubMed:24100324, ECO:0000269|Ref.10}. Note=The disease is caused by variants affecting the gene represented in this entry.; DISEASE: Beta-thalassemia, dominant, inclusion body type (B-THALIB) [MIM:603902]: An autosomal dominant form of beta thalassemia characterized by moderate anemia, lifelong jaundice, cholelithiasis and splenomegaly, marked morphologic changes in the red cells, erythroid hyperplasia of the bone marrow with increased numbers of multinucleate red cell precursors, and the presence of large inclusion bodies in the normoblasts, both in the marrow and in the peripheral blood after splenectomy. {ECO:0000269|PubMed:1971109}. Note=The disease is caused by variants affecting the gene represented in this entry.",
+    "PubMed ID": "1019344; 6254664; 16175509; 14702039; 15489334; 13872627; 13464827; 25946035; 1575724; 8401300; 2581851; 4555506; 4531009; 635569; 7358733; 6166632; 6539334; 3718478; 1520632; 8637569; 9843411; 10588683; 11001883; 11747442; 12149194; 12470213; 12552433; 16001361; 16904236; 17676725; 21269460; 24275569; 4123689; 1195378; 1177322; 7373648; 6726807; 1567857; 1507231; 8377203; 8642597; 9521756; 9830011; 12454462; 24100324; 5919752; 1115799; 186485; 1971109; 8330974; 721609; 4850241; 3707969; 3654265; 8718692; 3384710; 6166590; 6629823; 1247583; 1138922; 992050; 6434492; 1814856; 8641705; 8602627; 2399911; 1511986; 1301199; 8111050; 8811317; 1917539; 3666141; 1487420; 826083; 3754244; 2513289; 8745430; 8144352; 429365; 1787097; 4639022; 2101840; 6618888; 8330972; 7173395; 1634367; 3744871; 7693620; 3557994; 1540659; 3384708; 3691763; 6629824; 2384314; 7338468; 893142; 1517102; 2634671; 3838976; 8330979; 3937824; 891976; 3623975; 7161106; 3384709; 668922; 8522332; 6629822; 9761252; 3384707; 6857757; 4129558; 6687721; 13897827; 6526653; 4852224; 1917537; 7238856; 2599880; 1917530; 7338469; 6259091; 2599881; 2079435; 8280608; 8704193; 10398311; 11300351; 11300344; 11939514; 12144064; 12603091; 12908805; 15481886; 19453576; 26209877; 28066926",
+    "DrugBank": [
+      {
+        "DrugBank_ID": "DB08262",
+        "Name": "2.6-dicarboxynaphthalene",
+        "Action": "NULL"
+      },
+      {
+        "DrugBank_ID": "DB07427",
+        "Name": "2-[(2-methoxy-5-methylphenoxy)methyl]pyridine",
+        "Action": "NULL"
+      },
+      {
+        "DrugBank_ID": "DB08077",
+        "Name": "2-[4-({[(3.5-DICHLOROPHENYL)AMINO]CARBONYL}AMINO)PHENOXY]-2-METHYLPROPANOIC ACID",
+        "Action": "NULL"
+      },
+      {
+        "DrugBank_ID": "DB07428",
+        "Name": "4-[(5-methoxy-2-methylphenoxy)methyl]pyridine",
+        "Action": "NULL"
+      },
+      {
+        "DrugBank_ID": "DB02126",
+        "Name": "4-Carboxycinnamic Acid",
+        "Action": "NULL"
+      },
+      {
+        "DrugBank_ID": "DB09130",
+        "Name": "Copper",
+        "Action": "NULL"
+      },
+      {
+        "DrugBank_ID": "DB08486",
+        "Name": "Efaproxiral",
+        "Action": "NULL"
+      },
+      {
+        "DrugBank_ID": "DB09147",
+        "Name": "Ferric pyrophosphate",
+        "Action": "binder"
+      },
+      {
+        "DrugBank_ID": "DB13995",
+        "Name": "Ferric pyrophosphate citrate",
+        "Action": "binder"
+      },
+      {
+        "DrugBank_ID": "DB00893",
+        "Name": "Iron Dextran",
+        "Action": "activator"
+      },
+      {
+        "DrugBank_ID": "DB09112",
+        "Name": "Nitrous acid",
+        "Action": "oxidizer"
+      },
+      {
+        "DrugBank_ID": "DB09140",
+        "Name": "Oxygen",
+        "Action": "binder"
+      },
+      {
+        "DrugBank_ID": "DB06154",
+        "Name": "Pentaerythritol tetranitrate",
+        "Action": "agonist"
+      },
+      {
+        "DrugBank_ID": "DB07645",
+        "Name": "Sebacic acid",
+        "Action": "NULL"
+      },
+      {
+        "DrugBank_ID": "DB09517",
+        "Name": "Sodium ferric gluconate complex",
+        "Action": "binding"
+      },
+      {
+        "DrugBank_ID": "DB08632",
+        "Name": "Trimesic acid",
+        "Action": "NULL"
+      },
+      {
+        "DrugBank_ID": "DB01593",
+        "Name": "Zinc",
+        "Action": "NULL"
+      },
+      {
+        "DrugBank_ID": "DB14487",
+        "Name": "Zinc acetate",
+        "Action": "NULL"
+      },
+      {
+        "DrugBank_ID": "DB14533",
+        "Name": "Zinc chloride",
+        "Action": "inducer"
+      },
+      {
+        "DrugBank_ID": "DB14548",
+        "Name": "Zinc sulfate. unspecified form",
+        "Action": "inducer"
+      }
+    ]
+  }

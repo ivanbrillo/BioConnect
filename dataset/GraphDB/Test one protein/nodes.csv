@@ -1,0 +1,20 @@
+id:ID,name,type
+P68871,Hemoglobin subunit beta,Protein
+140700,Heinz body anemias,Disease
+613985,Beta-thalassemia,Disease
+603903,Sickle cell disease,Disease
+603902,"Beta-thalassemia, dominant, inclusion body type",Disease
+DB09147,Ferric pyrophosphate,Drug
+DB13995,Ferric pyrophosphate citrate,Drug
+DB00893,Iron Dextran,Drug
+DB09112,Nitrous acid,Drug
+DB09140,Oxygen,Drug
+DB06154,Pentaerythritol tetranitrate,Drug
+DB09517,Sodium ferric gluconate complex,Drug
+DB14533,Zinc chloride,Drug
+DB14548,Zinc sulfate. unspecified form,Drug
+Q9ULK0,"Glutamate receptor ionotropic, delta-1",Protein
+P69905,Hemoglobin subunit alpha,Protein
+Q6B0K9,Hemoglobin subunit mu,Protein
+P09105,Hemoglobin subunit theta-1,Protein
+P02008,Hemoglobin subunit zeta,Protein
