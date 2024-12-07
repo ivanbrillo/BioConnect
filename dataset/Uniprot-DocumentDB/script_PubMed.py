@@ -21,8 +21,7 @@ def process_pubmed_data(input_file, output_file, start_index=0):
         data = json.load(infile)
     
     
-    with open(output_file, 'w') as outfile:
-        outfile.write("[\n")
+    with open(output_file, 'a') as outfile:
         
         for index, entry in enumerate(data[start_index:], start=start_index):
             pubmed_ids = entry.get("PubMed ID", "")
@@ -45,11 +44,10 @@ def process_pubmed_data(input_file, output_file, start_index=0):
             
             print(f"Proteina {index} processata.")
         
-        outfile.write("\n]")
     print(f"Risultati salvati progressivamente in {output_file}")
 
 
-input_file = "Uniprot_complete.json" 
-output_file = "Uniprot_PubMed.json"
-start_index = 3  #START = 0
+input_file = "Uniprot_DocumentDB.json" 
+output_file = "Uniprot_PubMed4.json"
+start_index = 3139  #START = 0 
 process_pubmed_data(input_file, output_file, start_index)
