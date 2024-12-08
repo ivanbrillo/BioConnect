@@ -16,14 +16,14 @@ def fetch_article_details(pmid):
         return {"PMID": pmid, "Error": f"HTTP {response.status_code}"}
 
 
-def process_pubmed_data(input_file, output_file, start_index=0):
+def process_pubmed_data(input_file, output_file, start_index, end_index):
     with open(input_file, 'r') as infile:
         data = json.load(infile)
     
     
     with open(output_file, 'a') as outfile:
         
-        for index, entry in enumerate(data[start_index:], start=start_index):
+        for index, entry in enumerate(data[start_index:end_index], start=start_index):
             pubmed_ids = entry.get("PubMed ID", "")
             if pubmed_ids:
                 pmid_list = pubmed_ids.split("; ")
@@ -47,7 +47,8 @@ def process_pubmed_data(input_file, output_file, start_index=0):
     print(f"Risultati salvati progressivamente in {output_file}")
 
 
-input_file = "Uniprot_DocumentDB.json" 
-output_file = "Uniprot_Daniel.json"
-start_index = 15000
-process_pubmed_data(input_file, output_file, start_index)
+input_file = r"dataset\Daniel [15000-fine]\UniProt_DocumentDB.json" 
+output_file = r"dataset\Daniel [15000-fine]\Uniprot_Daniel1.json"
+start_index = 9154
+end_index = 10000
+process_pubmed_data(input_file, output_file, start_index, end_index)
