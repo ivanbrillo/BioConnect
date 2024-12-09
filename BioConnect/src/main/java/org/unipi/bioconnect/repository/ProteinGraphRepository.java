@@ -8,6 +8,14 @@ import org.unipi.bioconnect.model.ProteinGraph;
 import java.util.List;
 
 public interface ProteinGraphRepository extends Neo4jRepository<ProteinGraph, String> {
-    @Query("MATCH (p:Protein) RETURN p.uniProtID AS uniProtID, p.name AS name")
+    @Query("MATCH (p:Protein) " +
+            "OPTIONAL MATCH (p)-[:INTERACTS_WITH]->(interactedProtein:Protein) " +
+            "RETURN p.uniProtID AS uniProtID, " +
+            "p.name AS name, " +
+            "COLLECT(interactedProtein.uniProtID) AS interactingProteins")
     List<ProteinDTO> findAllProjectedBy();
+
+    ProteinGraph findByUniProtID(String uniProtID);
+
+
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ProteinDocRepository extends MongoRepository<ProteinDoc, String> {
 
-    @Query(value = "{}", fields = "{ 'uniProtID': 1, 'name': 1 }")
+    @Query(value = "{}", fields = "{ '_class': 0 }")
     List<ProteinDTO> findAllProjectedBy();
 
 }

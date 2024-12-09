@@ -27,5 +27,11 @@ public class GlobalExceptionHandler {
 
         return errors; // Custom error response
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RuntimeException.class)
+    public Map<String, String> handleGraphExceptions(RuntimeException ex) {
+        return Map.of("Error", ex.getMessage()); // Custom error response
+    }
 }
 

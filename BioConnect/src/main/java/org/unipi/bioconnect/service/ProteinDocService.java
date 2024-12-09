@@ -17,11 +17,9 @@ public class ProteinDocService {
 
     public void saveProteinDoc(ProteinDTO proteinDTO) {
 
-        ProteinDoc proteinDoc = new ProteinDoc();
-        proteinDoc.setUniProtID(proteinDTO.getUniProtID());
-        proteinDoc.setName(proteinDTO.getName());
-
+        ProteinDoc proteinDoc = new ProteinDoc(proteinDTO);
         docRepository.save(proteinDoc);
+
     }
 
     public List<ProteinDTO> getAllProteins() {

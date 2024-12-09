@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.unipi.bioconnect.DTO.ProteinDTO;
-import org.unipi.bioconnect.service.ProteinDocService;
+import org.unipi.bioconnect.model.ProteinGraph;
 import org.unipi.bioconnect.service.ProteinGraphService;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class ProteinGraphController {
     }
 
     @GetMapping("/graphProteins")
-    public List<ProteinDTO> getAllProteins() {
+    public List<ProteinGraph> getAllProteins() {
         return proteinGraphService.getAllProteins();
     }
 
