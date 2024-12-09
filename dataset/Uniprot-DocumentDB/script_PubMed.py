@@ -49,5 +49,5 @@ def process_pubmed_data(input_file, output_file, start_index=0):
 
 input_file = "Uniprot_DocumentDB.json" 
 output_file = "Uniprot_PubMed4.json"
-start_index = 3139  #START = 0 
+start_index = 4240  #START = 0 
 process_pubmed_data(input_file, output_file, start_index)
