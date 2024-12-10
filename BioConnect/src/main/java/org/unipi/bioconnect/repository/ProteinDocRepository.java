@@ -13,4 +13,8 @@ public interface ProteinDocRepository extends MongoRepository<ProteinDoc, String
     @Query(value = "{}", fields = "{ '_class': 0 }")
     List<ProteinDTO> findAllProjectedBy();
 
+    @Query(value = "{ '$or': [ { '_id': ?0 }, { 'name': { '$regex': ?0, '$options': 'i' } } ] }", fields = "{ '_class': 0 }")
+    List<ProteinDTO> findByIdOrNameContainingIgnoreCase(String searchedText);
+
+
 }

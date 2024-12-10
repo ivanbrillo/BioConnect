@@ -22,6 +22,10 @@ public class ProteinDocService {
 
     }
 
+    public List<ProteinDTO> searchProteinDoc(String searchedText) {
+        return docRepository.findByIdOrNameContainingIgnoreCase(searchedText);
+    }
+
     public List<ProteinDTO> getAllProteins() {
         return docRepository.findAllProjectedBy();
     }

@@ -1,7 +1,9 @@
 package org.unipi.bioconnect.DTO;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +26,13 @@ public class ProteinDTO {
 
     private List<String> subcellularLocations;
 
+    @Valid
     private List<ProteinDTO> proteinInteractions = new ArrayList<>();
 
+    @Valid
     private List<ProteinDTO> proteinSimilarities = new ArrayList<>();
 
+    @Valid
     private List<PublicationDTO> publications;
 
     private String description;
