@@ -21,22 +21,14 @@ public class ProteinDocDAO {
 
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.match(Criteria.where("pathways").in(pathway)), // Match pathway
-                Aggregation.unwind("publications", true), // Unwind the publications array, with the 'true' flag to preserve empty arrays
-                Aggregation.match(
-                        new Criteria().andOperator(
-                                Criteria.where("publications.year").exists(true), // Ensure 'year' exists
-                                Criteria.where("publications.year").ne("No year") // Ensure 'year' is not "No year"
-                        )
-                ),
+                Aggregation.unwind("publications", false), // Unwind publications array, preserve empty arrays (false flag)
+                Aggregation.match(Criteria.where("publications.year").exists(true)),
                 Aggregation.group("publications.year", "publications.type") // Group by year and type
-                        .count().as("count"), // Count the number of publications
-                Aggregation.sort(Sort.by(Sort.Order.asc("_id"))) // Sort by the grouped field (which will be _id, containing year)
+                        .count().as("count"), // Count the number of publications in each group
+                Aggregation.sort(Sort.by(Sort.Order.asc("_id.year"))) // Sort by the 'year' field within the '_id' (composite)
         );
 
-
-        System.out.println(pathway);
         AggregationResults<TrendAnalysisDTO> results = mongoTemplate.aggregate(aggregation, "Protein", TrendAnalysisDTO.class);
-        System.out.println(results.getMappedResults());
         return results.getMappedResults();
     }
 

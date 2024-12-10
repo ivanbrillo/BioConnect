@@ -17,7 +17,7 @@ def modify_json(input_file, output_file):
         # Modify PubMed ID list
         if "publications" in item:
             for pubmed in item["publications"]:
-                if "year" not in pubmed :
+                if "type" not in pubmed:
                     print(f"Entry f{pubmed} is missing 'year' field.")
                     # item["publications"].remove(pubmed)
                 # pubmed.pop("PMID", None)
@@ -31,7 +31,7 @@ def modify_json(input_file, output_file):
 
 
 # Example usage
-input_file = "output.json"  # Replace with your input file name
+input_file = "output4.json"  # Replace with your input file name
 output_file = "output4.json"  # Replace with your desired output file name
 
 modify_json(input_file, output_file)
