@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.ProteinDTO;
+import org.unipi.bioconnect.DTO.TrendAnalysisDTO;
 import org.unipi.bioconnect.model.ProteinDoc;
 import org.unipi.bioconnect.service.ProteinDocService;
 
@@ -19,6 +20,11 @@ public class ProteinDocController {
     public String saveProteinDoc(@RequestBody @Validated ProteinDTO proteinDTO) {
         proteinDocService.saveProteinDoc(proteinDTO);
         return "Added protein";
+    }
+
+    @GetMapping("/trend-analysis/{pathway}")
+    public List<TrendAnalysisDTO> getTrendAnalysisForPathway(@PathVariable String pathway) {
+        return proteinDocService.getTrendAnalysisForPathway(pathway);
     }
 
     @GetMapping("/searchProtein/{searchedText}")
