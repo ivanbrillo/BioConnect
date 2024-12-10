@@ -18,10 +18,10 @@ public class ProteinDoc {
     private String uniProtID;  // Field for UniProt ID
     private String name;       // Field for protein name
     private String sequence;
+    private float mass;
     private List<String> pathways;
     private List<String> subcellularLocations;
     private List<PublicationDTO> publications;
-    private float mass;
 
     public ProteinDoc(ProteinDTO protein) {
         uniProtID = protein.getUniProtID();

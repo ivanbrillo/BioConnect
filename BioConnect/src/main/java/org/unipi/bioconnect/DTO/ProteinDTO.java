@@ -35,6 +35,4 @@ public class ProteinDTO {
     @Valid
     private List<PublicationDTO> publications;
 
-    private String description;
-
 }
