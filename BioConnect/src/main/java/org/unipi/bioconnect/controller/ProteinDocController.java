@@ -40,6 +40,15 @@ public class ProteinDocController {
     }
 
 
+    @GetMapping("/getProteinsByPathwayAndLocation")
+    public List<ProteinDTO> getProteinsByPathwayAndLocation(
+            @RequestParam String pathway,
+            @RequestParam String subcellularLocation) {
+
+        return proteinDocService.getProteinsByPathwayAndLocation(pathway, subcellularLocation);
+    }
+
+
     @GetMapping("/proteins")
     public List<ProteinDTO> getAllProteins() {
         return proteinDocService.getAllProteins();

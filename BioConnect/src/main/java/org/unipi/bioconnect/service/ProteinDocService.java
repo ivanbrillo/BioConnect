@@ -39,6 +39,10 @@ public class ProteinDocService {
         return docDAO.getPathwayRecurrence(subsequence);
     }
 
+    public List<ProteinDTO> getProteinsByPathwayAndLocation(String pathway, String subsequence) {
+        return docDAO.getProteinsByPathwayAndLocation(pathway, subsequence);
+    }
+
     public List<ProteinDTO> getAllProteins() {
         return docRepository.findAllProjectedBy();
     }

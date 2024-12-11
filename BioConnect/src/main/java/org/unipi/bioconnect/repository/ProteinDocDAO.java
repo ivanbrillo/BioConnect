@@ -7,14 +7,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 import org.unipi.bioconnect.DTO.PathwayRecurrenceDTO;
+import org.unipi.bioconnect.DTO.ProteinDTO;
 import org.unipi.bioconnect.DTO.TrendAnalysisDTO;
 
 import java.util.List;
-import java.util.Map;
+
 
 @Repository
 public class ProteinDocDAO {
@@ -48,6 +48,19 @@ public class ProteinDocDAO {
         );
 
         AggregationResults<PathwayRecurrenceDTO> results = mongoTemplate.aggregate(aggregation, "Protein", PathwayRecurrenceDTO.class);
+        return results.getMappedResults();
+    }
+
+    public List<ProteinDTO> getProteinsByPathwayAndLocation(String pathway, String subcellularLocation) {
+
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("pathways").is(pathway)),
+                Aggregation.match(Criteria.where("subcellularLocations").is(subcellularLocation)),
+                Aggregation.project()
+                        .andExclude("_class")
+        );
+
+        AggregationResults<ProteinDTO> results = mongoTemplate.aggregate(aggregation, "Protein", ProteinDTO.class);
         return results.getMappedResults();
     }
 
