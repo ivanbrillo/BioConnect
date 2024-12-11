@@ -15,6 +15,14 @@ public interface ProteinGraphRepository extends Neo4jRepository<ProteinGraph, St
             "COLLECT(interactedProtein.uniProtID) AS interactingProteins")
     List<ProteinDTO> findAllProjectedBy();
 
+   @Query("MATCH (p:Protein) " +
+    "OPTIONAL MATCH (p)-[:INTERACTS_WITH]->(interactedProtein:Protein) " +
+    "RETURN p.uniProtID AS uniProtID, " +
+    "p.name AS name, " +
+    "COLLECT(interactedProtein.uniProtID) AS interactingProteins " +
+    "LIMIT 3")
+    List<ProteinGraph> findTopThreeProteins();
+
     ProteinGraph findByUniProtID(String uniProtID);
 
 
