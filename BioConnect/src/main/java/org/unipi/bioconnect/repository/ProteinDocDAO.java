@@ -21,8 +21,7 @@ public class ProteinDocDAO {
 
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.match(Criteria.where("pathways").in(pathway)), // Match pathway
-                Aggregation.unwind("publications", false), // Unwind publications array, preserve empty arrays (false flag)
-                Aggregation.match(Criteria.where("publications.year").exists(true)),
+                Aggregation.unwind("publications", false), // Unwind publications array, not preserving empty arrays
                 Aggregation.group("publications.year", "publications.type") // Group by year and type
                         .count().as("count"), // Count the number of publications in each group
                 Aggregation.sort(Sort.by(Sort.Order.asc("_id.year"))) // Sort by the 'year' field within the '_id' (composite)
