@@ -3,7 +3,7 @@ import json
 
 def modify_json(input_file, output_file):
     with open(input_file, 'r') as f:
-        data = json.load(f)
+        data = json.load(f)a
 
     for item in data:
         if "pathways" in item:

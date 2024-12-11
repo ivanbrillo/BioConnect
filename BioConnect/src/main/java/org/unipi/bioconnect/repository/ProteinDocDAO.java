@@ -1,7 +1,5 @@
 package org.unipi.bioconnect.repository;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -50,6 +48,7 @@ public class ProteinDocDAO {
         AggregationResults<PathwayRecurrenceDTO> results = mongoTemplate.aggregate(aggregation, "Protein", PathwayRecurrenceDTO.class);
         return results.getMappedResults();
     }
+
 
     public List<ProteinDTO> getProteinsByPathwayAndLocation(String pathway, String subcellularLocation) {
 
