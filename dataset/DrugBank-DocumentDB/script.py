@@ -45,7 +45,7 @@ def modify_json2(input_file, output_file, pub_fields_to_keep, patent_fields_to_k
                 {key: pub[key] for key in pub_fields_to_keep if key in pub} for pub in item["references"]
             ]
             # Keep only those references that have the 'year' field
-            item["references"] = [ref for ref in item["references"] if "year" in ref]
+            item["references"] = [ref for ref in item["references"] if "year" in ref and ref["year"] != "No year"]
 
         # Filter the fields in the 'patents' array
         if "patents" in item:
@@ -76,12 +76,12 @@ def modify_json2(input_file, output_file, pub_fields_to_keep, patent_fields_to_k
         if "drugBank_ID" in item:
             item["_id"] = item.pop("drugBank_ID")
 
-        if "sequence" in item:
-            sequence = item["sequence"]
-            # Regex to remove any lowercase words before the sequence and keep only the sequence part
-            match = re.search(r"[a-z]+([A-Z].*)", sequence)
-            if match:
-                item["sequence"] = match.group(1).strip()  # Keep everything after the lowercase word
+        # if "sequence" in item:
+        #     sequence = item["sequence"]
+        #     # Regex to remove any lowercase words before the sequence and keep only the sequence part
+        #     match = re.search(r"[a-z]+([A-Z].*)", sequence)
+        #     if match:
+        #         item["sequence"] = match.group(1).strip()  # Keep everything after the lowercase word
 
         return item
 
