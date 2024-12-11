@@ -4,6 +4,7 @@ package org.unipi.bioconnect.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
+import org.unipi.bioconnect.DTO.PathwayRecurrenceDTO;
 import org.unipi.bioconnect.DTO.ProteinDTO;
 import org.unipi.bioconnect.DTO.TrendAnalysisDTO;
 import org.unipi.bioconnect.model.ProteinDoc;
@@ -32,6 +33,10 @@ public class ProteinDocService {
 
     public List<TrendAnalysisDTO> getTrendAnalysisForPathway(String pathway) {
         return docDAO.getTrendAnalysisForPathway(pathway);
+    }
+
+    public List<PathwayRecurrenceDTO> getPathwayRecurrence(String subsequence) {
+        return docDAO.getPathwayRecurrence(subsequence);
     }
 
     public List<ProteinDTO> getAllProteins() {

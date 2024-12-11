@@ -1,15 +1,20 @@
 package org.unipi.bioconnect.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
+import org.unipi.bioconnect.DTO.PathwayRecurrenceDTO;
 import org.unipi.bioconnect.DTO.TrendAnalysisDTO;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ProteinDocDAO {
@@ -28,6 +33,21 @@ public class ProteinDocDAO {
         );
 
         AggregationResults<TrendAnalysisDTO> results = mongoTemplate.aggregate(aggregation, "Protein", TrendAnalysisDTO.class);
+        return results.getMappedResults();
+    }
+
+
+    public List<PathwayRecurrenceDTO> getPathwayRecurrence(String subsequence) {
+
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.match(Criteria.where("sequence").regex(subsequence, "i")), // Match sequence with subsequence
+                Aggregation.unwind("pathways", false), // Unwind pathways array, preserving documents with empty arrays
+                Aggregation.group("pathways") // Group by pathways
+                        .count().as("count"), // Count the occurrences of each pathway
+                Aggregation.sort(Sort.by(Sort.Order.desc("count"))) // Sort by count descending
+        );
+
+        AggregationResults<PathwayRecurrenceDTO> results = mongoTemplate.aggregate(aggregation, "Protein", PathwayRecurrenceDTO.class);
         return results.getMappedResults();
     }
 

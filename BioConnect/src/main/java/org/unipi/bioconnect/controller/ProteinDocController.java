@@ -3,6 +3,7 @@ package org.unipi.bioconnect.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.unipi.bioconnect.DTO.PathwayRecurrenceDTO;
 import org.unipi.bioconnect.DTO.ProteinDTO;
 import org.unipi.bioconnect.DTO.TrendAnalysisDTO;
 import org.unipi.bioconnect.model.ProteinDoc;
@@ -26,6 +27,12 @@ public class ProteinDocController {
     public List<TrendAnalysisDTO> getTrendAnalysisForPathway(@PathVariable String pathway) {
         return proteinDocService.getTrendAnalysisForPathway(pathway);
     }
+
+    @GetMapping("/pathway-recurrence/{subsequence}")
+    public List<PathwayRecurrenceDTO> getPathwayRecurrence(@PathVariable String subsequence) {
+        return proteinDocService.getPathwayRecurrence(subsequence);
+    }
+
 
     @GetMapping("/searchProtein/{searchedText}")
     public List<ProteinDTO> searchProtein(@PathVariable String searchedText) {
