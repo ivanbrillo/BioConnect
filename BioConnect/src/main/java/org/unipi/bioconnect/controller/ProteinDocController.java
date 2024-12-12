@@ -3,6 +3,8 @@ package org.unipi.bioconnect.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import org.unipi.bioconnect.model.ProteinDoc;
 import org.unipi.bioconnect.service.ProteinDocService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/proteinDoc")
@@ -63,6 +66,14 @@ public class ProteinDocController {
     @Operation(summary = "Get all proteins")
     public List<ProteinDTO> getAllProteins() {
         return proteinDocService.getAllProteins();
+    }
+
+
+    // TODO add @NotNull around
+    // TODO delete also in graphDB
+    @DeleteMapping("/deleteProtein/{uniProtID}")
+    public String deleteProtein(@PathVariable @NotBlank String uniProtID) {
+        return proteinDocService.deleteProtein(uniProtID);
     }
 
 

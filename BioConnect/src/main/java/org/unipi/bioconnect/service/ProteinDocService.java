@@ -12,6 +12,7 @@ import org.unipi.bioconnect.repository.ProteinDocDAO;
 import org.unipi.bioconnect.repository.ProteinDocRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProteinDocService {
@@ -45,6 +46,11 @@ public class ProteinDocService {
 
     public List<ProteinDTO> getAllProteins() {
         return docRepository.findAllProjectedBy();
+    }
+
+    public String deleteProtein(String uniProtID) {
+        return docRepository.deleteByUniProtID(uniProtID) > 0 ? "Protein with ID: " + uniProtID + " deleted correctly"
+                : "No Protein with ID: " + uniProtID + " found in the DB";
     }
 
 }
