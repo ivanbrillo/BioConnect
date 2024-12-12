@@ -47,6 +47,9 @@ def modify_json2(input_file, output_file, pub_fields_to_keep, patent_fields_to_k
             # Keep only those references that have the 'year' field
             item["references"] = [ref for ref in item["references"] if "year" in ref and ref["year"] != "No year"]
 
+            for reference in item["references"]:
+                reference["year"] = int(reference["year"])
+
         # Filter the fields in the 'patents' array
         if "patents" in item:
             item["patents"] = [
