@@ -29,7 +29,7 @@ public class ProteinDocController {
         return "Added protein";
     }
 
-    @GetMapping("/protein/trend-analysis/{pathway}")
+    @GetMapping("/trend-analysis/{pathway}")
     @Operation(summary = "Get trend analysis for a protein pathway")
     public List<TrendAnalysisDTO> getTrendAnalysisForPathway(@PathVariable String pathway) {
         return proteinDocService.getTrendAnalysisForPathway(pathway);

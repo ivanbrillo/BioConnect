@@ -1,17 +1,17 @@
 package org.unipi.bioconnect.DTO;
 
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 public class TrendAnalysisDTO {
 
-    private TrendKey _id;
-    private long count;
+    @Field("_id.year")
+    private int year;
 
-    @Data
-    public static class TrendKey {
-        private int year;
-        private String type;
-    }
+    @Field("_id.type")
+    private String type;
+
+    private long count;
 
 }
