@@ -41,27 +41,24 @@ public class DrugDocDAO {
 
         Aggregation aggregation = Aggregation.newAggregation(
                 // Match drugs with the specific category
-                Aggregation.match(Criteria.where("categories").in(category)),
+                Aggregation.match(Criteria.where("categories").is(category)),
 
                 // Unwind the patents array (so we can work with each patent individually)
                 Aggregation.unwind("patents", false),
 
-                // Add 'name' field to the document to make it available for grouping
-                Aggregation.addFields().addField("drugName").withValue("$$ROOT.name").build(),
-
                 // Convert the 'year' field to an integer and filter patents older than the expired year
                 Aggregation.project()
-                        .andExpression("toInt(patents.year)").as("patentYear")
-                        .and("patents.country").as("patents.country")
-                        .and("drugName").as("drugName"), // Include drug name in the projection
+                        .and("patents.year").as("patentYear")
+                        .and("patents.country").as("patentCountry")
+                        .and("name").as("name"), // Include drug name in the projection
 
                 // Match patents older than the expired year
                 Aggregation.match(Criteria.where("patentYear").lt(expiredYear)),
 
                 // Group by state (patents.country), and collect drug names with expired patents
-                Aggregation.group("patents.country")
+                Aggregation.group("patentCountry")
                         .count().as("expiredPatentCount") // Count expired patents per country
-                        .addToSet("drugName").as("drugNames"), // Collect drug names that have expired patents
+                        .addToSet("name").as("drugNames"), // Collect drug names that have expired patents
 
                 // Sort by the number of expired patents (descending, most expired patents first)
                 Aggregation.sort(Sort.by(Sort.Order.desc("expiredPatentCount")))

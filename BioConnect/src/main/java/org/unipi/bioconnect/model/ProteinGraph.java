@@ -1,13 +1,11 @@
 package org.unipi.bioconnect.model;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.neo4j.core.schema.Relationship;
-import org.unipi.bioconnect.DTO.ProteinDTO;
 
 import java.util.ArrayList;
 import java.util.List;

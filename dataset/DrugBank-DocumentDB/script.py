@@ -56,7 +56,7 @@ def modify_json2(input_file, output_file, pub_fields_to_keep, patent_fields_to_k
             item["patents"] = [ref for ref in item["patents"] if "date" in ref]
 
             for patent in item["patents"]:
-                patent["year"] = patent["date"].split("-")[0]  # Extract the year
+                patent["year"] = int(patent["date"].split("-")[0])  # Extract the year
                 del patent["date"]  # Remove the "date" field
 
             # Sort patents by year and keep only the most recent patent for each country
