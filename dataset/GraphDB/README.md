@@ -14,6 +14,14 @@ neo4j-admin database import full ^
      --relationships="C:\Users\danie\.Neo4jDesktop\relate-data\dbmss\dbms-d0c7f232-59a5-46f7-8886-7610afb73ff7\import\relationships.csv" ^
      --overwrite-destination ^
      --verbose
+
+neo4j-admin database import full ^
+    --nodes="C:\Users\danie\.Neo4jDesktop\relate-data\dbmss\dbms-4b53888a-f633-4467-b4d3-2413da0a5ecc\import\nodes_2.csv" ^
+    --relationships="C:\Users\danie\.Neo4jDesktop\relate-data\dbmss\dbms-4b53888a-f633-4467-b4d3-2413da0a5ecc\import\relationships_2.csv" ^
+    --id-type=string ^
+    --overwrite-destination ^
+    --verbose
+
 ```
 - nel file delle [query neo4j](./query%20Neo4J%20Bioconnet.cypher) trovate le query che abbiamo descritto nel PowerPoint
   - Potete eseguirle avviando neo4j browser

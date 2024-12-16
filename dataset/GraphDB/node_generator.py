@@ -9,9 +9,10 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 uniprot_path = os.path.join(script_dir, "CompletedUniprot.json")
 proteins_interact_path = os.path.join(script_dir, "proteins_interact.json")
 proteins_similar_path = os.path.join(script_dir, "Protein-Similarity.json")
+protein_name_path = os.path.join(script_dir, "Protein_names.json")
 
-nodes_csv = os.path.join(script_dir, "nodes.csv")
-relationships_csv = os.path.join(script_dir, "relationships.csv")
+nodes_csv = os.path.join(script_dir, "nodes_2.csv")
+relationships_csv = os.path.join(script_dir, "relationships_2.csv")
 
 # Funzione per abbreviare il nome della proteina
 def get_protein_short_name(protein_name):
@@ -74,13 +75,19 @@ with open(proteins_interact_path, 'r') as json_file:
 with open(proteins_similar_path, 'r') as json_file:
     proteins_similar_data = json.load(json_file)
 
+with open(protein_name_path, 'r') as json_file:
+    protein_name_list = json.load(json_file)
+
+# Creare un dizionario per mappare l'ID della proteina con il nome
+protein_name_data = {item['_id']: item['name'] for item in protein_name_list}
+
 # Creare i file CSV
 with open(nodes_csv, mode='w', newline='') as nodes_file, \
      open(relationships_csv, mode='w', newline='') as relationships_file:
 
     # Writer per nodi
     nodes_writer = csv.writer(nodes_file)
-    nodes_writer.writerow(["id:ID", "name", "type"])  # Intestazione per i nodi
+    nodes_writer.writerow(["id:ID", "name", "type:LABEL"])  # Intestazione per i nodi
 
     # Writer per relazioni
     relationships_writer = csv.writer(relationships_file)
@@ -95,7 +102,7 @@ with open(nodes_csv, mode='w', newline='') as nodes_file, \
     # Iterare su tutte le proteine nel dataset
     for protein in tqdm(proteins_data.get("Proteins", []), desc="Processing Proteins"):
         protein_id = protein["Entry"]
-        protein_name = get_protein_short_name(protein["Protein names"])
+        protein_name = protein_name_data.get(protein_id, "Unknown Protein") # prendo dal nuovo file
         if protein_id and protein_name:
             if protein_id not in nodes_csv_written:
                 nodes_writer.writerow([protein_id, protein_name, "Protein"])
@@ -109,7 +116,7 @@ with open(nodes_csv, mode='w', newline='') as nodes_file, \
             for disease in diseases:
                 disease_name = get_disease_name_from_string(disease.strip())
                 disease_mim_code = get_mim_code_from_string(disease.strip())
-                if disease_name and disease_mim_code and (disease_mim_code and disease_name) not in nodes_csv_written:
+                if disease_name and disease_mim_code and disease_mim_code not in nodes_csv_written:
                     nodes_writer.writerow([disease_mim_code, disease_name, "Disease"])
                     nodes_csv_written[disease_mim_code] = disease_name
                     relationships_writer.writerow([protein_id, disease_mim_code, "INVOLVED_IN"])
