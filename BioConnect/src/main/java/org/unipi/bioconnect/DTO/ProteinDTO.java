@@ -17,7 +17,7 @@ public class ProteinDTO {
     @Field("_id")
     @NotNull(message = "uniProtID is required")
     @Schema(description = "UniProt ID of the protein", example = "P12345")
-    private String uniProtID;
+    private String id;
 
     @NotNull(message = "Name is required")
     @Schema(description = "Name of the protein", example = "Hemoglobin")

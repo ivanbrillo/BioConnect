@@ -20,7 +20,7 @@ import java.util.List;
 public class ProteinGraph {
 
     @Id
-    private String uniProtID;
+    private String id;
 
     private String name;
 
@@ -32,8 +32,8 @@ public class ProteinGraph {
     }
 
 
-    public ProteinGraph(String uniProtID, String name) {
-        this.uniProtID = uniProtID;
+    public ProteinGraph(String id, String name) {
+        this.id = id;
         this.name = name;
     }
 

@@ -8,4 +8,6 @@
 - [ ] Risolto problema id() con query custom
 - [ ] Rimane \<id\>
 - [ ] Possono esistere id con stesso nome
-- [x] Non restituisce le interazioni
+- [x] Non restituisce le interazioni nelle custom, non possiamo usare le automatiche perchè fa scan completo
+- [ ] Nelle interaction usiamo ProteinGraph, ma nelle interazioni possiamo avere anche altre entità (usiamo campi DrugEnhance ecc)
+- [ ] Integrare token JWT per migliorare l'autenticazione

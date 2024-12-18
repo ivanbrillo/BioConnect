@@ -26,17 +26,17 @@ public class ProteinGraphService {
     public void saveProteinGraph(ProteinDTO proteinDTO) throws NameAlreadyBoundException {
 
         // Controllo se esiste già la proteina altrimenti la creo
-        if(graphRepository.existsById(proteinDTO.getUniProtID()))
+        if(graphRepository.existsById(proteinDTO.getId()))
             throw new NameAlreadyBoundException("protein already exists");
         else {
-            ProteinGraph proteinGraph = new ProteinGraph(proteinDTO.getUniProtID(), proteinDTO.getName());
+            ProteinGraph proteinGraph = new ProteinGraph(proteinDTO.getId(), proteinDTO.getName());
             // Aggiungo le interazioni alla proteina se già esistono
             for (ProteinDTO interaction : proteinDTO.getProteinInteractions()) {
-                ProteinGraph existingProtein = graphRepository.findByUniProtID(interaction.getUniProtID());
+                ProteinGraph existingProtein = graphRepository.findProteinGraphById(interaction.getId());
                 if (existingProtein != null){
                     proteinGraph.addInteraction(existingProtein);
                 } else {
-                    throw new IllegalArgumentException("Protein with ID " + interaction.getUniProtID() + " does not exist");
+                    throw new IllegalArgumentException("Protein with ID " + interaction.getId() + " does not exist");
                 }
             }
             System.out.println("Saving protein: " + proteinGraph);
@@ -46,8 +46,8 @@ public class ProteinGraphService {
     }
 
     // Ottieni proteina e relazioni tramite uniprotID
-    public ProteinGraph getProteinByUniProtID(String uniProtID) {
-        ProteinGraph proteinGraph = graphRepository.findProteinGraphByUniProtID(uniProtID);
+    public ProteinGraph getProteinById(String uniProtID) {
+        ProteinGraph proteinGraph = graphRepository.findProteinGraphById(uniProtID);
         if (proteinGraph == null) {
             throw new IllegalArgumentException("Protein with ID " + uniProtID + " does not exist");
         }
@@ -55,28 +55,28 @@ public class ProteinGraphService {
     }
 
     // cancellare proteina tramite id
-    public void deleteProteinByUniProtID(String uniProtID) {
-        graphRepository.deleteProteinGraphByUniProtID(uniProtID);
+    public void deleteProteinById(String uniProtID) {
+        graphRepository.deleteProteinGraphById(uniProtID);
     }
 
     // aggiornare proteina esistente
-    public void updateProteinByUniProtID(ProteinDTO proteinDTO) {
-        ProteinGraph proteinGraph = graphRepository.findProteinGraphByUniProtID(proteinDTO.getUniProtID());
+    public void updateProteinById(ProteinDTO proteinDTO) {
+        ProteinGraph proteinGraph = graphRepository.findProteinGraphById(proteinDTO.getId());
         if (proteinGraph == null) {
-            throw new IllegalArgumentException("Protein with ID " + proteinDTO.getUniProtID() + " does not exist");
+            throw new IllegalArgumentException("Protein with ID " + proteinDTO.getId() + " does not exist");
         }
         proteinGraph.setName(proteinDTO.getName());
 
         // Cancella le relazioni esistenti nel database
-        graphRepository.deleteInteractionsByUniProtID(proteinDTO.getUniProtID());
+        graphRepository.deleteInteractionsById(proteinDTO.getId());
         proteinGraph.clearInteractions();
         // Aggiungi le nuove relazioni
         for (ProteinDTO interaction : proteinDTO.getProteinInteractions()) {
-            ProteinGraph existingProtein = graphRepository.findByUniProtID(interaction.getUniProtID());
+            ProteinGraph existingProtein = graphRepository.findProteinGraphById(interaction.getId());
             if (existingProtein != null) {
                 proteinGraph.addInteraction(existingProtein);
             } else {
-                throw new IllegalArgumentException("Protein with ID " + interaction.getUniProtID() + " does not exist");
+                throw new IllegalArgumentException("Protein with ID " + interaction.getId() + " does not exist");
             }
         }
 

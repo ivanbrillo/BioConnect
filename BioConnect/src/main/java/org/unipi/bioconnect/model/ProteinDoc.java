@@ -38,7 +38,7 @@ public class ProteinDoc {
     private List<PublicationDTO> publications;
 
     public ProteinDoc(ProteinDTO protein) {
-        uniProtID = protein.getUniProtID();
+        uniProtID = protein.getId();
         name = protein.getName();
         sequence = protein.getSequence();
         pathways = protein.getPathways();

@@ -1,7 +1,6 @@
 package org.unipi.bioconnect.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -41,24 +40,24 @@ public class ProteinGraphController {
 
     @GetMapping("/graphProtein/{uniProtID}")
     @Operation(summary = "Get a protein from the Neo4j database by its UniProt ID")
-    public ProteinGraph getProteinByUniProtID(@PathVariable String uniProtID) {
-        return proteinGraphService.getProteinByUniProtID(uniProtID);
+    public ProteinGraph getProteinById(@PathVariable String uniProtID) {
+        return proteinGraphService.getProteinById(uniProtID);
     }
 
     //cancellare proteina tramite id
     @DeleteMapping("/graphProtein/{uniProtID}")
     @Operation(summary = "Delete a protein from the Neo4j database by its UniProt ID")
-    public String deleteProteinByUniProtID(@PathVariable String uniProtID) {
-        proteinGraphService.deleteProteinByUniProtID(uniProtID);
+    public String deleteProteinById(@PathVariable String uniProtID) {
+        proteinGraphService.deleteProteinById(uniProtID);
         return "Protein " + uniProtID + " deleted";
     }
 
     // Aggiornare proteina tramite tutti i campi
     @PutMapping("/graphProtein/{uniProtID}")
     @Operation(summary = "Update a protein in the Neo4j database by its UniProt ID")
-    public String updateProteinByUniProtID(@RequestBody @Validated ProteinDTO proteinDTO) {
-        proteinGraphService.updateProteinByUniProtID(proteinDTO);
-        return "Protein " + proteinDTO.getUniProtID() + " updated";
+    public String updateProteinById(@RequestBody @Validated ProteinDTO proteinDTO) {
+        proteinGraphService.updateProteinById(proteinDTO);
+        return "Protein " + proteinDTO.getId() + " updated";
     }
 
     // * SOLO PER TEST
