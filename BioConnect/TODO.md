@@ -11,3 +11,4 @@
 - [x] Non restituisce le interazioni nelle custom, non possiamo usare le automatiche perchè fa scan completo
 - [ ] Nelle interaction usiamo ProteinGraph, ma nelle interazioni possiamo avere anche altre entità (usiamo campi DrugEnhance ecc)
 - [ ] Integrare token JWT per migliorare l'autenticazione
+- DUBBIO: avere classi diverse per utenti o User generico con controlli a livello applicativo (vedi User.java)
