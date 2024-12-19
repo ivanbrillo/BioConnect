@@ -18,8 +18,9 @@ public interface ProteinGraphRepository extends Neo4jRepository<ProteinGraph, St
             "COLLECT(interactedProtein.id) AS interactingProteins")
     List<ProteinDTO> findAllProjectedBy();
 
-    // ? Forse si può togliere e usare quella sotto ?
-    @Query("MATCH (p:Protein) WHERE p.uniProtID = $uniProtID RETURN p")
+    @Query("MATCH (p:Protein) WHERE p.id = $uniProtID \n" +
+            "OPTIONAL MATCH (p)-[r:INTERACTS_WITH]-(related:Protein) \n" +
+            "RETURN p,collect(r), collect(related)")
     ProteinGraph findByUniProtID(@Param("uniProtID") String uniProtID);
 
     // ! automatica da problemi di java heap space

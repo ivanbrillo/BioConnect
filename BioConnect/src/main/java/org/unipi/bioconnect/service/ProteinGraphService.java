@@ -47,7 +47,7 @@ public class ProteinGraphService {
 
     // Ottieni proteina e relazioni tramite uniprotID
     public ProteinGraph getProteinById(String uniProtID) {
-        ProteinGraph proteinGraph = graphRepository.findProteinGraphById(uniProtID);
+        ProteinGraph proteinGraph = graphRepository.findByUniProtID(uniProtID);
         if (proteinGraph == null) {
             throw new IllegalArgumentException("Protein with ID " + uniProtID + " does not exist");
         }
