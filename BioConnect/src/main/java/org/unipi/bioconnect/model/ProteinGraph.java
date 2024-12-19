@@ -28,16 +28,38 @@ public class ProteinGraph {
     private String name;
 
     @Relationship(type = "INTERACTS_WITH")
-    @JsonIgnoreProperties({"interacts", "interacts2"})
+    @JsonIgnoreProperties({"interacts", "interacts2", "similar", "similar2", "involved", "inhibitedBy", "enhancedBy"})
     List<ProteinGraph> interacts = new ArrayList<>();
 
     @Relationship(type = "INTERACTS_WITH", direction = Relationship.Direction.INCOMING)
-    @JsonIgnoreProperties({"interacts", "interacts2"})
+    @JsonIgnoreProperties({"interacts", "interacts2", "similar", "similar2", "involved", "inhibitedBy", "enhancedBy"})
     List<ProteinGraph> interacts2 = new ArrayList<>();
 
+    @Relationship(type = "SIMILAR_TO")
+    @JsonIgnoreProperties({"interacts", "interacts2", "similar", "similar2", "involved", "inhibitedBy", "enhancedBy"})
+    List<ProteinGraph> similar = new ArrayList<>();
 
+    @Relationship(type = "SIMILAR_TO", direction = Relationship.Direction.INCOMING)
+    @JsonIgnoreProperties({"interacts", "interacts2", "similar", "similar2", "involved", "inhibitedBy", "enhancedBy"})
+    List<ProteinGraph> similar2 = new ArrayList<>();
+
+    @Relationship(type = "INVOLVED_IN") //per malattie
+    @JsonIgnoreProperties("involved")
+    List<DiseaseGraph> involved = new ArrayList<>();
+
+    @Relationship(type = "INHIBITED_BY") //per farmaci
+    @JsonIgnoreProperties("inhibitedBy")
+    List<DrugGraph> inhibitedBy = new ArrayList<>();
+
+    @Relationship(type = "ENHANCED_BY") //per farmaci
+    @JsonIgnoreProperties("enhancedBy")
+    List<DrugGraph> enhancedBy = new ArrayList<>();
+
+
+
+    // ! da modificare con due liste
     public void addInteraction(ProteinGraph protein) {
-        interacts.add(null); //TODO
+        interacts.add(protein);
     }
 
 

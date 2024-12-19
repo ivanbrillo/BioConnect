@@ -20,18 +20,21 @@ public interface ProteinGraphRepository extends Neo4jRepository<ProteinGraph, St
 
     @Query("MATCH (p:Protein) WHERE p.id = $uniProtID \n" +
             "OPTIONAL MATCH (p)-[r:INTERACTS_WITH]-(related:Protein) \n" +
-            "RETURN p,collect(r), collect(related)")
+            "OPTIONAL MATCH (p)-[r2:SIMILAR_TO]-(similar:Protein) \n" +
+            "OPTIONAL MATCH (p)-[r3:INVOLVED_IN]->(d:Disease) \n" +
+            "OPTIONAL MATCH (p)-[r4:INHIBITED_BY]->(drug:Drug) \n" +
+            "OPTIONAL MATCH (p)-[r5:ENHANCED_BY]->(drug2:Drug) \n" +
+            "RETURN p,collect(r), collect(related), collect(r2), collect(similar), collect(r3), collect(d), collect(r4), collect(drug), collect(r5), collect(drug2)")
     ProteinGraph findByUniProtID(@Param("uniProtID") String uniProtID);
 
     // ! automatica da problemi di java heap space
-    @Query("MATCH (p:Protein {id: $id}) " +
-            "OPTIONAL MATCH (p)-[r:INTERACTS_WITH*1]->(interactedProtein:Protein) " +
-            "WHERE p.id <> interactedProtein.id " +
-            "RETURN p, collect(r), collect(interactedProtein)")
-    ProteinGraph findProteinGraphById(String id);
+    @Query("MATCH (p:Protein) WHERE p.id = $uniProtID \n" +
+            "OPTIONAL MATCH (p)-[r:INTERACTS_WITH]-(related:Protein) \n" +
+            "RETURN p,collect(r), collect(related)")
+    ProteinGraph findProteinGraphById(String uniProtID);
 
-    // ! automatica da problemi di java heap space
-    @Query("MATCH (p:Protein {id: $id}) RETURN p.id AS id, p.name AS name")
+    // ! automatica da problemi di java heap space, controllare se funziona con query custom
+    @Query("MATCH (p:Protein {id: $id}) DELETE p")
     void deleteProteinGraphById(String id);
 
     // * Cancella tutte le interazioni di una proteina nel db (per update method)
