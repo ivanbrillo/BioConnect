@@ -15,7 +15,13 @@ public class ProteinDTO {
     private ProteinDocDTO document;
 
     @JsonUnwrapped
-//    @JsonIgnoreProperties({"id", "name"})   // otherwise duplicated properties with document when serializing
+    @JsonIgnoreProperties({"id", "name"})   // otherwise duplicated properties with document when serializing
     private ProteinGraphDTO graph;
+
+    public ProteinGraphDTO getGraph() {
+        graph.setId(document.getId());
+        graph.setName(document.getName());
+        return graph;
+    }
 
 }

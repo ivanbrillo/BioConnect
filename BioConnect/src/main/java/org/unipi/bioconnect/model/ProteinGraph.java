@@ -56,9 +56,6 @@ public class ProteinGraph {
     @JsonIgnoreProperties("enhancedBy")
     List<DrugGraph> enhancedBy = new ArrayList<>();
 
-    // TODO server a qualcosa? per un warning
-    @Version
-    private Long version;
 
     // ! da modificare con due liste
     public void addInteraction(ProteinGraph protein) {
