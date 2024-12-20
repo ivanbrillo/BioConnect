@@ -21,7 +21,11 @@ public class UserService {
     }
 
     public UserDTO getUserDTOByUsername(String username) {
-        return userRepository.findUserDTOByUsername(username);
+        UserDTO userDTO = userRepository.findUserDTOByUsername(username);
+        if (userDTO == null) {
+            throw new RuntimeException("User not found with username: " + username);
+        }
+        return userDTO;
     }
 
     public List<String> getAllComments() {

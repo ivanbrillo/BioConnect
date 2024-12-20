@@ -57,7 +57,7 @@ public class ProteinDocController {
         return proteinDocService.getProteinsByPathwayAndLocation(pathway, subcellularLocation);
     }
 
-
+    // ! mostrare tutte le proteine è impossibile in dataset grande
     @GetMapping("/proteins")
     @Operation(summary = "Get all proteins")
     public List<ProteinDocDTO> getAllProteins() {
