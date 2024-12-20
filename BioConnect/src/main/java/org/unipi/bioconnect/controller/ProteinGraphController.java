@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.ProteinDTO;
+import org.unipi.bioconnect.DTO.ProteinGraphDTO;
 import org.unipi.bioconnect.model.ProteinGraph;
 import org.unipi.bioconnect.service.ProteinGraphService;
 
@@ -40,7 +41,7 @@ public class ProteinGraphController {
 
     @GetMapping("/graphProtein/{uniProtID}")
     @Operation(summary = "Get a protein from the Neo4j database by its UniProt ID")
-    public ProteinGraph getProteinById(@PathVariable String uniProtID) {
+    public ProteinGraphDTO getProteinById(@PathVariable String uniProtID) {
         return proteinGraphService.getProteinById(uniProtID);
     }
 

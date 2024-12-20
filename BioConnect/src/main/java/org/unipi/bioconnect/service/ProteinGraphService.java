@@ -5,6 +5,7 @@ import org.springframework.data.neo4j.core.Neo4jClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.unipi.bioconnect.DTO.ProteinDTO;
+import org.unipi.bioconnect.DTO.ProteinGraphDTO;
 import org.unipi.bioconnect.model.ProteinGraph;
 import org.unipi.bioconnect.repository.ProteinGraphRepository;
 
@@ -21,7 +22,6 @@ public class ProteinGraphService {
     @Autowired
     private Neo4jClient neo4jClient;
 
-    // Salva proteina e relazioni nel GraphDB
     @Transactional
     public void saveProteinGraph(ProteinDTO proteinDTO) throws NameAlreadyBoundException {
 
@@ -46,12 +46,13 @@ public class ProteinGraphService {
     }
 
     // Ottieni proteina e relazioni tramite uniprotID
-    public ProteinGraph getProteinById(String uniProtID) {
+    public ProteinGraphDTO getProteinById(String uniProtID) {
         ProteinGraph proteinGraph = graphRepository.findByUniProtID(uniProtID);
-        if (proteinGraph == null) {
+
+        if (proteinGraph == null)
             throw new IllegalArgumentException("Protein with ID " + uniProtID + " does not exist");
-        }
-        return proteinGraph;
+
+        return new ProteinGraphDTO(proteinGraph);
     }
 
     // cancellare proteina tramite id
