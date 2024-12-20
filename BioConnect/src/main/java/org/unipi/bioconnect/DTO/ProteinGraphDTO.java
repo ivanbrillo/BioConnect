@@ -2,6 +2,7 @@ package org.unipi.bioconnect.DTO;
 
 import jakarta.validation.Valid;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.unipi.bioconnect.model.DiseaseGraph;
 import org.unipi.bioconnect.model.DrugGraph;
@@ -14,6 +15,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class ProteinGraphDTO extends BaseNodeDTO{
 
     @Valid

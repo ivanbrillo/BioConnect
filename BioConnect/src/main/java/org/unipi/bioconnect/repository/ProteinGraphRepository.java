@@ -3,7 +3,7 @@ package org.unipi.bioconnect.repository;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.data.repository.query.Param;
-import org.unipi.bioconnect.DTO.ProteinDTO;
+import org.unipi.bioconnect.DTO.ProteinDocDTO;
 import org.unipi.bioconnect.model.ProteinGraph;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public interface ProteinGraphRepository extends Neo4jRepository<ProteinGraph, St
             "RETURN p.id AS id, " +
             "p.name AS name, " +
             "COLLECT(interactedProtein.id) AS interactingProteins")
-    List<ProteinDTO> findAllProjectedBy();
+    List<ProteinDocDTO> findAllProjectedBy();
 
     @Query("MATCH (p:Protein) WHERE p.id = $uniProtID \n" +
             "OPTIONAL MATCH (p)-[r:INTERACTS_WITH]-(related:Protein) \n" +

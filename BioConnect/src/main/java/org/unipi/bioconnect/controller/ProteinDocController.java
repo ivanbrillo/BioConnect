@@ -1,21 +1,17 @@
 package org.unipi.bioconnect.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.PathwayRecurrenceDTO;
-import org.unipi.bioconnect.DTO.ProteinDTO;
+import org.unipi.bioconnect.DTO.ProteinDocDTO;
 import org.unipi.bioconnect.DTO.TrendAnalysisDTO;
-import org.unipi.bioconnect.model.ProteinDoc;
 import org.unipi.bioconnect.service.ProteinDocService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/proteinDoc")
@@ -27,8 +23,8 @@ public class ProteinDocController {
 
     @PostMapping("/addDocProtein")
     @Operation(summary = "Add a protein to the MongoDB database")
-    public String saveProteinDoc(@RequestBody @Validated ProteinDTO proteinDTO) {
-        proteinDocService.saveProteinDoc(proteinDTO);
+    public String saveProteinDoc(@RequestBody @Validated ProteinDocDTO proteinDocDTO) {
+        proteinDocService.saveProteinDoc(proteinDocDTO);
         return "Added protein";
     }
 
@@ -47,14 +43,14 @@ public class ProteinDocController {
 
     @GetMapping("/searchProtein/{searchedText}")
     @Operation(summary = "Search for a protein by name or pathway")
-    public List<ProteinDTO> searchProtein(@PathVariable String searchedText) {
+    public List<ProteinDocDTO> searchProtein(@PathVariable String searchedText) {
         return proteinDocService.searchProteinDoc(searchedText);
     }
 
 
     @GetMapping("/getProteinsByPathwayAndLocation")
     @Operation(summary = "Get proteins by pathway and subcellular location")
-    public List<ProteinDTO> getProteinsByPathwayAndLocation(
+    public List<ProteinDocDTO> getProteinsByPathwayAndLocation(
             @RequestParam String pathway,
             @RequestParam String subcellularLocation) {
 
@@ -64,7 +60,7 @@ public class ProteinDocController {
 
     @GetMapping("/proteins")
     @Operation(summary = "Get all proteins")
-    public List<ProteinDTO> getAllProteins() {
+    public List<ProteinDocDTO> getAllProteins() {
         return proteinDocService.getAllProteins();
     }
 

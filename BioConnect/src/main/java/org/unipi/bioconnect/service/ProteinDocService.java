@@ -2,17 +2,15 @@ package org.unipi.bioconnect.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 import org.unipi.bioconnect.DTO.PathwayRecurrenceDTO;
-import org.unipi.bioconnect.DTO.ProteinDTO;
+import org.unipi.bioconnect.DTO.ProteinDocDTO;
 import org.unipi.bioconnect.DTO.TrendAnalysisDTO;
 import org.unipi.bioconnect.model.ProteinDoc;
 import org.unipi.bioconnect.repository.ProteinDocDAO;
 import org.unipi.bioconnect.repository.ProteinDocRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProteinDocService {
@@ -23,12 +21,12 @@ public class ProteinDocService {
     @Autowired
     private ProteinDocDAO docDAO;
 
-    public void saveProteinDoc(ProteinDTO proteinDTO) {
-        ProteinDoc proteinDoc = new ProteinDoc(proteinDTO);
+    public void saveProteinDoc(ProteinDocDTO proteinDocDTO) {
+        ProteinDoc proteinDoc = new ProteinDoc(proteinDocDTO);
         docRepository.save(proteinDoc);
     }
 
-    public List<ProteinDTO> searchProteinDoc(String searchedText) {
+    public List<ProteinDocDTO> searchProteinDoc(String searchedText) {
         return docRepository.findByIdOrNameContainingIgnoreCase(searchedText);
     }
 
@@ -40,11 +38,11 @@ public class ProteinDocService {
         return docDAO.getPathwayRecurrence(subsequence);
     }
 
-    public List<ProteinDTO> getProteinsByPathwayAndLocation(String pathway, String subsequence) {
+    public List<ProteinDocDTO> getProteinsByPathwayAndLocation(String pathway, String subsequence) {
         return docDAO.getProteinsByPathwayAndLocation(pathway, subsequence);
     }
 
-    public List<ProteinDTO> getAllProteins() {
+    public List<ProteinDocDTO> getAllProteins() {
         return docRepository.findAllProjectedBy();
     }
 

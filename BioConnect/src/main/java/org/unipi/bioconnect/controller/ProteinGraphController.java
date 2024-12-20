@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.ProteinDTO;
+import org.unipi.bioconnect.DTO.ProteinDocDTO;
 import org.unipi.bioconnect.DTO.ProteinGraphDTO;
 import org.unipi.bioconnect.model.ProteinGraph;
 import org.unipi.bioconnect.service.ProteinGraphService;
@@ -22,16 +23,17 @@ public class ProteinGraphController {
     @Autowired
     private ProteinGraphService proteinGraphService;
 
-    @PostMapping("/addGraphProtein")
-    @Operation(summary = "Add a protein to the Neo4j database")
-    public String saveProteinDoc(@RequestBody @Validated ProteinDTO proteinDTO) {
-        try {
-            proteinGraphService.saveProteinGraph(proteinDTO);
-        } catch (NameAlreadyBoundException e) {
-            throw new RuntimeException(e);
-        }
-        return "Added protein";
-    }
+//    @PostMapping("/addGraphProtein")
+//    @Operation(summary = "Add a protein to the Neo4j database")
+//    public ProteinDTO saveProteinGraph(@RequestBody @Validated ProteinDTO proteinDTO) {
+//        return proteinDTO;
+//        try {
+//            proteinGraphService.saveProteinGraph(proteinDocDTO);
+//        } catch (NameAlreadyBoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return "Added protein";
+//    }
 
     @GetMapping("/graphProteins")
     @Operation(summary = "Get all proteins from the Neo4j database")
@@ -54,12 +56,12 @@ public class ProteinGraphController {
     }
 
     // Aggiornare proteina tramite tutti i campi
-    @PutMapping("/graphProtein/{uniProtID}")
-    @Operation(summary = "Update a protein in the Neo4j database by its UniProt ID")
-    public String updateProteinById(@RequestBody @Validated ProteinDTO proteinDTO) {
-        proteinGraphService.updateProteinById(proteinDTO);
-        return "Protein " + proteinDTO.getId() + " updated";
-    }
+//    @PutMapping("/graphProtein/{uniProtID}")
+//    @Operation(summary = "Update a protein in the Neo4j database by its UniProt ID")
+//    public String updateProteinById(@RequestBody @Validated ProteinDocDTO proteinDocDTO) {
+//        proteinGraphService.updateProteinById(proteinDocDTO);
+//        return "Protein " + proteinDocDTO.getId() + " updated";
+//    }
 
     // * SOLO PER TEST
     @GetMapping("/threeProteins")

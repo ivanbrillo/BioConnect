@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 import org.unipi.bioconnect.DTO.PathwayRecurrenceDTO;
-import org.unipi.bioconnect.DTO.ProteinDTO;
+import org.unipi.bioconnect.DTO.ProteinDocDTO;
 import org.unipi.bioconnect.DTO.TrendAnalysisDTO;
 
 import java.util.List;
@@ -50,7 +50,7 @@ public class ProteinDocDAO {
     }
 
 
-    public List<ProteinDTO> getProteinsByPathwayAndLocation(String pathway, String subcellularLocation) {
+    public List<ProteinDocDTO> getProteinsByPathwayAndLocation(String pathway, String subcellularLocation) {
 
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.match(Criteria.where("pathways").is(pathway)),
@@ -59,7 +59,7 @@ public class ProteinDocDAO {
                         .andExclude("_class")
         );
 
-        AggregationResults<ProteinDTO> results = mongoTemplate.aggregate(aggregation, "Protein", ProteinDTO.class);
+        AggregationResults<ProteinDocDTO> results = mongoTemplate.aggregate(aggregation, "Protein", ProteinDocDTO.class);
         return results.getMappedResults();
     }
 

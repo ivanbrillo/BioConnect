@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.unipi.bioconnect.DTO.ProteinDTO;
+import org.unipi.bioconnect.DTO.ProteinDocDTO;
 import org.unipi.bioconnect.DTO.PublicationDTO;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public class ProteinDoc {
     @Schema(description = "Field for protein publications")
     private List<PublicationDTO> publications;
 
-    public ProteinDoc(ProteinDTO protein) {
+    public ProteinDoc(ProteinDocDTO protein) {
         uniProtID = protein.getId();
         name = protein.getName();
         sequence = protein.getSequence();

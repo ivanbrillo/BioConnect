@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Generated;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.annotation.Id;
@@ -55,7 +56,9 @@ public class ProteinGraph {
     @JsonIgnoreProperties("enhancedBy")
     List<DrugGraph> enhancedBy = new ArrayList<>();
 
-
+    // TODO server a qualcosa? per un warning
+    @Version
+    private Long version;
 
     // ! da modificare con due liste
     public void addInteraction(ProteinGraph protein) {
