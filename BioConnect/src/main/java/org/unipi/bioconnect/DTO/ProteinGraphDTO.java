@@ -25,13 +25,14 @@ public class ProteinGraphDTO extends BaseNodeDTO{
     private Set<BaseNodeDTO> proteinSimilarities = new HashSet<>();
 
     @Valid
-    private List<BaseNodeDTO> drugEnhancedBy = new ArrayList<>();
+    private Set<BaseNodeDTO> drugEnhancedBy = new HashSet<>();
 
     @Valid
-    private List<BaseNodeDTO> drugInhibitBy = new ArrayList<>();
+    private Set<BaseNodeDTO> drugInhibitBy = new HashSet<>();
 
     @Valid
-    private List<BaseNodeDTO> diseaseInvolvedIn = new ArrayList<>();
+    private Set<BaseNodeDTO> diseaseInvolvedIn = new HashSet<>();
+
 
 
     public ProteinGraphDTO(ProteinGraph proteinGraph) {

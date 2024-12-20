@@ -17,4 +17,9 @@ public class DrugGraph {
 
     private String name;
 
+    public DrugGraph(String drugID, String name) {
+        this.drugID = drugID;
+        this.name = name;
+    }
+
 }

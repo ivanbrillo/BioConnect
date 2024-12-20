@@ -3,20 +3,15 @@ package org.unipi.bioconnect.repository;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.data.repository.query.Param;
+import org.unipi.bioconnect.DTO.BaseNodeDTO;
 import org.unipi.bioconnect.DTO.ProteinDocDTO;
 import org.unipi.bioconnect.model.ProteinGraph;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProteinGraphRepository extends Neo4jRepository<ProteinGraph, String> {
 
-    // ? Togliere ?
-    @Query("MATCH (p:Protein) " +
-            "OPTIONAL MATCH (p)-[:INTERACTS_WITH]->(interactedProtein:Protein) " +
-            "RETURN p.id AS id, " +
-            "p.name AS name, " +
-            "COLLECT(interactedProtein.id) AS interactingProteins")
-    List<ProteinDocDTO> findAllProjectedBy();
 
     @Query("MATCH (p:Protein) WHERE p.id = $uniProtID \n" +
             "OPTIONAL MATCH (p)-[r:INTERACTS_WITH]-(related:Protein) \n" +
@@ -27,25 +22,18 @@ public interface ProteinGraphRepository extends Neo4jRepository<ProteinGraph, St
             "RETURN p,collect(r), collect(related), collect(r2), collect(similar), collect(r3), collect(d), collect(r4), collect(drug), collect(r5), collect(drug2)")
     ProteinGraph findByUniProtID(@Param("uniProtID") String uniProtID);
 
-    // ! automatica da problemi di java heap space
-    @Query("MATCH (p:Protein) WHERE p.id = $uniProtID \n" +
-            "OPTIONAL MATCH (p)-[r:INTERACTS_WITH]-(related:Protein) \n" +
-            "RETURN p,collect(r), collect(related)")
-    ProteinGraph findProteinGraphById(String uniProtID);
 
-    // ! automatica da problemi di java heap space, controllare se funziona con query custom
-    @Query("MATCH (p:Protein {id: $id}) DELETE p")
-    void deleteProteinGraphById(String id);
+    @Query("""
+                MATCH (n)
+                WHERE (n:Protein OR n:Drug OR n:Disease)
+                AND n.id IN $ids
+                RETURN n.id AS id, n.name AS name
+            """)
+    List<BaseNodeDTO> findEntityNamesByIds(@Param("ids") List<String> ids);
 
-    // * Cancella tutte le interazioni di una proteina nel db (per update method)
-    @Query("MATCH (p:Protein {id: $id})-[r:INTERACTS_WITH]->() DELETE r")
-    void deleteInteractionsById(@Param("id") String id);
 
-    // ? togliere ?
-    @Query("MATCH (p:Protein {id: $id}) " +
-        "OPTIONAL MATCH (p)-[:INTERACTS_WITH]->(interactedProtein:Protein) " +
-        "RETURN p.id AS id, p.name AS name, COLLECT(interactedProtein.id) AS interacts")
-    ProteinGraph findProjectedById(@Param("id") String id);
+    @Query("MATCH (p:Protein {id: $proteinId})-[r]-() DELETE r")
+    void removeAllRelationships(@Param("proteinId") String proteinId);
 
     // * TEST
     @Query("MATCH (p:Protein) " +

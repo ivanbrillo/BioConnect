@@ -13,7 +13,6 @@ public class BaseNodeDTO {
     @NotNull(message = "id is required")
     protected String id;
 
-    @NotNull(message = "Name is required")
-    protected String name;
+    protected String name = "";
 
 }

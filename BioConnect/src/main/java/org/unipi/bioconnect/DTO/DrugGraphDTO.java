@@ -10,7 +10,6 @@ public class DrugGraphDTO {
     @NotNull(message = "drugBankID is required")
     private String drugBankID;
 
-    @NotNull(message = "Name is required")
     private String name;
 
     public DrugGraphDTO(DrugGraph drugGraph) {

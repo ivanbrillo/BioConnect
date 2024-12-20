@@ -35,11 +35,11 @@ public class ProteinGraphController {
 //        return "Added protein";
 //    }
 
-    @GetMapping("/graphProteins")
-    @Operation(summary = "Get all proteins from the Neo4j database")
-    public List<ProteinGraph> getAllProteins() {
-        return proteinGraphService.getAllProteins();
-    }
+//    @GetMapping("/graphProteins")
+//    @Operation(summary = "Get all proteins from the Neo4j database")
+//    public List<ProteinGraph> getAllProteins() {
+//        return proteinGraphService.getAllProteins();
+//    }
 
     @GetMapping("/graphProtein/{uniProtID}")
     @Operation(summary = "Get a protein from the Neo4j database by its UniProt ID")
@@ -47,20 +47,19 @@ public class ProteinGraphController {
         return proteinGraphService.getProteinById(uniProtID);
     }
 
-    //cancellare proteina tramite id
-    @DeleteMapping("/graphProtein/{uniProtID}")
-    @Operation(summary = "Delete a protein from the Neo4j database by its UniProt ID")
-    public String deleteProteinById(@PathVariable String uniProtID) {
-        proteinGraphService.deleteProteinById(uniProtID);
-        return "Protein " + uniProtID + " deleted";
-    }
+//    //cancellare proteina tramite id
+//    @DeleteMapping("/graphProtein/{uniProtID}")
+//    @Operation(summary = "Delete a protein from the Neo4j database by its UniProt ID")
+//    public String deleteProteinById(@PathVariable String uniProtID) {
+//        proteinGraphService.deleteProteinById(uniProtID);
+//        return "Protein " + uniProtID + " deleted";
+//    }
 
-    // Aggiornare proteina tramite tutti i campi
 //    @PutMapping("/graphProtein/{uniProtID}")
 //    @Operation(summary = "Update a protein in the Neo4j database by its UniProt ID")
-//    public String updateProteinById(@RequestBody @Validated ProteinDocDTO proteinDocDTO) {
-//        proteinGraphService.updateProteinById(proteinDocDTO);
-//        return "Protein " + proteinDocDTO.getId() + " updated";
+//    public String updateProteinById(@RequestBody @Validated ProteinGraphDTO proteinGraphDTO) {
+//        proteinGraphService.updateProteinById(proteinGraphDTO);
+//        return "Protein " + proteinGraphDTO.getId() + " updated";
 //    }
 
     // * SOLO PER TEST
@@ -70,11 +69,5 @@ public class ProteinGraphController {
         return proteinGraphService.getTopThreeProteins();
     }
 
-    // * Solo per test
-    @GetMapping("/checkNeo4jConnection")
-    @Operation(summary = "Check the connection to the Neo4j database")
-    public String checkNeo4jConnection() {
-        return proteinGraphService.checkNeo4jConnection();
-    }
 
 }

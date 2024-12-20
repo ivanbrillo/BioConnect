@@ -20,7 +20,6 @@ public class ProteinDocDTO {
     @Schema(description = "UniProt ID of the protein", example = "P12345")
     private String id;
 
-    @NotNull(message = "Name is required")
     @Schema(description = "Name of the protein", example = "Hemoglobin")
     private String name;
 
