@@ -1,18 +1,10 @@
 package org.unipi.bioconnect.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.UserDTO;
-import org.unipi.bioconnect.model.User;
-import org.unipi.bioconnect.repository.UserRepository;
 import org.unipi.bioconnect.service.UserService;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping

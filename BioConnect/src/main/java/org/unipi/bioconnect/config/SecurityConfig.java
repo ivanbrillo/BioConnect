@@ -32,6 +32,9 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN") // Richiede ruolo ADMIN
                         .anyRequest().permitAll() // Tutto il resto richiede autenticazione
                 )
+                .formLogin(withDefaults()) // Oppure configura un endpoint specifico con .loginPage("/login")
+                //.logout(logout -> logout.logoutUrl("/custom-logout").logoutSuccessUrl("/"))
+                .logout(AbstractHttpConfigurer::disable)
                 .httpBasic(withDefaults());
         return http.build();
     }

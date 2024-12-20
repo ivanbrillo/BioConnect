@@ -1,6 +1,8 @@
 package org.unipi.bioconnect.model;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
@@ -25,13 +27,19 @@ public class User {
 
     private String name;
 
+    @NotNull
+    @Field("username")
+    @Indexed(unique = true)
     private String username;
 
+    @NotNull
     private String password;
 
     private String email;
 
     private Role role;
+
+    private boolean loggedIn;
 
     // ? I commenti sono un entity separato?
     private List<String> comments; // username-id_elementocommentato-commento test

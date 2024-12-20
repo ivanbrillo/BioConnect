@@ -1,8 +1,10 @@
 package org.unipi.bioconnect.service;
 
 import org.bson.types.ObjectId;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.unipi.bioconnect.DTO.UserDTO;
+import org.unipi.bioconnect.model.Role;
 import org.unipi.bioconnect.model.User;
 import org.unipi.bioconnect.repository.UserRepository;
 
@@ -15,9 +17,11 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserDTO getUserDTOByUsername(String username) {
@@ -56,4 +60,41 @@ public class UserService {
         return new UserDTO(user.getId(), user.getUsername(), user.getRole().toString(), user.getComments());
     }
 
+    public String register(String username, String password) {
+        User user = new User();
+        if (userRepository.findUserByUsername(username) != null) {
+            return "Username già esistente";
+        }
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRole(Role.valueOf("REGISTERED"));
+        user.setLoggedIn(true);
+        userRepository.save(user);
+        return "Utente " + username + " registrato con successo";
+    }
+
+    public String login(String username, String password) {
+        User user = userRepository.findUserByUsername(username);
+        if (user == null) {
+            return "Utente non trovato con username: " + username;
+        }
+        if (passwordEncoder.matches(password, user.getPassword())) {
+            user.setLoggedIn(true);
+            userRepository.save(user);
+            return "Utente " + username + " loggato con successo";
+        } else {
+            return "Password errata";
+        }
+    }
+
+    // logout
+    public String logout(String username) {
+        User user = userRepository.findUserByUsername(username);
+        if (user == null) {
+            throw new RuntimeException("Utente non trovato con username: " + username);
+        }
+        user.setLoggedIn(false);
+        userRepository.save(user);
+        return "Utente " + username + " è ora offline";
+    }
 }

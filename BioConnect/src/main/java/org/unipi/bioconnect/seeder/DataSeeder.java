@@ -1,5 +1,6 @@
 package org.unipi.bioconnect.seeder;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,9 @@ public class DataSeeder implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Value("${dataseeder.enabled}")
+    private boolean isDataSeederEnabled;
+
     public DataSeeder(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -20,8 +24,12 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        if (!isDataSeederEnabled) {
+            System.out.println("DataSeeder is disabled.");
+            return;
+        }
         // ! TEST - Svuota la collezione
-        userRepository.deleteAll();
+        //userRepository.deleteAll();
 
         // Crea e aggiungi utenti aggiornati
         User user1 = new User();
