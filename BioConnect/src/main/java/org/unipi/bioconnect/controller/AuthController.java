@@ -1,5 +1,6 @@
 package org.unipi.bioconnect.controller;
 
+import org.springframework.security.core.Authentication;
 import org.unipi.bioconnect.DTO.CredentialsDTO;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.service.UserService;
@@ -32,7 +33,8 @@ public class AuthController {
 
     // logout
     @PutMapping("/logout")
-    public String logout(@RequestParam String username) {
+    public String logout(Authentication authentication) {
+        String username = authentication.getName();
         return userService.logout(username);
     }
 }

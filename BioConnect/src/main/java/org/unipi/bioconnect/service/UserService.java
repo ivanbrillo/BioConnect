@@ -1,11 +1,12 @@
 package org.unipi.bioconnect.service;
 
-import org.bson.types.ObjectId;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.unipi.bioconnect.DTO.UserDTO;
 import org.unipi.bioconnect.model.Role;
 import org.unipi.bioconnect.model.User;
+import org.unipi.bioconnect.repository.DrugDocRepository;
+import org.unipi.bioconnect.repository.ProteinDocRepository;
 import org.unipi.bioconnect.repository.UserRepository;
 
 import java.util.Collections;
@@ -18,10 +19,14 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ProteinDocRepository proteinDocRepository;
+    private final DrugDocRepository drugDocRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, ProteinDocRepository proteinDocRepository, DrugDocRepository drugDocRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.proteinDocRepository = proteinDocRepository;
+        this.drugDocRepository = drugDocRepository;
     }
 
     public UserDTO getUserDTOByUsername(String username) {
@@ -96,5 +101,35 @@ public class UserService {
         user.setLoggedIn(false);
         userRepository.save(user);
         return "Utente " + username + " è ora offline";
+    }
+
+    public List<String> getCommentsByUsername(String username) {
+        User user = userRepository.findUserByUsername(username);
+        //controllo che utente sia loggato
+        if (!user.isLoggedIn()) {
+            throw new RuntimeException("Utente non loggato");
+        }
+        // Restituisci i commenti dell'utente
+        return user.getComments();
+    }
+
+    public String addComment(String username, String comment, String elementId) {
+        User user = userRepository.findUserByUsername(username);
+        //controllo che utente sia loggato
+        if (!user.isLoggedIn()) {
+            throw new RuntimeException("Utente non loggato");
+        }
+        //controllo se esiste l'elemento commentato
+        if (proteinDocRepository.findById(elementId).isEmpty() && drugDocRepository.findById(elementId).isEmpty()) {
+            throw new RuntimeException("Elemento non trovato con ID: " + elementId);
+        }
+
+        if (user == null) {
+            throw new RuntimeException("Utente non trovato con username: " + username);
+        }
+        user.addComment(elementId, comment);
+        userRepository.save(user);
+
+        return "Commento aggiunto con successo all'elemento con ID: " + elementId;
     }
 }

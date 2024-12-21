@@ -42,8 +42,8 @@ public class DataSeeder implements CommandLineRunner {
         user2.setPassword(passwordEncoder.encode("password"));
         user2.setRole(Role.valueOf("REGISTERED"));
         // Aggiungi commenti dinamicamente con il formato desiderato
-        user2.addComment("P123", "Questo è il primo commento");
-        user2.addComment("P456", "Secondo commento");
+        //user2.addComment("P123", "Questo è il primo commento");
+        //user2.addComment("P456", "Secondo commento");
 
         User user3 = new User();
         user3.setUsername("guest");

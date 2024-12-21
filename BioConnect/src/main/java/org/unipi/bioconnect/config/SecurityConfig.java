@@ -28,7 +28,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/comments/**").hasRole("REGISTERED") // Solo utenti registrati possono commentare
+                        .requestMatchers("/profile/**").hasRole("REGISTERED") // Solo utenti registrati possono commentare
                         .requestMatchers("/admin/**").hasRole("ADMIN") // Richiede ruolo ADMIN
                         .anyRequest().permitAll() // Tutto il resto richiede autenticazione
                 )

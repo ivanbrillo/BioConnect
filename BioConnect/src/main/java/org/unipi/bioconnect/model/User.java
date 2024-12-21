@@ -2,6 +2,7 @@ package org.unipi.bioconnect.model;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -39,11 +40,11 @@ public class User {
 
     private Role role;
 
+    @Getter
     private boolean loggedIn;
 
     // ? I commenti sono un entity separato?
     private List<String> comments; // username-id_elementocommentato-commento test
-
 
     // Metodo helper per generare il formato dei commenti
     public void addComment(String elementId, String commentText) {

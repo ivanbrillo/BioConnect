@@ -42,7 +42,7 @@ public class ProteinDocController {
 
 
     @GetMapping("/searchProtein/{searchedText}")
-    @Operation(summary = "Search for a protein by name or pathway")
+    @Operation(summary = "Search for a protein by id or name")
     public List<ProteinDocDTO> searchProtein(@PathVariable String searchedText) {
         return proteinDocService.searchProteinDoc(searchedText);
     }

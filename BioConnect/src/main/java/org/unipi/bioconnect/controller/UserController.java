@@ -1,5 +1,8 @@
 package org.unipi.bioconnect.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.UserDTO;
 import org.unipi.bioconnect.service.UserService;
@@ -36,8 +39,15 @@ public class UserController {
 
 // * PANNELLO USER
 
-    @GetMapping("/comments/{my_id}")
-    public List<String> getMyComments(@PathVariable String my_id) {
-        return userService.getUserDTOById(my_id).getComments();
+    @GetMapping("/profile/my_comments")
+    public List<String> getMyComments(Authentication authentication) {
+        String username = authentication.getName(); // Prendi il nome utente dal contesto
+        return userService.getCommentsByUsername(username);
+    }
+
+    @PostMapping("/profile/add_comment")
+    public String addComment(Authentication authentication, @RequestBody String comment, @RequestParam String elementId) {
+        String username = authentication.getName(); // Prendi il nome utente dal contesto
+        return userService.addComment(username, comment, elementId);
     }
 }
