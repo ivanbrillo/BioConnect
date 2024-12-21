@@ -22,15 +22,6 @@ public interface ProteinGraphRepository extends Neo4jRepository<ProteinGraph, St
     ProteinGraph findByUniProtID(@Param("uniProtID") String uniProtID);
 
 
-    @Query("""
-                MATCH (n)
-                WHERE (n:Protein OR n:Drug OR n:Disease)
-                AND n.id IN $ids
-                RETURN n.id AS id, n.name AS name
-            """)
-    List<BaseNodeDTO> findEntityNamesByIds(@Param("ids") List<String> ids);
-
-
     @Query("MATCH (p:Protein {id: $proteinId})-[r]-() DELETE r")
     void removeAllRelationships(@Param("proteinId") String proteinId);
 

@@ -3,24 +3,25 @@ package org.unipi.bioconnect.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
+import org.springframework.transaction.annotation.Transactional;
 import org.unipi.bioconnect.DTO.Graph.DrugGraphDTO;
 import org.unipi.bioconnect.model.DrugGraph;
 import org.unipi.bioconnect.repository.DrugGraphRepository;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.unipi.bioconnect.repository.GraphRepository;
+import org.unipi.bioconnect.utils.GraphUtils;
 
 @Service
 public class DrugGraphService {
 
     @Autowired
-    private DrugGraphRepository graphRepository;
+    private DrugGraphRepository drugGraphRepository;
+
+    @Autowired
+    private GraphRepository graphRepository;
 
 
     public DrugGraphDTO getDrugById(String drugID) {
-        DrugGraph drugGraph = graphRepository.findByDrugId(drugID);
+        DrugGraph drugGraph = drugGraphRepository.findByDrugId(drugID);
 
         if (drugGraph == null)
             throw new IllegalArgumentException("Drug with ID " + drugID + " does not exist");
@@ -29,38 +30,34 @@ public class DrugGraphService {
     }
 
 
-    // TODO sposta in helper
-    public Set<BaseNodeDTO> getRelationshipsUpdated(Set<BaseNodeDTO> relationships) {
-
-        List<String> interactionIds = relationships.stream()
-                .map(BaseNodeDTO::getId).toList();
-
-        Set<BaseNodeDTO> updated = new HashSet<>(graphRepository.findEntityNamesByIds(interactionIds));
-
-        if (relationships.size() != updated.size())
-            throw new IllegalArgumentException("Some relationships refers to not existing ids");
-
-        return updated;
-
-    }
-
     public void updateDrugGraphDTO(DrugGraphDTO drugGraphDTO) {
-        drugGraphDTO.setInhibit(getRelationshipsUpdated(drugGraphDTO.getInhibit()));
-        drugGraphDTO.setEnhance(getRelationshipsUpdated(drugGraphDTO.getEnhance()));
+        drugGraphDTO.setInhibit(GraphUtils.getRelationshipsUpdated(drugGraphDTO.getInhibit(), graphRepository));
+        drugGraphDTO.setEnhance(GraphUtils.getRelationshipsUpdated(drugGraphDTO.getEnhance(), graphRepository));
     }
 
     public void saveProteinHelper(DrugGraphDTO drugGraphDTO) {
         updateDrugGraphDTO(drugGraphDTO);
         DrugGraph drugGraph = new DrugGraph(drugGraphDTO);
-        graphRepository.save(drugGraph);
+        drugGraphRepository.save(drugGraph);
     }
 
 
     public void saveDrugGraph(DrugGraphDTO drugGraphDTO) {
 
-        if (graphRepository.existsById(drugGraphDTO.getId()))
+        if (drugGraphRepository.existsById(drugGraphDTO.getId()))
             throw new RuntimeException("protein already exists");
 
+        saveProteinHelper(drugGraphDTO);
+
+    }
+
+    @Transactional
+    public void updateDrugById(DrugGraphDTO drugGraphDTO) {
+
+        if (!drugGraphRepository.existsById(drugGraphDTO.getId()))
+            throw new RuntimeException("Drug does not exists");
+
+        drugGraphRepository.removeAllRelationships(drugGraphDTO.getId());
         saveProteinHelper(drugGraphDTO);
 
     }
