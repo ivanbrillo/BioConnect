@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.unipi.bioconnect.DTO.DrugDTO;
+import org.unipi.bioconnect.DTO.Doc.DrugDocDTO;
 import org.unipi.bioconnect.DTO.Doc.PatentStateAnalysisDTO;
 import org.unipi.bioconnect.DTO.Doc.TrendAnalysisDTO;
 import org.unipi.bioconnect.service.DrugDocService;
@@ -23,14 +23,14 @@ public class DrugDocController {
     private DrugDocService drugDocService;
 
     @GetMapping("/searchDrug/{searchedText}")
-    @Operation(summary = "Search for a drug by name or category")
-    public List<DrugDTO> searchDrug(@PathVariable String searchedText) {
+    @Operation(summary = "Search for a drug by id or name")
+    public List<DrugDocDTO> searchDrug(@PathVariable String searchedText) {
         return drugDocService.searchDrugDoc(searchedText);
     }
 
     @GetMapping("/trend-analysis/{category}")
     @Operation(summary = "Get trend analysis for a drug category")
-    public List<TrendAnalysisDTO> getTrendAnalysisForPathway(@PathVariable String category) {
+    public List<TrendAnalysisDTO> getTrendAnalysisForCategory(@PathVariable String category) {
         return drugDocService.getTrendAnalysisForCategory(category);
     }
 

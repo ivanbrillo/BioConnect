@@ -2,6 +2,7 @@ package org.unipi.bioconnect.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.unipi.bioconnect.DTO.Doc.DrugDocDTO;
 import org.unipi.bioconnect.DTO.DrugDTO;
 import org.unipi.bioconnect.DTO.Doc.PatentStateAnalysisDTO;
 import org.unipi.bioconnect.DTO.Doc.TrendAnalysisDTO;
@@ -19,7 +20,7 @@ public class DrugDocService {
     @Autowired
     private DrugDocDAO docDAO;
 
-    public List<DrugDTO> searchDrugDoc(String searchedText) {
+    public List<DrugDocDTO> searchDrugDoc(String searchedText) {
         return docRepository.findByIdOrNameContainingIgnoreCase(searchedText);
     }
 

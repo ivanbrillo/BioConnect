@@ -1,7 +1,5 @@
 
 # TODO Daniel
-- [ ] Aggiungere \@ApiResponses ovunque
-- [ ] Aggiungere \@Schema ovunque
 - [x] Risolto problema interazioni, adesso le proteine che interagiscono devono esistere
 - [ ] Per risolvere il fatto di mettere solo id nelle interazioni e id/name obbligatori nella creazione, gli unici suggerimenti che ho avuto sono quelli di creare due DTO separati o con un validatore personalizzato, ma non mi convincono entrambi, quindi da fare proprio se obbligatorio, altrimenti mettiamo sempre a mano id e name anche nelle interazioni
   - [ ] Relativo al problema sopra, bug quando inseriamo un'interazione con id esistente ma con nome diverso. Effettua correttamente il collegamento con quell'id, ma il nome quindi risulta superfluo
@@ -12,3 +10,10 @@
 - [ ] Nelle interaction usiamo ProteinGraph, ma nelle interazioni possiamo avere anche altre entità (usiamo campi DrugEnhance ecc)
 - [ ] Integrare token JWT per migliorare l'autenticazione
 - DUBBIO: avere classi diverse per utenti o User generico con controlli a livello applicativo (vedi User.java)
+- in {{localhost}}/api/proteinDoc/searchProtein/A0A087X1C5 da liste vuote di "proteinInteractions": [], "proteinSimilarities": [], si dovrebbe cambiare il DTO
+
+## Documentazione Swagger
+- In Operation aggiungere description e responses
+- aggiungere @Parameter per l'endpoint
+- Esempi di input e output con @Schema sia nelle funzioni che nei DTO
+- 
