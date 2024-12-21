@@ -1,14 +1,13 @@
 package org.unipi.bioconnect.repository;
 
-import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.data.repository.query.Param;
 import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
-import org.unipi.bioconnect.model.ProteinGraph;
+import org.unipi.bioconnect.model.GraphModel;
 
 import java.util.List;
 
-public interface GraphRepository extends Neo4jRepository<ProteinGraph, String> {
+public interface GraphHelperRepository extends GraphEntityRepository<GraphModel> {
 
     @Query("""
                 MATCH (n)
@@ -17,6 +16,5 @@ public interface GraphRepository extends Neo4jRepository<ProteinGraph, String> {
                 RETURN n.id AS id, n.name AS name
             """)
     List<BaseNodeDTO> findEntityNamesByIds(@Param("ids") List<String> ids);
-
 
 }

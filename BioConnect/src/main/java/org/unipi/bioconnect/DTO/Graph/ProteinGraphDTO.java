@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.unipi.bioconnect.model.DiseaseGraph;
 import org.unipi.bioconnect.model.DrugGraph;
+import org.unipi.bioconnect.model.GraphModel;
 import org.unipi.bioconnect.model.ProteinGraph;
 
 import java.util.HashSet;
@@ -34,29 +35,48 @@ public class ProteinGraphDTO extends BaseNodeDTO {
 
     public ProteinGraphDTO(ProteinGraph proteinGraph) {
 
-        id = proteinGraph.getUniProtID();
+        id = proteinGraph.getId();
         name = proteinGraph.getName();
 
         for (ProteinGraph p : proteinGraph.getInteracts())
-            proteinInteractions.add(new BaseNodeDTO(p.getUniProtID(), p.getName()));
+            proteinInteractions.add(new BaseNodeDTO(p.getId(), p.getName()));
 
         for (ProteinGraph p : proteinGraph.getInteracts2())
-            proteinInteractions.add(new BaseNodeDTO(p.getUniProtID(), p.getName()));
+            proteinInteractions.add(new BaseNodeDTO(p.getId(), p.getName()));
 
         for (ProteinGraph p : proteinGraph.getSimilar())
-            proteinSimilarities.add(new BaseNodeDTO(p.getUniProtID(), p.getName()));
+            proteinSimilarities.add(new BaseNodeDTO(p.getId(), p.getName()));
 
         for (ProteinGraph p : proteinGraph.getSimilar2())
-            proteinSimilarities.add(new BaseNodeDTO(p.getUniProtID(), p.getName()));
+            proteinSimilarities.add(new BaseNodeDTO(p.getId(), p.getName()));
 
         for (DrugGraph d : proteinGraph.getInhibitedBy())
-            drugInhibitBy.add(new BaseNodeDTO(d.getDrugID(), d.getName()));
+            drugInhibitBy.add(new BaseNodeDTO(d.getId(), d.getName()));
 
         for (DrugGraph d : proteinGraph.getEnhancedBy())
-            drugEnhancedBy.add(new BaseNodeDTO(d.getDrugID(), d.getName()));
+            drugEnhancedBy.add(new BaseNodeDTO(d.getId(), d.getName()));
 
         for (DiseaseGraph d : proteinGraph.getInvolved())
-            diseaseInvolvedIn.add(new BaseNodeDTO(d.getDiseaseID(), d.getName()));
+            diseaseInvolvedIn.add(new BaseNodeDTO(d.getId(), d.getName()));
 
+    }
+
+    public String getNodeType() {
+        return "Protein";
+    }
+
+    public Set<BaseNodeDTO> getNodeRelationships() {
+        Set<BaseNodeDTO> set = new HashSet<>();
+        set.addAll(proteinInteractions);
+        set.addAll(proteinSimilarities);
+        set.addAll(drugInhibitBy);
+        set.addAll(drugEnhancedBy);
+        set.addAll(diseaseInvolvedIn);
+
+        return set;
+    }
+
+    public GraphModel getGraphModel() {
+        return new ProteinGraph(this);
     }
 }

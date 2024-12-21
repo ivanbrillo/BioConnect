@@ -1,21 +1,38 @@
 package org.unipi.bioconnect.DTO.Graph;
 
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import jakarta.validation.Valid;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.unipi.bioconnect.model.DiseaseGraph;
 
-@Data
-public class DiseaseGraphDTO {
+import java.util.HashSet;
+import java.util.Set;
 
-    @NotNull(message = "diseaseID is required")
-    private String diseaseID;
+@Getter
+@Setter
+@NoArgsConstructor
+public class DiseaseGraphDTO extends BaseNodeDTO<DiseaseGraph> {
 
-    @NotNull(message = "Name is required")
-    private String name;
+    @Valid
+    private Set<BaseNodeDTO<DiseaseGraph>> involve = new HashSet<>();
+
 
     public DiseaseGraphDTO(DiseaseGraph diseaseGraph) {
-        diseaseID = diseaseGraph.getDiseaseID();
+        id = diseaseGraph.getId();
         name = diseaseGraph.getName();
+    }
+
+    public String getNodeType() {
+        return "Disease";
+    }
+
+    public Set<BaseNodeDTO<DiseaseGraph>> getNodeRelationships() {
+        return new HashSet<>(involve);
+    }
+
+    public DiseaseGraph getGraphModel() {
+        return new DiseaseGraph(this);
     }
 
 }

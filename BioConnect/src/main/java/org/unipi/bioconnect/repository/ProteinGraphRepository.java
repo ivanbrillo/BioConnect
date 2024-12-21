@@ -3,13 +3,12 @@ package org.unipi.bioconnect.repository;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.data.repository.query.Param;
-import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
+import org.unipi.bioconnect.model.DrugGraph;
 import org.unipi.bioconnect.model.ProteinGraph;
 
 import java.util.List;
-import java.util.Map;
 
-public interface ProteinGraphRepository extends Neo4jRepository<ProteinGraph, String> {
+public interface ProteinGraphRepository extends GraphEntityRepository<DrugGraph> {
 
 
     @Query("MATCH (p:Protein) WHERE p.id = $uniProtID \n" +
@@ -19,7 +18,7 @@ public interface ProteinGraphRepository extends Neo4jRepository<ProteinGraph, St
             "OPTIONAL MATCH (p)-[r4:INHIBITED_BY]->(drug:Drug) \n" +
             "OPTIONAL MATCH (p)-[r5:ENHANCED_BY]->(drug2:Drug) \n" +
             "RETURN p,collect(r), collect(related), collect(r2), collect(similar), collect(r3), collect(d), collect(r4), collect(drug), collect(r5), collect(drug2)")
-    ProteinGraph findByUniProtID(@Param("uniProtID") String uniProtID);
+    ProteinGraph findByEntityId(@Param("uniProtID") String uniProtID);
 
 
     @Query("MATCH (p:Protein {id: $proteinId})-[r]-() DELETE r")

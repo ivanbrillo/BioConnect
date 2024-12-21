@@ -4,7 +4,9 @@ import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.unipi.bioconnect.model.DiseaseGraph;
 import org.unipi.bioconnect.model.DrugGraph;
+import org.unipi.bioconnect.model.GraphModel;
 import org.unipi.bioconnect.model.ProteinGraph;
 
 import java.util.HashSet;
@@ -23,14 +25,32 @@ public class DrugGraphDTO extends BaseNodeDTO {
 
 
     public DrugGraphDTO(DrugGraph drugGraph) {
-        id = drugGraph.getDrugID();
+        id = drugGraph.getId();
         name = drugGraph.getName();
 
         for (ProteinGraph d : drugGraph.getEnhance())
-            enhance.add(new BaseNodeDTO(d.getUniProtID(), d.getName()));
+            enhance.add(new BaseNodeDTO(d.getId(), d.getName()));
 
         for (ProteinGraph d : drugGraph.getInhibit())
-            inhibit.add(new BaseNodeDTO(d.getUniProtID(), d.getName()));
+            inhibit.add(new BaseNodeDTO(d.getId(), d.getName()));
 
     }
+
+    public String getNodeType() {
+        return "Drug";
+    }
+
+    public Set<BaseNodeDTO> getNodeRelationships() {
+        Set<BaseNodeDTO> set = new HashSet<>();
+        set.addAll(enhance);
+        set.addAll(inhibit);
+
+        return set;
+    }
+
+    public GraphModel getGraphModel() {
+        return new DrugGraph(this);
+    }
+
+
 }

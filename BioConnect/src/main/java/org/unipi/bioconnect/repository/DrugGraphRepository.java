@@ -6,13 +6,13 @@ import org.springframework.data.repository.query.Param;
 import org.unipi.bioconnect.model.DrugGraph;
 
 
-public interface DrugGraphRepository extends Neo4jRepository<DrugGraph, String> {
+public interface DrugGraphRepository extends GraphEntityRepository<DrugGraph>{
 
     @Query("MATCH (d: Drug) WHERE d.id = $drugID \n" +
             "OPTIONAL MATCH (d)<-[r1:INHIBITED_BY]-(prot1:Protein) \n" +
             "OPTIONAL MATCH (d)<-[r2:ENHANCED_BY]-(prot2:Protein) \n" +
             "RETURN d, collect(r1), collect(prot1), collect(r2), collect(prot2)")
-    DrugGraph findByDrugId(@Param("drugID") String drugID);
+    DrugGraph findByEntityId(@Param("drugID") String drugID);
 
     @Query("MATCH (d: Drug {id: $drugID})-[r]-() DELETE r")
     void removeAllRelationships(@Param("drugID") String drugID);

@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.schema.Relationship;
 import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
+import org.unipi.bioconnect.DTO.Graph.DrugGraphDTO;
 import org.unipi.bioconnect.DTO.Graph.ProteinGraphDTO;
 
 import java.util.ArrayList;
@@ -18,14 +19,7 @@ import java.util.List;
 @Data
 @Node("Protein")
 @NoArgsConstructor
-public class ProteinGraph {
-
-    @Id
-    @Property("id")
-    private String uniProtID;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String name;
+public class ProteinGraph extends GraphModel {
 
     @Relationship(type = "INTERACTS_WITH")
     @JsonIgnoreProperties({"interacts", "interacts2", "similar", "similar2", "involved", "inhibitedBy", "enhancedBy"})
@@ -57,7 +51,7 @@ public class ProteinGraph {
 
 
     public ProteinGraph(ProteinGraphDTO proteinGraphDTO) {
-        uniProtID = proteinGraphDTO.getId();
+        id = proteinGraphDTO.getId();
         name = proteinGraphDTO.getName();
 
         for (BaseNodeDTO interaction : proteinGraphDTO.getProteinInteractions())
@@ -78,8 +72,12 @@ public class ProteinGraph {
     }
 
     public ProteinGraph(String uniProtID, String name) {
-        this.uniProtID = uniProtID;
+        this.id = uniProtID;
         this.name = name;
+    }
+
+    public BaseNodeDTO getDTO() {
+        return new ProteinGraphDTO(this);
     }
 
 }
