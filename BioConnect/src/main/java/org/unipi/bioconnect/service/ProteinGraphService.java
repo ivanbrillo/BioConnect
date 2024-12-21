@@ -40,7 +40,7 @@ public class ProteinGraphService {
     public void saveProteinGraph(ProteinGraphDTO proteinGraphDTO) {
 
         if (proteinGraphRepository.existsById(proteinGraphDTO.getId()))
-            throw new RuntimeException("protein already exists");
+            throw new RuntimeException("Protein with ID " + proteinGraphDTO.getId() + " already exist");
 
         saveProteinHelper(proteinGraphDTO);
 
@@ -59,7 +59,7 @@ public class ProteinGraphService {
     public void deleteProteinById(String uniProtID) {
 
         if (!proteinGraphRepository.existsById(uniProtID))
-            throw new RuntimeException("protein does not exists");
+            throw new RuntimeException("Protein with ID " + uniProtID + " does not exist");
 
         proteinGraphRepository.deleteById(uniProtID);
     }
@@ -69,7 +69,7 @@ public class ProteinGraphService {
     public void updateProteinById(ProteinGraphDTO proteinGraphDTO) {
 
         if (!proteinGraphRepository.existsById(proteinGraphDTO.getId()))
-            throw new RuntimeException("protein does not exists");
+            throw new RuntimeException("Protein with ID " + proteinGraphDTO.getId() + " does not exist");
 
         proteinGraphRepository.removeAllRelationships(proteinGraphDTO.getId());
         saveProteinHelper(proteinGraphDTO);

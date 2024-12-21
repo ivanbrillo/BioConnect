@@ -18,7 +18,7 @@ public class DrugController {
     @PostMapping("/add")
     @Operation(summary = "Add a drug to Neo4j and MongoDB databases")
     @Transactional
-    public DrugDTO saveProteinGraph(@RequestBody @Valid DrugDTO drugDTO) {
+    public DrugDTO saveDrugGraph(@RequestBody @Valid DrugDTO drugDTO) {
 
         drugGraphService.saveDrugGraph(drugDTO.getGraph());
 
@@ -32,21 +32,22 @@ public class DrugController {
     @PutMapping("/update")
     @Operation(summary = "Update a drug in the Neo4j and MongoDB databases")
     @Transactional
-    public String updateProteinById(@RequestBody @Valid DrugDTO drugDTO) {
+    public String updateDrugById(@RequestBody @Valid DrugDTO drugDTO) {
         drugGraphService.updateDrugById(drugDTO.getGraph());
 
         //TODO add document update
         return "Drug " + drugDTO.getDocument().getId() + " updated";
     }
-//
-//    @DeleteMapping("/delete/{drugID}")
-//    @Operation(summary = "Delete a drug in the Neo4j and MongoDB databases by its drug ID")
-//    @Transactional
-//    public String deleteProteinById(@PathVariable String drugID) {
-//        drugGraphService.deleteProteinById(drugID);
-//
-//        //TODO add document delete
-//        return "Drug " + drugID + " deleted";
-//    }
+
+
+    @DeleteMapping("/delete/{drugID}")
+    @Operation(summary = "Delete a drug in the Neo4j and MongoDB databases by its drug ID")
+    @Transactional
+    public String deleteDrugById(@PathVariable String drugID) {
+        drugGraphService.deleteDrugById(drugID);
+
+        //TODO add document delete
+        return "Drug " + drugID + " deleted";
+    }
 
 }

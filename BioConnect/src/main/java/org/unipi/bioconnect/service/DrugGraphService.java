@@ -29,6 +29,14 @@ public class DrugGraphService {
         return new DrugGraphDTO(drugGraph);
     }
 
+    public void deleteDrugById(String drugID) {
+
+        if (!drugGraphRepository.existsById(drugID))
+            throw new RuntimeException("Drug with ID " + drugID + " does not exist");
+
+        drugGraphRepository.deleteById(drugID);
+    }
+
 
     public void updateDrugGraphDTO(DrugGraphDTO drugGraphDTO) {
         drugGraphDTO.setInhibit(GraphUtils.getRelationshipsUpdated(drugGraphDTO.getInhibit(), graphRepository));
@@ -45,7 +53,7 @@ public class DrugGraphService {
     public void saveDrugGraph(DrugGraphDTO drugGraphDTO) {
 
         if (drugGraphRepository.existsById(drugGraphDTO.getId()))
-            throw new RuntimeException("protein already exists");
+            throw new RuntimeException("Drug with ID " + drugGraphDTO.getId() + " already exist");
 
         saveProteinHelper(drugGraphDTO);
 
@@ -55,7 +63,7 @@ public class DrugGraphService {
     public void updateDrugById(DrugGraphDTO drugGraphDTO) {
 
         if (!drugGraphRepository.existsById(drugGraphDTO.getId()))
-            throw new RuntimeException("Drug does not exists");
+            throw new RuntimeException("Drug with ID " + drugGraphDTO.getId() + " does not exist");
 
         drugGraphRepository.removeAllRelationships(drugGraphDTO.getId());
         saveProteinHelper(drugGraphDTO);
