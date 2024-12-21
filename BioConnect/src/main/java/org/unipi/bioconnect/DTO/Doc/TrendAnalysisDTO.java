@@ -1,4 +1,4 @@
-package org.unipi.bioconnect.DTO;
+package org.unipi.bioconnect.DTO.Doc;
 
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Field;

@@ -3,8 +3,8 @@ package org.unipi.bioconnect.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.unipi.bioconnect.DTO.BaseNodeDTO;
-import org.unipi.bioconnect.DTO.ProteinGraphDTO;
+import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
+import org.unipi.bioconnect.DTO.Graph.ProteinGraphDTO;
 import org.unipi.bioconnect.model.ProteinGraph;
 import org.unipi.bioconnect.repository.ProteinGraphRepository;
 
@@ -59,7 +59,6 @@ public class ProteinGraphService {
     }
 
 
-    // Ottieni proteina e relazioni tramite uniprotID
     public ProteinGraphDTO getProteinById(String uniProtID) {
         ProteinGraph proteinGraph = graphRepository.findByUniProtID(uniProtID);
 
@@ -69,7 +68,6 @@ public class ProteinGraphService {
         return new ProteinGraphDTO(proteinGraph);
     }
 
-    // cancellare proteina tramite id
     public void deleteProteinById(String uniProtID) {
 
         if (!graphRepository.existsById(uniProtID))

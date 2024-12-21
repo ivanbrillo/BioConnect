@@ -4,10 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.ProteinDTO;
-import org.unipi.bioconnect.DTO.ProteinGraphDTO;
 import org.unipi.bioconnect.service.ProteinDocService;
 import org.unipi.bioconnect.service.ProteinGraphService;
 
@@ -34,7 +32,7 @@ public class ProteinController {
     }
 
     @PutMapping("/updateProtein")
-    @Operation(summary = "Update a protein in the Neo4j and MongoDB databases by its UniProt ID")
+    @Operation(summary = "Update a protein in the Neo4j and MongoDB databases")
     @Transactional
     public String updateProteinById(@RequestBody @Valid ProteinDTO proteinDTO) {
         proteinGraphService.updateProteinById(proteinDTO.getGraph());

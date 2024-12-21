@@ -6,9 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.unipi.bioconnect.DTO.PathwayRecurrenceDTO;
-import org.unipi.bioconnect.DTO.ProteinDocDTO;
-import org.unipi.bioconnect.DTO.TrendAnalysisDTO;
+import org.unipi.bioconnect.DTO.Doc.PathwayRecurrenceDTO;
+import org.unipi.bioconnect.DTO.Doc.ProteinDocDTO;
+import org.unipi.bioconnect.DTO.Doc.TrendAnalysisDTO;
 import org.unipi.bioconnect.service.ProteinDocService;
 
 import java.util.List;

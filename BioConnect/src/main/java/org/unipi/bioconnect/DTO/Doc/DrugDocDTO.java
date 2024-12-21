@@ -1,23 +1,22 @@
-package org.unipi.bioconnect.model;
+package org.unipi.bioconnect.DTO.Doc;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.unipi.bioconnect.DTO.Doc.PatentDTO;
-import org.unipi.bioconnect.DTO.Doc.PublicationDTO;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
 @Data
-@Document(collection = "Drug")
 @NoArgsConstructor
-public class DrugDoc {
+public class DrugDocDTO {
 
-    @Id
+    @Field("_id")
+    @NotNull(message = "drugBankID is required")
     @Schema(description = "Unique identifier for the drug in DrugBank", example = "DB00001")
-    private String drugBankID;
+    private String id;
 
     @Schema(description = "Name of the drug", example = "Lepirudin")
     private String name;
@@ -29,6 +28,7 @@ public class DrugDoc {
     private List<String> categories;
 
     @Schema(description = "List of publications related to the drug")
+    @Valid
     private List<PublicationDTO> publications;
 
     @Schema(description = "Toxicity information of the drug")
@@ -38,7 +38,7 @@ public class DrugDoc {
     private String description;
 
     @Schema(description = "List of patents related to the drug")
+    @Valid
     private List<PatentDTO> patents;
-
 
 }

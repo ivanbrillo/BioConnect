@@ -3,9 +3,9 @@ package org.unipi.bioconnect.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.unipi.bioconnect.DTO.PathwayRecurrenceDTO;
-import org.unipi.bioconnect.DTO.ProteinDocDTO;
-import org.unipi.bioconnect.DTO.TrendAnalysisDTO;
+import org.unipi.bioconnect.DTO.Doc.PathwayRecurrenceDTO;
+import org.unipi.bioconnect.DTO.Doc.ProteinDocDTO;
+import org.unipi.bioconnect.DTO.Doc.TrendAnalysisDTO;
 import org.unipi.bioconnect.model.ProteinDoc;
 import org.unipi.bioconnect.repository.ProteinDocDAO;
 import org.unipi.bioconnect.repository.ProteinDocRepository;

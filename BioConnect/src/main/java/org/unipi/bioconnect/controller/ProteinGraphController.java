@@ -3,11 +3,8 @@ package org.unipi.bioconnect.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.unipi.bioconnect.DTO.ProteinDTO;
-import org.unipi.bioconnect.DTO.ProteinDocDTO;
-import org.unipi.bioconnect.DTO.ProteinGraphDTO;
+import org.unipi.bioconnect.DTO.Graph.ProteinGraphDTO;
 import org.unipi.bioconnect.model.ProteinGraph;
 import org.unipi.bioconnect.service.ProteinGraphService;
 

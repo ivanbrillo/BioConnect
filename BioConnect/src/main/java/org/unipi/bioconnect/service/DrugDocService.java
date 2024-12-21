@@ -3,8 +3,8 @@ package org.unipi.bioconnect.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.unipi.bioconnect.DTO.DrugDTO;
-import org.unipi.bioconnect.DTO.PatentStateAnalysisDTO;
-import org.unipi.bioconnect.DTO.TrendAnalysisDTO;
+import org.unipi.bioconnect.DTO.Doc.PatentStateAnalysisDTO;
+import org.unipi.bioconnect.DTO.Doc.TrendAnalysisDTO;
 import org.unipi.bioconnect.repository.DrugDocDAO;
 import org.unipi.bioconnect.repository.DrugDocRepository;
 

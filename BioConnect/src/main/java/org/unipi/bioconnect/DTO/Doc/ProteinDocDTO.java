@@ -1,4 +1,4 @@
-package org.unipi.bioconnect.DTO;
+package org.unipi.bioconnect.DTO.Doc;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;

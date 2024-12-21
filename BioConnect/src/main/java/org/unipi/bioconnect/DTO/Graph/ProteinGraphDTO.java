@@ -1,4 +1,4 @@
-package org.unipi.bioconnect.DTO;
+package org.unipi.bioconnect.DTO.Graph;
 
 import jakarta.validation.Valid;
 import lombok.Getter;
@@ -8,15 +8,13 @@ import org.unipi.bioconnect.model.DiseaseGraph;
 import org.unipi.bioconnect.model.DrugGraph;
 import org.unipi.bioconnect.model.ProteinGraph;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProteinGraphDTO extends BaseNodeDTO{
+public class ProteinGraphDTO extends BaseNodeDTO {
 
     @Valid
     private Set<BaseNodeDTO> proteinInteractions = new HashSet<>();
@@ -32,7 +30,6 @@ public class ProteinGraphDTO extends BaseNodeDTO{
 
     @Valid
     private Set<BaseNodeDTO> diseaseInvolvedIn = new HashSet<>();
-
 
 
     public ProteinGraphDTO(ProteinGraph proteinGraph) {
@@ -62,6 +59,4 @@ public class ProteinGraphDTO extends BaseNodeDTO{
             diseaseInvolvedIn.add(new BaseNodeDTO(d.getDiseaseID(), d.getName()));
 
     }
-
-
 }

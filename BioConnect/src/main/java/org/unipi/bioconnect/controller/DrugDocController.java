@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.unipi.bioconnect.DTO.DrugDTO;
-import org.unipi.bioconnect.DTO.PatentStateAnalysisDTO;
-import org.unipi.bioconnect.DTO.TrendAnalysisDTO;
+import org.unipi.bioconnect.DTO.Doc.PatentStateAnalysisDTO;
+import org.unipi.bioconnect.DTO.Doc.TrendAnalysisDTO;
 import org.unipi.bioconnect.service.DrugDocService;
 
 import java.util.List;

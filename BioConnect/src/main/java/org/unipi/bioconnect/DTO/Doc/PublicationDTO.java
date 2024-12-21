@@ -1,4 +1,4 @@
-package org.unipi.bioconnect.DTO;
+package org.unipi.bioconnect.DTO.Doc;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;

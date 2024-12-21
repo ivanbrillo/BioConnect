@@ -1,4 +1,4 @@
-package org.unipi.bioconnect.DTO;
+package org.unipi.bioconnect.DTO.Graph;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

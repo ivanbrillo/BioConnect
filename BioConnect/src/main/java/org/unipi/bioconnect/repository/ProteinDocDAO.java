@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
-import org.unipi.bioconnect.DTO.PathwayRecurrenceDTO;
-import org.unipi.bioconnect.DTO.ProteinDocDTO;
-import org.unipi.bioconnect.DTO.TrendAnalysisDTO;
+import org.unipi.bioconnect.DTO.Doc.PathwayRecurrenceDTO;
+import org.unipi.bioconnect.DTO.Doc.ProteinDocDTO;
+import org.unipi.bioconnect.DTO.Doc.TrendAnalysisDTO;
 
 import java.util.List;
 

@@ -8,8 +8,8 @@ import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.schema.Relationship;
-import org.unipi.bioconnect.DTO.BaseNodeDTO;
-import org.unipi.bioconnect.DTO.ProteinGraphDTO;
+import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
+import org.unipi.bioconnect.DTO.Graph.ProteinGraphDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,6 @@ import java.util.List;
 @Data
 @Node("Protein")
 @NoArgsConstructor
-//@AllArgsConstructor
 public class ProteinGraph {
 
     @Id
@@ -49,11 +48,11 @@ public class ProteinGraph {
     List<DiseaseGraph> involved = new ArrayList<>();
 
     @Relationship(type = "INHIBITED_BY")
-    @JsonIgnoreProperties("inhibitedBy")
+    @JsonIgnoreProperties("inhibit")
     List<DrugGraph> inhibitedBy = new ArrayList<>();
 
     @Relationship(type = "ENHANCED_BY")
-    @JsonIgnoreProperties("enhancedBy")
+    @JsonIgnoreProperties("enhance")
     List<DrugGraph> enhancedBy = new ArrayList<>();
 
 
