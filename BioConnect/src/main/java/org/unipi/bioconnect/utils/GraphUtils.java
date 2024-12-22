@@ -1,31 +1,36 @@
 package org.unipi.bioconnect.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.neo4j.repository.Neo4jRepository;
-import org.springframework.stereotype.Component;
 import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
-import org.unipi.bioconnect.repository.DrugDocRepository;
-import org.unipi.bioconnect.repository.GraphRepository;
+import org.unipi.bioconnect.repository.GraphHelperRepository;
 
-import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class GraphUtils {
 
-    public static Set<BaseNodeDTO> getRelationshipsUpdated(Set<BaseNodeDTO> relationships, GraphRepository graphRepository) {
+    public static void updateRelationships(Set<BaseNodeDTO> relationships, GraphHelperRepository graphHelperRepository) {
 
         List<String> interactionIds = relationships.stream()
-                .map(BaseNodeDTO::getId).toList();
+                .map(BaseNodeDTO::getId)
+                .toList();
 
-        Set<BaseNodeDTO> updated = new HashSet<>(graphRepository.findEntityNamesByIds(interactionIds));
+        Map<String, String> idToNameMap = graphHelperRepository.findEntityNamesByIds(interactionIds)
+                .stream()
+                .collect(Collectors.toMap(
+                        BaseNodeDTO::getId,
+                        BaseNodeDTO::getName,
+                        (existingValue, newValue) -> existingValue   // keep existing value if duplicates
+                ));
 
-        if (relationships.size() != updated.size())
-            throw new IllegalArgumentException("Some relationships refers to not existing ids");
+        if (interactionIds.size() != idToNameMap.size()) {
+            throw new IllegalArgumentException("Some relationships refer to non-existing ids");
+        }
 
-        return updated;
-
+        relationships.forEach(relationship ->
+                relationship.setName(idToNameMap.get(relationship.getId()))
+        );
     }
 
 }
