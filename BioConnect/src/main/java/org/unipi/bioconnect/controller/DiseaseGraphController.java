@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
 import org.unipi.bioconnect.DTO.Graph.DiseaseGraphDTO;
-import org.unipi.bioconnect.DTO.Graph.ShortestPathDTO;
 import org.unipi.bioconnect.service.DiseaseGraphService;
 
 import java.util.List;
@@ -36,7 +35,6 @@ public class DiseaseGraphController {
         return "Disease " + diseaseGraphDTO.getId() + " updated";
     }
 
-
     @DeleteMapping("/delete/{diseaseID}")
     @Operation(summary = "Delete a disease in the Neo4j database by its disease ID")
     @Transactional
@@ -60,7 +58,7 @@ public class DiseaseGraphController {
 
     @GetMapping("/shortestPath/{disease1Id}/{disease2Id}")
     @Operation(summary = "Get the shortest path between two diseases")
-    public ShortestPathDTO getShortestPathBetweenDiseases(@PathVariable String disease1Id, @PathVariable String disease2Id) {
+    public List<BaseNodeDTO> getShortestPathBetweenDiseases(@PathVariable String disease1Id, @PathVariable String disease2Id) {
         return diseaseGraphService.getShortestPathBetweenDiseases(disease1Id, disease2Id);
     }
 

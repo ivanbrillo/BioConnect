@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
 import org.unipi.bioconnect.DTO.Graph.DiseaseGraphDTO;
-import org.unipi.bioconnect.DTO.Graph.ShortestPathDTO;
 import org.unipi.bioconnect.repository.DiseaseGraphRepository;
 
 import java.util.List;
@@ -40,10 +39,7 @@ public class DiseaseGraphService {
         return diseaseGraphRepository.getDiseaseByDrug(drugId);
     }
 
-    public ShortestPathDTO getShortestPathBetweenDiseases(String disease1Id, String disease2Id) {
-        // Assumendo che la query sia configurata correttamente nel repository
-        return diseaseGraphRepository.findShortestPathBetweenDiseases(disease1Id, disease2Id).stream()
-                .findFirst()
-                .orElse(null);  // Ritorna null se non ci sono risultati
+    public List<BaseNodeDTO> getShortestPathBetweenDiseases(String disease1Id, String disease2Id) {
+        return diseaseGraphRepository.findShortestPathBetweenDiseases(disease1Id, disease2Id);
     }
 }

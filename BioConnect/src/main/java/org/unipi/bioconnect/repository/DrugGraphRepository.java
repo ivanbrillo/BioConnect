@@ -9,7 +9,6 @@ import org.unipi.bioconnect.model.DrugGraph;
 import org.unipi.bioconnect.model.GraphModel;
 
 import java.util.List;
-import java.util.Map;
 
 
 public interface DrugGraphRepository extends Neo4jRepository<DrugGraph, String>, GraphEntityRepository {
@@ -48,12 +47,14 @@ public interface DrugGraphRepository extends Neo4jRepository<DrugGraph, String>,
 
     //4. Query - Drug opposite effects on protein
     @Query("""
-        MATCH (d_inhibit:Drug)<-[:INHIBITED_BY]-(p:Protein)-[:ENHANCED_BY]->(d_enhance:Drug)
-        WHERE p.id = $proteinId
-        RETURN d_inhibit.id as id1, d_inhibit.name as name1, 'Inhibite' as effect1, d_enhance.id as id2, d_enhance.name as name2, 'Enhance' as effect2
-        """)
-    List<OppositeEffectDrugsDTO> getDrugOppositeEffectsProtein(@Param("proteinId") String proteinId);
-
-
+            MATCH (d:Drug {id: $drugId})
+            OPTIONAL MATCH (d)<-[:INHIBITED_BY]-(p1:Protein)-[:ENHANCED_BY]->(d2:Drug)
+            RETURN {id: d2.id, name: d2.name} as drug, {id: p1.id, name: p1.name} as protein, 'enhancer' as effect
+            UNION
+            MATCH (d:Drug {id: $drugId})
+            OPTIONAL MATCH (d)<-[:ENHANCED_BY]-(p2:Protein)-[:INHIBITED_BY]->(d3:Drug)
+            RETURN {id: d3.id, name: d3.name} as drug, {id: p2.id, name: p2.name} as protein, 'inhibitor' as effect
+            """)
+    List<OppositeEffectDrugsDTO> getDrugOppositeEffectsProtein(@Param("drugId") String drugId);
 
 }
