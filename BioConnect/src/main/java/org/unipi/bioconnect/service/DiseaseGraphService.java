@@ -3,8 +3,12 @@ package org.unipi.bioconnect.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
 import org.unipi.bioconnect.DTO.Graph.DiseaseGraphDTO;
+import org.unipi.bioconnect.DTO.Graph.ShortestPathDTO;
 import org.unipi.bioconnect.repository.DiseaseGraphRepository;
+
+import java.util.List;
 
 @Service
 public class DiseaseGraphService {
@@ -31,5 +35,15 @@ public class DiseaseGraphService {
     public void updateDiseaseById(DiseaseGraphDTO diseaseGraphDTO) {
         graphServiceCRUD.updateEntity(diseaseGraphDTO, diseaseGraphRepository);
     }
-    
+
+    public List<BaseNodeDTO> getDiseaseByDrug(String drugId) {
+        return diseaseGraphRepository.getDiseaseByDrug(drugId);
+    }
+
+    public ShortestPathDTO getShortestPathBetweenDiseases(String disease1Id, String disease2Id) {
+        // Assumendo che la query sia configurata correttamente nel repository
+        return diseaseGraphRepository.findShortestPathBetweenDiseases(disease1Id, disease2Id).stream()
+                .findFirst()
+                .orElse(null);  // Ritorna null se non ci sono risultati
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
 import org.unipi.bioconnect.DTO.Graph.DrugGraphDTO;
+import org.unipi.bioconnect.DTO.Graph.OppositeEffectDrugsDTO;
 import org.unipi.bioconnect.model.DrugGraph;
 import org.unipi.bioconnect.service.DrugGraphService;
 
@@ -34,5 +35,9 @@ public class DrugGraphController {
         return drugGraphService.getDrugTargetSimilarProtein(uniProtId);
     }
 
-
+    //! funziona ma non mi convince
+    @GetMapping("/oppositeEffectsOnProtein/{proteinId}")
+    public List<OppositeEffectDrugsDTO> getDrugOppositeEffectsProtein(@PathVariable String proteinId) {
+        return drugGraphService.getDrugOppositeEffectsProtein(proteinId);
+    }
 }

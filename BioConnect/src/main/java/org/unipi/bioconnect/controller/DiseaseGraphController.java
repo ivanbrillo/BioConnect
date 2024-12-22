@@ -5,8 +5,12 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
 import org.unipi.bioconnect.DTO.Graph.DiseaseGraphDTO;
+import org.unipi.bioconnect.DTO.Graph.ShortestPathDTO;
 import org.unipi.bioconnect.service.DiseaseGraphService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/diseaseGraph")
@@ -45,6 +49,19 @@ public class DiseaseGraphController {
     @Operation(summary = "Get a disease from the Neo4j database by its disease ID")
     public DiseaseGraphDTO getDiseaseByID(@PathVariable String diseaseID) {
         return diseaseGraphService.getDiseaseById(diseaseID);
+    }
+
+    //* Advanced Operations
+    @GetMapping("/diseaseByDrug/{drugId}")
+    @Operation(summary = "Get diseases linked to a particular drug")
+    public List<BaseNodeDTO> getDiseaseByDrug(@PathVariable String drugId) {
+        return diseaseGraphService.getDiseaseByDrug(drugId);
+    }
+
+    @GetMapping("/shortestPath/{disease1Id}/{disease2Id}")
+    @Operation(summary = "Get the shortest path between two diseases")
+    public ShortestPathDTO getShortestPathBetweenDiseases(@PathVariable String disease1Id, @PathVariable String disease2Id) {
+        return diseaseGraphService.getShortestPathBetweenDiseases(disease1Id, disease2Id);
     }
 
 

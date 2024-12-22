@@ -5,13 +5,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.neo4j.cypherdsl.core.Node;
 import org.unipi.bioconnect.model.GraphModel;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class BaseNodeDTO {
 
@@ -19,6 +19,11 @@ public class BaseNodeDTO {
     protected String id;
 
     protected String name = "";
+
+    public BaseNodeDTO(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     @JsonIgnore
     public String getNodeType() {
