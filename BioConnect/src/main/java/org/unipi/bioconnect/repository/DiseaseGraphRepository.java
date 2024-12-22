@@ -11,9 +11,11 @@ import java.util.List;
 
 public interface DiseaseGraphRepository extends Neo4jRepository<DiseaseGraph, String>, GraphEntityRepository {
 
-    @Query("MATCH (d: Disease) WHERE d.id = $diseaseID \n" +
-            "OPTIONAL MATCH (d)<-[r1:INVOLVED_IN]-(prot1:Protein) \n" +
-            "RETURN d, collect(r1), collect(prot1)")
+    @Query("""
+            MATCH (d: Disease) WHERE d.id = $diseaseID
+            OPTIONAL MATCH (d)<-[r1:INVOLVED_IN]-(prot1:Protein)
+            RETURN d, collect(r1), collect(prot1)
+            """)
     DiseaseGraph getEntityById(@Param("diseaseID") String diseaseID);
 
     @Query("MATCH (d: Disease {id: $diseaseID})-[r]-() DELETE r")
@@ -44,16 +46,12 @@ public interface DiseaseGraphRepository extends Neo4jRepository<DiseaseGraph, St
 
     //2. Shortest path
     @Query("""
-                MATCH p = shortestPath((d1:Disease)-[*..4]-(d2:Disease))
+                MATCH p = SHORTEST 1 (d1:Disease)-[*..4]-(d2:Disease)
                 WHERE d1.id = $disease1Id
                   AND d2.id = $disease2Id
                   AND ALL(n IN nodes(p)[1..-1] WHERE n:Protein)
-                  AND size([n IN nodes(p) WHERE n:Protein]) > 1
-                WITH p, length(p) AS pathLength
                 RETURN
                     [node IN nodes(p) | node {id: node.id, name: node.name}]
-                ORDER BY pathLength ASC
-                LIMIT 1;
             """)
     List<BaseNodeDTO> findShortestPathBetweenDiseases(@Param("disease1Id") String disease1Id, @Param("disease2Id") String disease2Id);
 
