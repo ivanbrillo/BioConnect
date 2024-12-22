@@ -22,7 +22,7 @@ public class ProteinGraphService {
     private GraphRepository graphRepository;
 
 
-    public void updateProteinGraphDTO(ProteinGraphDTO proteinGraphDTO) {
+    private void updateProteinGraphDTO(ProteinGraphDTO proteinGraphDTO) {
         proteinGraphDTO.setProteinInteractions(GraphUtils.getRelationshipsUpdated(proteinGraphDTO.getProteinInteractions(), graphRepository));
         proteinGraphDTO.setProteinSimilarities(GraphUtils.getRelationshipsUpdated(proteinGraphDTO.getProteinSimilarities(), graphRepository));
         proteinGraphDTO.setDrugEnhancedBy(GraphUtils.getRelationshipsUpdated(proteinGraphDTO.getDrugEnhancedBy(), graphRepository));
@@ -30,7 +30,7 @@ public class ProteinGraphService {
         proteinGraphDTO.setDiseaseInvolvedIn(GraphUtils.getRelationshipsUpdated(proteinGraphDTO.getDiseaseInvolvedIn(), graphRepository));
     }
 
-    public void saveProteinHelper(ProteinGraphDTO proteinGraphDTO) {
+    private void saveProteinHelper(ProteinGraphDTO proteinGraphDTO) {
         updateProteinGraphDTO(proteinGraphDTO);
         ProteinGraph proteinGraph = new ProteinGraph(proteinGraphDTO);
         proteinGraphRepository.save(proteinGraph);

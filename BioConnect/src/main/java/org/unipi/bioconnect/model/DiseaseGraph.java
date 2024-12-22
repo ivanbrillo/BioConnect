@@ -7,6 +7,9 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.schema.Relationship;
+import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
+import org.unipi.bioconnect.DTO.Graph.DiseaseGraphDTO;
+import org.unipi.bioconnect.DTO.Graph.DrugGraphDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,15 @@ public class DiseaseGraph {
     public DiseaseGraph(String diseaseID, String name) {
         this.diseaseID = diseaseID;
         this.name = name;
+    }
+
+    public DiseaseGraph(DiseaseGraphDTO diseaseGraphDTO) {
+        diseaseID = diseaseGraphDTO.getId();
+        name = diseaseGraphDTO.getName();
+
+        for (BaseNodeDTO involve : diseaseGraphDTO.getInvolve())
+            this.involve.add(new ProteinGraph(involve.getId(), involve.getName()));
+
     }
 
 }

@@ -38,12 +38,12 @@ public class DrugGraphService {
     }
 
 
-    public void updateDrugGraphDTO(DrugGraphDTO drugGraphDTO) {
+    private void updateDrugGraphDTO(DrugGraphDTO drugGraphDTO) {
         drugGraphDTO.setInhibit(GraphUtils.getRelationshipsUpdated(drugGraphDTO.getInhibit(), graphRepository));
         drugGraphDTO.setEnhance(GraphUtils.getRelationshipsUpdated(drugGraphDTO.getEnhance(), graphRepository));
     }
 
-    public void saveProteinHelper(DrugGraphDTO drugGraphDTO) {
+    private void saveProteinHelper(DrugGraphDTO drugGraphDTO) {
         updateDrugGraphDTO(drugGraphDTO);
         DrugGraph drugGraph = new DrugGraph(drugGraphDTO);
         drugGraphRepository.save(drugGraph);
