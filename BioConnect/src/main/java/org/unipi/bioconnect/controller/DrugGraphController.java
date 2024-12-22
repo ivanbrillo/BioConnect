@@ -7,8 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
 import org.unipi.bioconnect.DTO.Graph.DrugGraphDTO;
+import org.unipi.bioconnect.model.DrugGraph;
 import org.unipi.bioconnect.service.DrugGraphService;
+
+import java.util.List;
 
 
 @RestController
@@ -24,5 +28,11 @@ public class DrugGraphController {
     public DrugGraphDTO getDrugByID(@PathVariable String drugID) {
         return drugGraphService.getDrugById(drugID);
     }
+
+    @GetMapping("/targetSimilarProtein/{uniProtId}")
+    public List<BaseNodeDTO> getDrugTargetSimilarProtein(@PathVariable String uniProtId) {
+        return drugGraphService.getDrugTargetSimilarProtein(uniProtId);
+    }
+
 
 }
