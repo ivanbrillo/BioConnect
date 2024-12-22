@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.DrugDTO;
-import org.unipi.bioconnect.service.DrugDocService;
-import org.unipi.bioconnect.service.DrugGraphService;
+import org.unipi.bioconnect.service.Graph.DrugDocService;
+import org.unipi.bioconnect.service.Graph.DrugGraphService;
 
 @RestController
 @RequestMapping("api/drug")

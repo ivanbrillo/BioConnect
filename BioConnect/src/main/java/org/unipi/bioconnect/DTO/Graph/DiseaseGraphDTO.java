@@ -4,8 +4,8 @@ import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.unipi.bioconnect.model.DiseaseGraph;
-import org.unipi.bioconnect.model.ProteinGraph;
+import org.unipi.bioconnect.model.Graph.DiseaseGraph;
+import org.unipi.bioconnect.model.Graph.ProteinGraph;
 
 import java.util.HashSet;
 import java.util.Set;

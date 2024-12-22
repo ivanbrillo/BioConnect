@@ -3,7 +3,7 @@ package org.unipi.bioconnect.DTO;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import jakarta.validation.Valid;
 import lombok.Data;
-import org.unipi.bioconnect.DTO.Doc.ProteinDocDTO;
+import org.unipi.bioconnect.DTO.Document.ProteinDocDTO;
 import org.unipi.bioconnect.DTO.Graph.ProteinGraphDTO;
 
 

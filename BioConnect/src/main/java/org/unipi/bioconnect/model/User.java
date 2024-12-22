@@ -29,7 +29,7 @@ public class User {
     private String name;
 
     @NotNull
-    @Field("username")
+    @Field("username")  //TODO i dont think its necessary
     @Indexed(unique = true)
     private String username;
 

@@ -1,7 +1,7 @@
 package org.unipi.bioconnect.utils;
 
 import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
-import org.unipi.bioconnect.repository.GraphHelperRepository;
+import org.unipi.bioconnect.repository.Graph.GraphHelperRepository;
 
 import java.util.List;
 import java.util.Map;

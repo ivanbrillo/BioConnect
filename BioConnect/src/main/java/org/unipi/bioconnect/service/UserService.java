@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.unipi.bioconnect.DTO.UserDTO;
 import org.unipi.bioconnect.model.Role;
 import org.unipi.bioconnect.model.User;
-import org.unipi.bioconnect.repository.DrugDocRepository;
-import org.unipi.bioconnect.repository.ProteinDocRepository;
+import org.unipi.bioconnect.repository.Document.DrugDocRepository;
+import org.unipi.bioconnect.repository.Document.ProteinDocRepository;
 import org.unipi.bioconnect.repository.UserRepository;
 
 import java.util.Collections;

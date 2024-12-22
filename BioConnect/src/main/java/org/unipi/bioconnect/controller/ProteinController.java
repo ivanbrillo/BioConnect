@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.ProteinDTO;
-import org.unipi.bioconnect.service.ProteinDocService;
-import org.unipi.bioconnect.service.ProteinGraphService;
+import org.unipi.bioconnect.service.Graph.ProteinDocService;
+import org.unipi.bioconnect.service.Graph.ProteinGraphService;
 
 @RestController
-@RequestMapping("api/")
+@RequestMapping("api/protein")
 public class ProteinController {
 
     @Autowired
@@ -19,7 +19,7 @@ public class ProteinController {
     private ProteinDocService proteinDocService;
 
 
-    @PostMapping("/addProtein")
+    @PostMapping("/add")
     @Operation(summary = "Add a protein to Neo4j and MongoDB databases")
     @Transactional
     public String saveProteinGraph(@RequestBody @Valid ProteinDTO proteinDTO) {
@@ -28,7 +28,7 @@ public class ProteinController {
         return "Protein " + proteinDTO.getDocument().getId() + " saved correctly";
     }
 
-    @PutMapping("/updateProtein")
+    @PutMapping("/update")
     @Operation(summary = "Update a protein in the Neo4j and MongoDB databases")
     @Transactional
     public String updateProteinById(@RequestBody @Valid ProteinDTO proteinDTO) {
@@ -37,7 +37,7 @@ public class ProteinController {
         return "Protein " + proteinDTO.getDocument().getId() + " updated";
     }
 
-    @DeleteMapping("/deleteProtein/{uniProtID}")
+    @DeleteMapping("/delete/{uniProtID}")
     @Operation(summary = "Delete a protein in the Neo4j and MongoDB databases by its UniProt ID")
     @Transactional
     public String deleteProteinById(@PathVariable String uniProtID) {
