@@ -1,14 +1,14 @@
 package org.unipi.bioconnect.DTO.Doc;
 
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Field;
+
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class PathwayRecurrenceDTO {
-    private String _id;
+
+    @Field("_id")
+    private String pathwayName;
     private int count;
+
 }
