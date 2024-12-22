@@ -4,12 +4,12 @@ import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.data.repository.query.Param;
 import org.unipi.bioconnect.model.DrugGraph;
+import org.unipi.bioconnect.model.GraphModel;
 import org.unipi.bioconnect.model.ProteinGraph;
 
 import java.util.List;
 
-public interface ProteinGraphRepository extends GraphEntityRepository<DrugGraph> {
-
+public interface ProteinGraphRepository extends Neo4jRepository<ProteinGraph, String>, GraphEntityRepository {
 
     @Query("MATCH (p:Protein) WHERE p.id = $uniProtID \n" +
             "OPTIONAL MATCH (p)-[r:INTERACTS_WITH]-(related:Protein) \n" +
@@ -18,18 +18,26 @@ public interface ProteinGraphRepository extends GraphEntityRepository<DrugGraph>
             "OPTIONAL MATCH (p)-[r4:INHIBITED_BY]->(drug:Drug) \n" +
             "OPTIONAL MATCH (p)-[r5:ENHANCED_BY]->(drug2:Drug) \n" +
             "RETURN p,collect(r), collect(related), collect(r2), collect(similar), collect(r3), collect(d), collect(r4), collect(drug), collect(r5), collect(drug2)")
-    ProteinGraph findByEntityId(@Param("uniProtID") String uniProtID);
-
+    ProteinGraph getEntityById(@Param("uniProtID") String uniProtID);
 
     @Query("MATCH (p:Protein {id: $proteinId})-[r]-() DELETE r")
-    void removeAllRelationships(@Param("proteinId") String proteinId);
+    void deleteEntityAllRelationships(@Param("proteinId") String proteinId);
 
-    // * TEST
-    @Query("MATCH (p:Protein) " +
-            "OPTIONAL MATCH (p)-[:INTERACTS_WITH]->(interactedProtein:Protein) " +
-            "RETURN p.id AS id, " +
-            "p.name AS name, " +
-            "COLLECT(interactedProtein.id) AS interactingProteins " +
-            "LIMIT 3")
-    List<ProteinGraph> findTopThreeProteins();
+
+    default boolean existEntityById(String id) {
+        return existsById(id);
+    }
+
+    default void saveEntity(GraphModel entity) {
+        if(!(entity instanceof ProteinGraph))
+            throw new IllegalArgumentException("Parameter not instance of ProteinGraph");
+
+        save((ProteinGraph) entity);
+    }
+
+    default void deleteEntityById(String id) {
+        deleteById(id);
+    }
+
+
 }

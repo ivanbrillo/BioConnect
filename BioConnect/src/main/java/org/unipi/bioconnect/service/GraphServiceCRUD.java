@@ -2,11 +2,11 @@ package org.unipi.bioconnect.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
 import org.unipi.bioconnect.model.GraphModel;
 import org.unipi.bioconnect.repository.GraphEntityRepository;
 import org.unipi.bioconnect.repository.GraphHelperRepository;
-import org.unipi.bioconnect.repository.GraphRepository;
 import org.unipi.bioconnect.utils.GraphUtils;
 
 import java.util.Set;
@@ -14,25 +14,22 @@ import java.util.Set;
 @Service
 public class GraphServiceCRUD {
 
-
     @Autowired
     private GraphHelperRepository graphHelperRepository;
 
 
-    private <T extends GraphModel> void saveEntityHelper(BaseNodeDTO<T> entityGraphDTO, GraphEntityRepository<T> entityRepository) {
-        Set<BaseNodeDTO<T>> relationships = entityGraphDTO.getNodeRelationships();
+    private void saveEntityHelper(BaseNodeDTO entityGraphDTO, GraphEntityRepository entityRepository) {
+        Set<BaseNodeDTO> relationships = entityGraphDTO.getNodeRelationships();
         GraphUtils.updateRelationships(relationships, graphHelperRepository);
         GraphModel entityModel = entityGraphDTO.getGraphModel();
 
-        entityRepository.save(entityModel);
+        entityRepository.saveEntity(entityModel);
     }
 
 
     public void saveEntityGraph(BaseNodeDTO entityGraphDTO, GraphEntityRepository entityRepository) {
 
-        System.out.println(entityGraphDTO.getId());
-
-        if (entityRepository.existsById(entityGraphDTO.getId()))
+        if (entityRepository.existEntityById(entityGraphDTO.getId()))
             throw new RuntimeException(entityGraphDTO.getNodeType() + " with ID " + entityGraphDTO.getId() + " already exist");
 
         saveEntityHelper(entityGraphDTO, entityRepository);
@@ -40,8 +37,8 @@ public class GraphServiceCRUD {
     }
 
 
-    public BaseNodeDTO getEntityById(String id, GraphHelperRepository entityRepository) {
-        GraphModel entityGraph = entityRepository.findByEntityId(id);
+    public BaseNodeDTO getEntityById(String id, GraphEntityRepository entityRepository) {
+        GraphModel entityGraph = entityRepository.getEntityById(id);
 
         if (entityGraph == null)
             throw new IllegalArgumentException("Entity with ID " + id + " does not exist");
@@ -49,24 +46,23 @@ public class GraphServiceCRUD {
         return entityGraph.getDTO();
     }
 
-//    public void deleteProteinById(String uniProtID) {
-//
-//        if (!proteinGraphRepository.existsById(uniProtID))
-//            throw new RuntimeException("Protein with ID " + uniProtID + " does not exist");
-//
-//        proteinGraphRepository.deleteById(uniProtID);
-//    }
-//
-//
-//    @Transactional
-//    public void updateProteinById(ProteinGraphDTO proteinGraphDTO) {
-//
-//        if (!proteinGraphRepository.existsById(proteinGraphDTO.getId()))
-//            throw new RuntimeException("Protein with ID " + proteinGraphDTO.getId() + " does not exist");
-//
-//        proteinGraphRepository.removeAllRelationships(proteinGraphDTO.getId());
-//        saveProteinHelper(proteinGraphDTO);
-//
-//    }
+    public void deleteEntityById(String entityId, GraphEntityRepository entityRepository) {
+
+        if (!entityRepository.existEntityById(entityId))
+            throw new RuntimeException("Entity with ID " + entityId + " does not exist");
+
+        entityRepository.deleteEntityById(entityId);
+    }
+
+    @Transactional
+    public void updateEntity(BaseNodeDTO entityGraphDTO, GraphEntityRepository entityRepository) {
+
+        if (!entityRepository.existEntityById(entityGraphDTO.getId()))
+            throw new RuntimeException(entityGraphDTO.getNodeType() + " with ID " + entityGraphDTO.getId() + " does not exist");
+
+        entityRepository.deleteEntityAllRelationships(entityGraphDTO.getId());
+        saveEntityHelper(entityGraphDTO, entityRepository);
+
+    }
 
 }

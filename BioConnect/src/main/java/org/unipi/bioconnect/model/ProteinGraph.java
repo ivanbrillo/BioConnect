@@ -3,7 +3,9 @@ package org.unipi.bioconnect.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.neo4j.core.schema.Property;
@@ -16,7 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Data
+@Getter
+@Setter
 @Node("Protein")
 @NoArgsConstructor
 public class ProteinGraph extends GraphModel {

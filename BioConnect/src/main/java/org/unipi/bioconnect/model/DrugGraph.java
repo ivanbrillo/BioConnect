@@ -2,7 +2,9 @@ package org.unipi.bioconnect.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
 import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
@@ -11,7 +13,8 @@ import org.unipi.bioconnect.DTO.Graph.DrugGraphDTO;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Node("Drug")
 @NoArgsConstructor
 public class DrugGraph extends GraphModel{

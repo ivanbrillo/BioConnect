@@ -13,7 +13,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BaseNodeDTO<T extends GraphModel> {
+public class BaseNodeDTO {
 
     @NotNull(message = "id is required")
     protected String id;
@@ -26,12 +26,12 @@ public class BaseNodeDTO<T extends GraphModel> {
     }
 
     @JsonIgnore
-    public Set<BaseNodeDTO<T>> getNodeRelationships() {
+    public Set<BaseNodeDTO> getNodeRelationships() {
         return new HashSet<>();
     }
 
     @JsonIgnore
-    public T getGraphModel() {
+    public GraphModel getGraphModel() {
         return null;
     }
 
