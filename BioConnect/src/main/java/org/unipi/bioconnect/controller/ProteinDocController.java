@@ -21,13 +21,6 @@ public class ProteinDocController {
     @Autowired
     private ProteinDocService proteinDocService;
 
-    @PostMapping("/addDocProtein")
-    @Operation(summary = "Add a protein to the MongoDB database")
-    public String saveProteinDoc(@RequestBody @Validated ProteinDocDTO proteinDocDTO) {
-        proteinDocService.saveProteinDoc(proteinDocDTO);
-        return "Added protein";
-    }
-
     @GetMapping("/trend-analysis/{pathway}")
     @Operation(summary = "Get trend analysis for a protein pathway")
     public List<TrendAnalysisDTO> getTrendAnalysisForPathway(@PathVariable String pathway) {
@@ -40,13 +33,11 @@ public class ProteinDocController {
         return proteinDocService.getPathwayRecurrence(subsequence);
     }
 
-
     @GetMapping("/searchProtein/{searchedText}")
     @Operation(summary = "Search for a protein by id or name")
     public List<ProteinDocDTO> searchProtein(@PathVariable String searchedText) {
         return proteinDocService.searchProteinDoc(searchedText);
     }
-
 
     @GetMapping("/getProteinsByPathwayAndLocation")
     @Operation(summary = "Get proteins by pathway and subcellular location")
@@ -56,21 +47,5 @@ public class ProteinDocController {
 
         return proteinDocService.getProteinsByPathwayAndLocation(pathway, subcellularLocation);
     }
-
-    // ! mostrare tutte le proteine è impossibile in dataset grande
-    @GetMapping("/proteins")
-    @Operation(summary = "Get all proteins")
-    public List<ProteinDocDTO> getAllProteins() {
-        return proteinDocService.getAllProteins();
-    }
-
-
-    // TODO add @NotNull around
-    // TODO delete also in graphDB
-    @DeleteMapping("/deleteProtein/{uniProtID}")
-    public String deleteProtein(@PathVariable @NotBlank String uniProtID) {
-        return proteinDocService.deleteProtein(uniProtID);
-    }
-
 
 }

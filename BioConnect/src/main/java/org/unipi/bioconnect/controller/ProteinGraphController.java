@@ -5,11 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.Graph.ProteinGraphDTO;
-import org.unipi.bioconnect.model.ProteinGraph;
 import org.unipi.bioconnect.service.ProteinGraphService;
-
-import javax.naming.NameAlreadyBoundException;
-import java.util.List;
 
 
 @RestController

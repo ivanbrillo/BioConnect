@@ -3,11 +3,9 @@ package org.unipi.bioconnect.repository;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
 import org.springframework.data.repository.query.Param;
-import org.unipi.bioconnect.model.DrugGraph;
 import org.unipi.bioconnect.model.GraphModel;
 import org.unipi.bioconnect.model.ProteinGraph;
 
-import java.util.List;
 
 public interface ProteinGraphRepository extends Neo4jRepository<ProteinGraph, String>, GraphEntityRepository {
 
@@ -29,7 +27,7 @@ public interface ProteinGraphRepository extends Neo4jRepository<ProteinGraph, St
     }
 
     default void saveEntity(GraphModel entity) {
-        if(!(entity instanceof ProteinGraph))
+        if (!(entity instanceof ProteinGraph))
             throw new IllegalArgumentException("Parameter not instance of ProteinGraph");
 
         save((ProteinGraph) entity);

@@ -22,8 +22,22 @@ public class ProteinDocService {
     private ProteinDocDAO docDAO;
 
     public void saveProteinDoc(ProteinDocDTO proteinDocDTO) {
-        ProteinDoc proteinDoc = new ProteinDoc(proteinDocDTO);
-        docRepository.save(proteinDoc);
+        if (docRepository.existsById(proteinDocDTO.getId()))
+            throw new IllegalArgumentException("Protein with ID: " + proteinDocDTO.getId() + " already exists");
+
+        docRepository.save(new ProteinDoc(proteinDocDTO));
+    }
+
+    public void updateProteinDoc(ProteinDocDTO proteinDocDTO) {
+        if (!docRepository.existsById(proteinDocDTO.getId()))
+            throw new IllegalArgumentException("Protein with ID: " + proteinDocDTO.getId() + " does not exist");
+
+        docRepository.save(new ProteinDoc(proteinDocDTO));
+    }
+
+    public void deleteProtein(String uniProtID) {
+        if (docRepository.deleteByUniProtID(uniProtID) == 0)
+            throw new IllegalArgumentException("No Protein with ID: " + uniProtID + " found");
     }
 
     public List<ProteinDocDTO> searchProteinDoc(String searchedText) {
@@ -40,15 +54,6 @@ public class ProteinDocService {
 
     public List<ProteinDocDTO> getProteinsByPathwayAndLocation(String pathway, String subsequence) {
         return docDAO.getProteinsByPathwayAndLocation(pathway, subsequence);
-    }
-
-    public List<ProteinDocDTO> getAllProteins() {
-        return docRepository.findAllProjectedBy();
-    }
-
-    public String deleteProtein(String uniProtID) {
-        return docRepository.deleteByUniProtID(uniProtID) > 0 ? "Protein with ID: " + uniProtID + " deleted correctly"
-                : "No Protein with ID: " + uniProtID + " found in the DB";
     }
 
 }

@@ -55,5 +55,4 @@ public interface DiseaseGraphRepository extends Neo4jRepository<DiseaseGraph, St
             """)
     List<BaseNodeDTO> findShortestPathBetweenDiseases(@Param("disease1Id") String disease1Id, @Param("disease2Id") String disease2Id);
 
-    //TODO do I need the name change?
 }

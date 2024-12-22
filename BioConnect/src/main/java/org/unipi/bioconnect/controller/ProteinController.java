@@ -22,13 +22,10 @@ public class ProteinController {
     @PostMapping("/addProtein")
     @Operation(summary = "Add a protein to Neo4j and MongoDB databases")
     @Transactional
-    public ProteinDTO saveProteinGraph(@RequestBody @Valid ProteinDTO proteinDTO) {
-
+    public String saveProteinGraph(@RequestBody @Valid ProteinDTO proteinDTO) {
         proteinGraphService.saveProteinGraph(proteinDTO.getGraph());
         proteinDocService.saveProteinDoc(proteinDTO.getDocument());
-
-        return proteinDTO;
-
+        return "Protein " + proteinDTO.getDocument().getId() + " saved correctly";
     }
 
     @PutMapping("/updateProtein")
@@ -36,8 +33,7 @@ public class ProteinController {
     @Transactional
     public String updateProteinById(@RequestBody @Valid ProteinDTO proteinDTO) {
         proteinGraphService.updateProteinById(proteinDTO.getGraph());
-
-        //TODO add document update
+        proteinDocService.updateProteinDoc(proteinDTO.getDocument());
         return "Protein " + proteinDTO.getDocument().getId() + " updated";
     }
 
@@ -46,9 +42,8 @@ public class ProteinController {
     @Transactional
     public String deleteProteinById(@PathVariable String uniProtID) {
         proteinGraphService.deleteProteinById(uniProtID);
-
-        //TODO add document delete
-        return "Protein " + uniProtID + " deleted";
+        proteinDocService.deleteProtein(uniProtID);
+        return "Protein " + uniProtID + " deleted correctly";
     }
 
 

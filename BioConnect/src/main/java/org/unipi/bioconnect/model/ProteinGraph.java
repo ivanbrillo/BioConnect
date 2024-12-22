@@ -1,17 +1,12 @@
 package org.unipi.bioconnect.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.neo4j.core.schema.Node;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.neo4j.core.schema.Property;
 import org.springframework.data.neo4j.core.schema.Relationship;
 import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
-import org.unipi.bioconnect.DTO.Graph.DrugGraphDTO;
 import org.unipi.bioconnect.DTO.Graph.ProteinGraphDTO;
 
 import java.util.ArrayList;

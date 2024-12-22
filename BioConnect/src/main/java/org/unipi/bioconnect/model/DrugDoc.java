@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.unipi.bioconnect.DTO.Doc.DrugDocDTO;
 import org.unipi.bioconnect.DTO.Doc.PatentDTO;
 import org.unipi.bioconnect.DTO.Doc.PublicationDTO;
 
@@ -40,5 +41,15 @@ public class DrugDoc {
     @Schema(description = "List of patents related to the drug")
     private List<PatentDTO> patents;
 
+    public DrugDoc(DrugDocDTO drugDocDTO) {
+        drugBankID = drugDocDTO.getId();
+        name = drugDocDTO.getName();
+        sequence = drugDocDTO.getSequence();
+        categories = drugDocDTO.getCategories();
+        publications = drugDocDTO.getPublications();
+        toxicity = drugDocDTO.getToxicity();
+        description = drugDocDTO.getDescription();
+        patents = drugDocDTO.getPatents();
+    }
 
 }

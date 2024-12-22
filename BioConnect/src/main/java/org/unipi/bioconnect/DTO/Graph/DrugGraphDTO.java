@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.unipi.bioconnect.model.DiseaseGraph;
 import org.unipi.bioconnect.model.DrugGraph;
 import org.unipi.bioconnect.model.GraphModel;
 import org.unipi.bioconnect.model.ProteinGraph;

@@ -21,10 +21,9 @@ public class DiseaseGraphController {
     @PostMapping("/add")
     @Operation(summary = "Add a disease to Neo4j database")
     @Transactional
-    public DiseaseGraphDTO saveDiseaseGraph(@RequestBody @Valid DiseaseGraphDTO diseaseGraphDTO) {
+    public String saveDiseaseGraph(@RequestBody @Valid DiseaseGraphDTO diseaseGraphDTO) {
         diseaseGraphService.saveDiseaseGraph(diseaseGraphDTO);
-        return diseaseGraphDTO;
-
+        return "Disease " + diseaseGraphDTO.getId() + " saved";
     }
 
     @PutMapping("/update")

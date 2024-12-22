@@ -16,7 +16,7 @@ public class ProteinGraphService {
     @Autowired
     private GraphServiceCRUD graphServiceCRUD;
 
-    
+
     public ProteinGraphDTO getProteinById(String proteinID) {
         return (ProteinGraphDTO) graphServiceCRUD.getEntityById(proteinID, proteinGraphRepository);
     }
@@ -33,7 +33,7 @@ public class ProteinGraphService {
     public void updateProteinById(ProteinGraphDTO proteinGraphDTO) {
         graphServiceCRUD.updateEntity(proteinGraphDTO, proteinGraphRepository);
     }
-    
+
 }
 
 
