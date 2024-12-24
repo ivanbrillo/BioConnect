@@ -1,5 +1,6 @@
 package org.unipi.bioconnect.repository.Document;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.unipi.bioconnect.DTO.Document.ProteinDocDTO;

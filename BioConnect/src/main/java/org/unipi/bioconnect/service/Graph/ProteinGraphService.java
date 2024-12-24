@@ -2,7 +2,6 @@ package org.unipi.bioconnect.service.Graph;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.unipi.bioconnect.DTO.Graph.ProteinGraphDTO;
 import org.unipi.bioconnect.repository.Graph.ProteinGraphRepository;
 
@@ -29,7 +28,6 @@ public class ProteinGraphService {
         graphServiceCRUD.saveEntityGraph(proteinGraphDTO, proteinGraphRepository);
     }
 
-    @Transactional
     public void updateProteinById(ProteinGraphDTO proteinGraphDTO) {
         graphServiceCRUD.updateEntity(proteinGraphDTO, proteinGraphRepository);
     }

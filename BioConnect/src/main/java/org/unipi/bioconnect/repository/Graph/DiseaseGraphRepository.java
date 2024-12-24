@@ -25,11 +25,11 @@ public interface DiseaseGraphRepository extends Neo4jRepository<DiseaseGraph, St
         return existsById(id);
     }
 
-    default void saveEntity(GraphModel entity) {
+    default GraphModel saveEntity(GraphModel entity) {
         if (!(entity instanceof DiseaseGraph))
             throw new IllegalArgumentException("Parameter not instance of DrugGraph");
 
-        save((DiseaseGraph) entity);
+        return save((DiseaseGraph) entity);
     }
 
     default void deleteEntityById(String id) {

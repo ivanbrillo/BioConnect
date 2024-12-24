@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
+import org.unipi.bioconnect.service.DatabaseOperationExecutor;
+import org.unipi.bioconnect.exception.KeyException;
 import org.unipi.bioconnect.model.Graph.GraphModel;
 import org.unipi.bioconnect.repository.Graph.GraphEntityRepository;
 import org.unipi.bioconnect.repository.Graph.GraphHelperRepository;
@@ -17,52 +19,51 @@ public class GraphServiceCRUD {
     @Autowired
     private GraphHelperRepository graphHelperRepository;
 
+    @Autowired
+    private DatabaseOperationExecutor executor;
 
-    private void saveEntityHelper(BaseNodeDTO entityGraphDTO, GraphEntityRepository entityRepository) {
+    private GraphModel saveEntityHelper(BaseNodeDTO entityGraphDTO, GraphEntityRepository entityRepository) {
         Set<BaseNodeDTO> relationships = entityGraphDTO.getNodeRelationships();
         GraphUtils.updateRelationships(relationships, graphHelperRepository);
         GraphModel entityModel = entityGraphDTO.getGraphModel();
-
-        entityRepository.saveEntity(entityModel);
+        return entityRepository.saveEntity(entityModel);
     }
-
 
     public void saveEntityGraph(BaseNodeDTO entityGraphDTO, GraphEntityRepository entityRepository) {
-
-        if (entityRepository.existEntityById(entityGraphDTO.getId()))
-            throw new RuntimeException(entityGraphDTO.getNodeType() + " with ID " + entityGraphDTO.getId() + " already exist");
-
-        saveEntityHelper(entityGraphDTO, entityRepository);
-
+        executor.executeWithExceptionHandling(() -> {
+            if (entityRepository.existEntityById(entityGraphDTO.getId()))
+                throw new KeyException(entityGraphDTO.getNodeType() + " with ID " + entityGraphDTO.getId() + " already exist");
+            return saveEntityHelper(entityGraphDTO, entityRepository);
+        }, "Neo4j (save)");
     }
 
-
     public BaseNodeDTO getEntityById(String id, GraphEntityRepository entityRepository) {
-        GraphModel entityGraph = entityRepository.getEntityById(id);
-
-        if (entityGraph == null)
-            throw new IllegalArgumentException("Entity with ID " + id + " does not exist");
-
-        return entityGraph.getDTO();
+        return executor.executeWithExceptionHandling(() -> {
+            GraphModel entityGraph = entityRepository.getEntityById(id);
+            if (entityGraph == null)
+                throw new KeyException("Entity with ID " + id + " does not exist");
+            return entityGraph.getDTO();
+        }, "Neo4j (get)");
     }
 
     public void deleteEntityById(String entityId, GraphEntityRepository entityRepository) {
-
-        if (!entityRepository.existEntityById(entityId))
-            throw new RuntimeException("Entity with ID " + entityId + " does not exist");
-
-        entityRepository.deleteEntityById(entityId);
+        executor.executeWithExceptionHandling(() -> {
+            if (!entityRepository.existEntityById(entityId))
+                throw new KeyException("Entity with ID " + entityId + " does not exist");
+            entityRepository.deleteEntityById(entityId);
+            return 1;
+        }, "Neo4j (delete)");
     }
 
     @Transactional
     public void updateEntity(BaseNodeDTO entityGraphDTO, GraphEntityRepository entityRepository) {
+        executor.executeWithExceptionHandling(() -> {
+            if (!entityRepository.existEntityById(entityGraphDTO.getId()))
+                throw new KeyException(entityGraphDTO.getNodeType() + " with ID " + entityGraphDTO.getId() + " does not exist");
 
-        if (!entityRepository.existEntityById(entityGraphDTO.getId()))
-            throw new RuntimeException(entityGraphDTO.getNodeType() + " with ID " + entityGraphDTO.getId() + " does not exist");
-
-        entityRepository.deleteEntityAllRelationships(entityGraphDTO.getId());
-        saveEntityHelper(entityGraphDTO, entityRepository);
-
+            entityRepository.deleteEntityAllRelationships(entityGraphDTO.getId());
+            return saveEntityHelper(entityGraphDTO, entityRepository);
+        }, "Neo4j (update)");
     }
 
 }

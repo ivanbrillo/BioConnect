@@ -28,14 +28,15 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/profile/**").hasRole("REGISTERED") // Solo utenti registrati possono commentare
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // Richiede ruolo ADMIN
-                        .anyRequest().permitAll() // Tutto il resto richiede autenticazione
+                        .requestMatchers("/profile/**").hasAnyRole("REGISTERED", "ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .anyRequest().permitAll()
                 )
                 .formLogin(withDefaults()) // Oppure configura un endpoint specifico con .loginPage("/login")
                 //.logout(logout -> logout.logoutUrl("/custom-logout").logoutSuccessUrl("/"))
                 .logout(AbstractHttpConfigurer::disable)
                 .httpBasic(withDefaults());
+
         return http.build();
     }
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.unipi.bioconnect.DTO.Document.DrugDocDTO;
 import org.unipi.bioconnect.DTO.Document.PatentStateAnalysisDTO;
 import org.unipi.bioconnect.DTO.Document.TrendAnalysisDTO;
-import org.unipi.bioconnect.service.Graph.DrugDocService;
+import org.unipi.bioconnect.service.Document.DrugDocService;
 
 import java.util.List;
 

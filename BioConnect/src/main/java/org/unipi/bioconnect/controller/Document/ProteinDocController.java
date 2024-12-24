@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.Document.PathwayRecurrenceDTO;
 import org.unipi.bioconnect.DTO.Document.ProteinDocDTO;
 import org.unipi.bioconnect.DTO.Document.TrendAnalysisDTO;
-import org.unipi.bioconnect.service.Graph.ProteinDocService;
+import org.unipi.bioconnect.service.Document.ProteinDocService;
 
 import java.util.List;
 

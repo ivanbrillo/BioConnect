@@ -9,7 +9,7 @@ public interface GraphEntityRepository {
 
     boolean existEntityById(String id);
 
-    void saveEntity(GraphModel entity);
+    GraphModel saveEntity(GraphModel entity);
 
     void deleteEntityById(String id);
 

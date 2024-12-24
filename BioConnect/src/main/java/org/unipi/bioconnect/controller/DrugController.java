@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.DrugDTO;
-import org.unipi.bioconnect.service.Graph.DrugDocService;
+import org.unipi.bioconnect.service.Document.DrugDocService;
 import org.unipi.bioconnect.service.Graph.DrugGraphService;
 
 @RestController
@@ -15,8 +15,10 @@ public class DrugController {
 
     @Autowired
     private DrugGraphService drugGraphService;
+
     @Autowired
     private DrugDocService drugDocService;
+
 
     @PostMapping("/add")
     @Operation(summary = "Add a drug to Neo4j and MongoDB databases")

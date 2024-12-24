@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.ProteinDTO;
-import org.unipi.bioconnect.service.Graph.ProteinDocService;
+import org.unipi.bioconnect.service.Document.ProteinDocService;
 import org.unipi.bioconnect.service.Graph.ProteinGraphService;
 
 @RestController
@@ -25,6 +25,7 @@ public class ProteinController {
     public String saveProteinGraph(@RequestBody @Valid ProteinDTO proteinDTO) {
         proteinGraphService.saveProteinGraph(proteinDTO.getGraph());
         proteinDocService.saveProteinDoc(proteinDTO.getDocument());
+
         return "Protein " + proteinDTO.getDocument().getId() + " saved correctly";
     }
 
