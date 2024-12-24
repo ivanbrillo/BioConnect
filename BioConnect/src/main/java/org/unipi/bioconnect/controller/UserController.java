@@ -1,5 +1,6 @@
 package org.unipi.bioconnect.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.UserDTO;
@@ -11,11 +12,9 @@ import java.util.List;
 @RequestMapping
 public class UserController {
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
 // * PANNELLO ADMIN
 

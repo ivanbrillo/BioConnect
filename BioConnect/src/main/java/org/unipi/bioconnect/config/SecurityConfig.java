@@ -11,6 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.unipi.bioconnect.service.MongoUserDetailsService;
+import org.springframework.security.config.http.SessionCreationPolicy;
+
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -32,10 +34,25 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
-                .formLogin(withDefaults()) // Oppure configura un endpoint specifico con .loginPage("/login")
-                //.logout(logout -> logout.logoutUrl("/custom-logout").logoutSuccessUrl("/"))
-                .logout(AbstractHttpConfigurer::disable)
-                .httpBasic(withDefaults());
+                .formLogin(form -> form
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/successLogin", true)
+                        .failureForwardUrl("/unsuccessfulLogin")
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/successfulLogout")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
+                )
+                .httpBasic(withDefaults())
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .invalidSessionUrl("/unsuccessfulLogin")
+                        .maximumSessions(1)
+                        .expiredUrl("/unsuccessfulLogin")
+                );
 
         return http.build();
     }
@@ -53,4 +70,3 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
-

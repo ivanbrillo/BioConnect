@@ -18,4 +18,11 @@ public interface GraphHelperRepository extends Neo4jRepository<GraphModel, Strin
             """)
     List<BaseNodeDTO> findEntityNamesByIds(@Param("ids") List<String> ids);
 
+    @Query("""
+                MATCH (n)
+                WHERE (n:Protein OR n:Drug OR n:Disease)
+                AND n.id = $id
+                RETURN COUNT(n) > 0
+            """)
+    boolean entityExistsById(@Param("id") String id);
 }
