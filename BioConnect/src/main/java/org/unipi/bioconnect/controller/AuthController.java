@@ -6,20 +6,20 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.unipi.bioconnect.DTO.CredentialsDTO;
 import org.springframework.web.bind.annotation.*;
-import org.unipi.bioconnect.service.UserService;
+import org.unipi.bioconnect.model.Role;
+import org.unipi.bioconnect.service.AdminService;
 
 @RestController
 @Tag(name = "Authorization Controller", description = "API for authentication operations")
 public class AuthController {
 
     @Autowired
-    private UserService userService;
-
+    private AdminService adminService;
 
     @PostMapping("/register")
     @Operation(summary = "Register a new user")
     public String register(@RequestBody @Valid CredentialsDTO credentials) {
-        return userService.register(credentials);
+        return adminService.register(credentials, Role.REGISTERED);
     }
 
     @GetMapping("/successLogin")

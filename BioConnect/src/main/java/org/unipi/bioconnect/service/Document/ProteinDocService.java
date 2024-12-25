@@ -41,11 +41,10 @@ public class ProteinDocService {
     }
 
     public void deleteProtein(String uniProtID) {
-        executor.executeWithExceptionHandling(() -> {
-            if (docRepository.deleteByUniProtID(uniProtID) == 0)
-                throw new KeyException("No Protein with ID: " + uniProtID + " found");
-            return 1;
-        }, "MongoDB (delete)");
+        long numDeleted = executor.executeWithExceptionHandling(() -> docRepository.deleteByUniProtID(uniProtID), "MongoDB (delete)");
+
+        if (numDeleted == 0)
+            throw new KeyException("No Protein with ID: " + uniProtID + " found");
     }
 
     public List<ProteinDocDTO> searchProteinDoc(String searchedText) {

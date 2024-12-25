@@ -2,6 +2,7 @@ package org.unipi.bioconnect.exception;
 
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -36,7 +37,7 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
-    @ExceptionHandler(DataAccessResourceFailureException.class)
+    @ExceptionHandler({DataAccessResourceFailureException.class, TransactionSystemException.class})
     public Map<String, String> handleDbConnectionError(DataAccessResourceFailureException e) {
         return Map.of("ErrorCode", "3", "Error", e.getMessage());
     }

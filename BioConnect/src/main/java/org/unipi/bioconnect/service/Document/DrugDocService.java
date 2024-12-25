@@ -38,11 +38,10 @@ public class DrugDocService {
     }
 
     public void deleteDrugById(String drugBankID) {
-        executor.executeWithExceptionHandling(() -> {
-            if (docRepository.deleteByDrugBankID(drugBankID) == 0)
-                throw new KeyException("No Drug with ID: " + drugBankID + " found");
-            return 1;
-        }, "MongoDB (delete)");
+        long numDeleted = executor.executeWithExceptionHandling(() -> docRepository.deleteByDrugBankID(drugBankID), "MongoDB (delete)");
+
+        if (numDeleted == 0)
+            throw new KeyException("No Drug with ID: " + drugBankID + " found");
     }
 
     public List<DrugDocDTO> searchDrugDoc(String searchedText) {

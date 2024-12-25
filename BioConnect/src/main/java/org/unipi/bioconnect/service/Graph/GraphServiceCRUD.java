@@ -38,12 +38,11 @@ public class GraphServiceCRUD {
     }
 
     public BaseNodeDTO getEntityById(String id, GraphEntityRepository entityRepository) {
-        return executor.executeWithExceptionHandling(() -> {
-            GraphModel entityGraph = entityRepository.getEntityById(id);
-            if (entityGraph == null)
-                throw new KeyException("Entity with ID " + id + " does not exist");
-            return entityGraph.getDTO();
-        }, "Neo4j (get)");
+        GraphModel entityGraph = executor.executeWithExceptionHandling(() -> entityRepository.getEntityById(id), "Neo4j (get)");
+
+        if (entityGraph == null)
+            throw new KeyException("Entity with ID " + id + " does not exist");
+        return entityGraph.getDTO();
     }
 
     public void deleteEntityById(String entityId, GraphEntityRepository entityRepository) {

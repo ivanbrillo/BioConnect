@@ -1,9 +1,10 @@
 package org.unipi.bioconnect.controller;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.unipi.bioconnect.DTO.UserDTO;
 import org.unipi.bioconnect.service.UserService;
 
 import java.util.List;
@@ -15,36 +16,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
-// * PANNELLO ADMIN
-
-    @GetMapping("/admin/users")
-    public List<UserDTO> getAllUsers() {
-        return userService.getAllUsers();
-    }
-
-    @GetMapping("/admin/users/{username}")
-    public UserDTO getUserByUsername(@PathVariable String username) {
-        return userService.getUserDTOByUsername(username);
-    }
-
-    @GetMapping("/admin/users/comments")
-    public List<String> getAllComments() {
-        return userService.getAllComments();
-    }
-
-
-// * PANNELLO USER
-
     @GetMapping("/profile/my_comments")
     public List<String> getMyComments(Authentication authentication) {
-        String username = authentication.getName(); // Prendi il nome utente dal contesto
+        String username = authentication.getName(); // Get username from authentication context
         return userService.getCommentsByUsername(username);
     }
 
     @PostMapping("/profile/add_comment")
-    public String addComment(Authentication authentication, @RequestBody String comment, @RequestParam String elementId) {
-        String username = authentication.getName(); // Prendi il nome utente dal contesto
+    public String addComment(Authentication authentication, @RequestBody @NotNull @NotBlank String comment, @RequestParam @NotNull @NotBlank String elementId) {
+        String username = authentication.getName(); // Get username from authentication context
         return userService.addComment(username, comment, elementId);
     }
 }

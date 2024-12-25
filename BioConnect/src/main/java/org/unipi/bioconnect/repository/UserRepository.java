@@ -14,12 +14,11 @@ import java.util.List;
 public interface UserRepository extends MongoRepository<User, String> {
 
     UserDTO findUserDTOByUsername(String username);
-    User findUserByUsername(String username);
 
     @Query(value = "{}", fields = "{ '_class': 0, '_password': 0 }")
     List<UserDTO> findAllUser();
 
-    @Query("{'username' : ?0}")
+    @Query("{'_id' : ?0}")
     @Update("{ '$push': { 'comments': ?1 } }")
     void updateComment(String username, String comment);
 
@@ -31,7 +30,7 @@ public interface UserRepository extends MongoRepository<User, String> {
     List<String> findAllComments();
 
     @Aggregation(pipeline = {
-            "{ $match: { comments: { $exists: true, $ne: null }, username: ?0 } }",
+            "{ $match: { comments: { $exists: true, $ne: null }, _id: ?0 } }",
             "{ $unwind: '$comments' }",
             "{ $project: { _id: 0, comments: 1 } }"
     })
