@@ -32,24 +32,10 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()
                 )
-                .formLogin(form -> form
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/successLogin", true)
-                        .failureForwardUrl("/unsuccessfulLogin")
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/successfulLogout")
-                        .invalidateHttpSession(true)
-                        .clearAuthentication(true)
-                        .deleteCookies("JSESSIONID")
-                )
-                .httpBasic(withDefaults())
+                .logout(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                        .invalidSessionUrl("/unsuccessfulLogin")
                         .maximumSessions(1)
-                        .expiredUrl("/unsuccessfulLogin")
                 );
 
         return http.build();

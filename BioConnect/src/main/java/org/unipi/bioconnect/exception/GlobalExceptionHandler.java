@@ -2,6 +2,7 @@ package org.unipi.bioconnect.exception;
 
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -64,6 +65,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Map<String, String> handleGraphExceptions(Exception ex) {
         return Map.of("ErrorCode", "7", "Error", ex.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(AuthenticationException.class)
+    public Map<String, String> handleLoginExceptions(Exception ex) {
+        return Map.of("ErrorCode", "8", "Error", "Login failed: Bad credentials");
     }
 }
 
