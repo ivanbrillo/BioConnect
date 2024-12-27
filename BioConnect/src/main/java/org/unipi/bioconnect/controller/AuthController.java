@@ -7,12 +7,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.unipi.bioconnect.DTO.CredentialsDTO;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +32,7 @@ public class AuthController {
         return adminService.register(credentials, Role.REGISTERED);
     }
 
-    //Using custom login and logout endpoints in order to display it in swagger
+    //Using custom login and logout endpoints in order to display it in swagger-ui
     @PostMapping("/login")
     public String login(@RequestBody @Valid CredentialsDTO credentials, HttpServletRequest request) {
 

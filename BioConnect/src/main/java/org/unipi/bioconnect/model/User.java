@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.neo4j.core.schema.Id;
+import org.unipi.bioconnect.DTO.CommentDTO;
 import org.unipi.bioconnect.DTO.CredentialsDTO;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class User {
 
     private String password;
     private Role role;
-    private List<String> comments = new ArrayList<>();
+    private List<CommentDTO> comments = new ArrayList<>();
 
 
     public User(CredentialsDTO credentialsDTO, Role role) {

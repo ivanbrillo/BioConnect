@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.unipi.bioconnect.DTO.CommentDTO;
 import org.unipi.bioconnect.service.UserService;
 
 import java.util.List;

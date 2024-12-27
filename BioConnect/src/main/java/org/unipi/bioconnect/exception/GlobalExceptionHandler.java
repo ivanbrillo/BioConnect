@@ -39,8 +39,8 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
     @ExceptionHandler({DataAccessResourceFailureException.class, TransactionSystemException.class})
-    public Map<String, String> handleDbConnectionError(DataAccessResourceFailureException e) {
-        return Map.of("ErrorCode", "3", "Error", e.getMessage());
+    public Map<String, String> handleDbConnectionError(Exception e) {
+        return Map.of("ErrorCode", "3", "Error", "Error during the connection to the database");
     }
 
     @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
@@ -57,13 +57,13 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(RuntimeException.class)
-    public Map<String, String> handleGraphExceptions(RuntimeException ex) {
+    public Map<String, String> handleRuntimeExceptions(RuntimeException ex) {
         return Map.of("ErrorCode", "6", "Error", ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public Map<String, String> handleGraphExceptions(Exception ex) {
+    public Map<String, String> handleGenericExceptions(Exception ex) {
         return Map.of("ErrorCode", "7", "Error", ex.getMessage());
     }
 

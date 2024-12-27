@@ -2,11 +2,13 @@ package org.unipi.bioconnect.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.unipi.bioconnect.DTO.CommentDTO;
 import org.unipi.bioconnect.exception.KeyException;
 import org.unipi.bioconnect.repository.Graph.GraphHelperRepository;
 import org.unipi.bioconnect.repository.UserRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -28,8 +30,10 @@ public class UserService {
         return executor.executeWithExceptionHandling(() -> {
             if (!graphHelperRepository.entityExistsById(elementId))
                 throw new KeyException("Entity with ID: " + elementId + " does not exist");
-            String formattedComment = String.format("%s-%s-%s", username, elementId, comment);
-            userRepository.updateComment(username, formattedComment);
+
+            CommentDTO commentDTO = new CommentDTO(UUID.randomUUID().toString(), comment);
+
+            userRepository.updateComment(username, commentDTO);
             return "Comment added successfully";
         }, "MongoDB (add comment)");
     }

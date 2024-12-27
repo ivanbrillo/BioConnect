@@ -1,14 +1,15 @@
 package org.unipi.bioconnect.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.unipi.bioconnect.DTO.CommentDTO;
 import org.unipi.bioconnect.DTO.CredentialsDTO;
 import org.unipi.bioconnect.DTO.UserDTO;
 import org.unipi.bioconnect.exception.KeyException;
 import org.unipi.bioconnect.model.Role;
 import org.unipi.bioconnect.model.User;
-import org.unipi.bioconnect.repository.Graph.GraphHelperRepository;
 import org.unipi.bioconnect.repository.UserRepository;
 
 import java.util.List;
@@ -34,9 +35,17 @@ public class AdminService {
         return userDTO;
     }
 
-    public List<String> getAllComments() {
+    public List<CommentDTO> getAllComments() {
         return executor.executeWithExceptionHandling(() -> userRepository.findAllComments(), "MongoDB (all comments)");
     }
+
+    public void removeCommentByID(String id) {
+        executor.executeWithExceptionHandling(() -> {
+            userRepository.deleteCommentById(id);
+            return 1;
+        }, "MongoDB (remove comment)");
+    }
+
 
     public List<UserDTO> getAllUsers() {
         return executor.executeWithExceptionHandling(() -> userRepository.findAllUser(), "MongoDB (all users)");

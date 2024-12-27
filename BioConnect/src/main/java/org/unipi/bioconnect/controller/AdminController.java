@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.unipi.bioconnect.DTO.CommentDTO;
 import org.unipi.bioconnect.DTO.CredentialsDTO;
 import org.unipi.bioconnect.DTO.UserDTO;
 import org.unipi.bioconnect.model.Role;
@@ -30,9 +31,16 @@ public class AdminController {
     }
 
     @GetMapping("/users/comments")
-    public List<String> getAllComments() {
+    public List<CommentDTO> getAllComments() {
         return adminService.getAllComments();
     }
+
+    @DeleteMapping("/users/removeComment/{commentId}")
+    public String removeComment(@PathVariable String commentId) {
+        adminService.removeCommentByID(commentId);
+        return "Comment removed correctly";
+    }
+
 
     @PostMapping("/registerAdmin")
     @Operation(summary = "Register a new admin")
