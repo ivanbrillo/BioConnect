@@ -35,9 +35,9 @@ public class AdminController {
         return adminService.getAllComments();
     }
 
-    @DeleteMapping("/users/removeComment/{commentId}")
-    public String removeComment(@PathVariable String commentId) {
-        adminService.removeCommentByID(commentId);
+    @DeleteMapping("/users/removeComment/{user}/{commentId}")
+    public String removeComment(@PathVariable String user, @PathVariable String commentId) {
+        adminService.removeCommentByID(user, commentId);
         return "Comment removed correctly";
     }
 

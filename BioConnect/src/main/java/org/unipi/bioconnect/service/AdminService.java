@@ -10,6 +10,7 @@ import org.unipi.bioconnect.DTO.UserDTO;
 import org.unipi.bioconnect.exception.KeyException;
 import org.unipi.bioconnect.model.Role;
 import org.unipi.bioconnect.model.User;
+import org.unipi.bioconnect.repository.CommentDAO;
 import org.unipi.bioconnect.repository.UserRepository;
 
 import java.util.List;
@@ -24,6 +25,8 @@ public class AdminService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private DatabaseOperationExecutor executor;
+    @Autowired
+    private CommentDAO commentDAO;
 
 
     public UserDTO getUserDTOByUsername(String username) {
@@ -36,12 +39,15 @@ public class AdminService {
     }
 
     public List<CommentDTO> getAllComments() {
-        return executor.executeWithExceptionHandling(() -> userRepository.findAllComments(), "MongoDB (all comments)");
+        return executor.executeWithExceptionHandling(() -> commentDAO.findAllComments(), "MongoDB (all comments)");
     }
 
-    public void removeCommentByID(String id) {
+    public void removeCommentByID(String user, String id) {
         executor.executeWithExceptionHandling(() -> {
-            userRepository.deleteCommentById(id);
+            if(!commentDAO.existsByUserAndComment(user, id))
+                throw new KeyException("Comment or User not found");
+
+            userRepository.deleteCommentById(user, id);
             return 1;
         }, "MongoDB (remove comment)");
     }

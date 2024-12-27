@@ -1,15 +1,17 @@
 package org.unipi.bioconnect.DTO;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class CommentDTO {
 
     String _id;
     String comment;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    String username;
 
 }
