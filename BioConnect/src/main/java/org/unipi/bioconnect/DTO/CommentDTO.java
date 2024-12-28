@@ -10,6 +10,7 @@ public class CommentDTO {
 
     String _id;
     String comment;
+    String elementId;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     String username;

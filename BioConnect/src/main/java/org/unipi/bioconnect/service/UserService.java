@@ -21,11 +21,12 @@ public class UserService {
     private GraphHelperRepository graphHelperRepository;
     @Autowired
     private DatabaseOperationExecutor executor;
+    @Autowired
+    private CommentDAO commentDAO;
 
 
-
-    public List<String> getCommentsByUsername(String username) {
-        return executor.executeWithExceptionHandling(() -> userRepository.findUserComments(username), "MongoDB (my comments)");
+    public List<CommentDTO> getCommentsByUsername(String username) {
+        return executor.executeWithExceptionHandling(() -> commentDAO.findUserComments(username), "MongoDB (my comments)");
     }
 
     public String addComment(String username, String comment, String elementId) {
@@ -33,7 +34,7 @@ public class UserService {
             if (!graphHelperRepository.entityExistsById(elementId))
                 throw new KeyException("Entity with ID: " + elementId + " does not exist");
 
-            CommentDTO commentDTO = new CommentDTO(UUID.randomUUID().toString(), comment, null);
+            CommentDTO commentDTO = new CommentDTO(UUID.randomUUID().toString(), comment, elementId, null);
 
             userRepository.updateComment(username, commentDTO);
             return "Comment added successfully";
