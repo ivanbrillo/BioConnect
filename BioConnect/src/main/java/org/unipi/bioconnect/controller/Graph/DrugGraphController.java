@@ -34,8 +34,8 @@ public class DrugGraphController {
         return drugGraphService.getDrugTargetSimilarProtein(uniProtId);
     }
 
-    @GetMapping("/oppositeEffectsOnProtein/{proteinId}")
-    public List<OppositeEffectDrugsDTO> getDrugOppositeEffectsProtein(@PathVariable String proteinId) {
-        return drugGraphService.getDrugOppositeEffectsProtein(proteinId);
+    @GetMapping("/oppositeEffectsOnProtein/{drugId}")
+    public List<OppositeEffectDrugsDTO> getDrugOppositeEffectsProtein(@PathVariable String drugId) {
+        return drugGraphService.getDrugOppositeEffectsProtein(drugId);
     }
 }

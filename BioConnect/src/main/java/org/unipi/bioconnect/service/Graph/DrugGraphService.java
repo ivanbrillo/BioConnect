@@ -43,8 +43,8 @@ public class DrugGraphService {
         return executor.executeWithExceptionHandling(() -> drugGraphRepository.getDrugTargetSimilarProtein(uniProtId), "Neo4j (drug similar protein)");
     }
 
-    public List<OppositeEffectDrugsDTO> getDrugOppositeEffectsProtein(String proteinId) {
-        return executor.executeWithExceptionHandling(() -> drugGraphRepository.getDrugOppositeEffectsProtein(proteinId), "Neo4j (drug similar protein)");
+    public List<OppositeEffectDrugsDTO> getDrugOppositeEffectsProtein(String drugId) {
+        return executor.executeWithExceptionHandling(() -> drugGraphRepository.getDrugOppositeEffectsProtein(drugId), "Neo4j (drug similar protein)");
     }
 
 }
