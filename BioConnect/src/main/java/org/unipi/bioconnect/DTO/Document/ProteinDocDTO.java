@@ -1,5 +1,6 @@
 package org.unipi.bioconnect.DTO.Document;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -10,6 +11,7 @@ import java.util.List;
 
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL) // Esclude i campi nulli
 public class ProteinDocDTO {
 
     @Field("_id")
