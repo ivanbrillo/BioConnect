@@ -44,7 +44,7 @@ public class DrugGraphService {
     }
 
     public List<OppositeEffectDrugsDTO> getDrugOppositeEffectsProtein(String drugId) {
-        return executor.executeWithExceptionHandling(() -> drugGraphRepository.getDrugOppositeEffectsProtein(drugId), "Neo4j (drug similar protein)");
+        return executor.executeWithExceptionHandling(() -> drugGraphRepository.getDrugOppositeEffectsProtein(drugId), "Neo4j (drug opposite effects)");
     }
 
 }
