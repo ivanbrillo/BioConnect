@@ -10,6 +10,8 @@ class ExtractData(ContentHandler):
         self.current_target = None
         self.current_target_actions = set()
 
+
+    # found a character
     def characters(self, content):
         if self.limit == 2:
             self.curr_id = content
@@ -30,6 +32,7 @@ class ExtractData(ContentHandler):
             if content.strip():
                 self.current_target_actions.add(content.strip())
 
+    # found a start element
     def startElement(self, name, attrs):
         if name == "drug":
             self.limit = 1
@@ -52,6 +55,8 @@ class ExtractData(ContentHandler):
         elif name == "action":
             self.limit = 12
 
+
+    # found end element
     def endElement(self, name):
         if name == "name":
             # Sostituisci le virgole con punti nel nome quando finisce l'elemento name
@@ -79,8 +84,8 @@ class ExtractData(ContentHandler):
         elif name == "action":
             self.limit = 0
 
+    # found end document
     def endDocument(self):
-        # Prepara i dati per il DataFrame
         data_for_df = []
         for drug_id, data in self.drug_data.items():
             target_actions_str = ';'.join(sorted(data['target_actions'])) if data['target_actions'] else ''
@@ -90,7 +95,7 @@ class ExtractData(ContentHandler):
                 'Target_Actions': target_actions_str
             })
 
-        # Crea il DataFrame e salva in CSV
+        # SAVE IN A CSV FILE
         df = pd.DataFrame(data_for_df)
         df.to_csv('drugbank_complete.csv', index=False)
 

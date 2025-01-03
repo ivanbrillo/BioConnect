@@ -30,20 +30,17 @@ def extract_drug_info(drug, uniprot_entry):
 # Main function to process Uniprot data
 def process_uniprot_data(uniprot_data, drugbank_data):
     for entry in uniprot_data['Proteins']:
-        # Split DrugBank IDs associated with the current protein
+
         drugbank_ids = entry.get('DrugBank', '').split(';')
         drugbank_ids = [db_id.strip() for db_id in drugbank_ids if db_id.strip()]
 
-        # Collect detailed info for each DrugBank ID
         detailed_drugs = []
+
         for drug_id in drugbank_ids:
-            # Find the drug details using DrugBank_ID
+            
             drug_details = find_drug_in_drugbank(drugbank_data, drug_id)
             if drug_details:
-                # Extract specific target info if it matches the current UniProt Entry
                 drug_targets = extract_drug_info(drug_details, entry['Entry'])
-
-                # Use the detailed target info if available, otherwise basic drug info
                 if drug_targets:
                     detailed_drugs.extend(drug_targets)
 
@@ -53,7 +50,6 @@ def process_uniprot_data(uniprot_data, drugbank_data):
     
     return uniprot_data
 
-# Load the data
 uniprot_data = load_json('Uniprot.json')
 drugbank_data = load_json('DrugBank.json')
 

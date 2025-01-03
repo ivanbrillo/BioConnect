@@ -1,9 +1,6 @@
 import json
 
 def process_references(references):
-    """
-    Processa il campo 'References' e restituisce una lista di oggetti con i dati separati.
-    """
     result = []
     entries = references.split(';;')
     
@@ -72,9 +69,6 @@ def process_references(references):
 
 
 def process_patents(patents):
-    """
-    Processa il campo 'Patents' e restituisce una lista di oggetti con id, country e date.
-    """
     result = []
     entries = patents.split(';;')
     
@@ -91,9 +85,6 @@ def process_patents(patents):
     return result
 
 def process_json(input_file, output_file):
-    """
-    Legge un file JSON di input, processa i campi richiesti e scrive il risultato in un file JSON di output.
-    """
     with open(input_file, 'r') as infile:
         data = json.load(infile)
     

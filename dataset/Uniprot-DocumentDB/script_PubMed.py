@@ -2,7 +2,7 @@ import requests
 import json
 from xml.etree import ElementTree as ET
 
-# Funzione per ottenere i dettagli di un articolo da PubMed API
+# PubMed API
 def fetch_article_details(pmid):
     url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id={pmid}&retmode=xml"
     response = requests.get(url)

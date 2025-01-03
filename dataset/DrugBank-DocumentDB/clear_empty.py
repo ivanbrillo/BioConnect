@@ -28,9 +28,7 @@ def clean_empty_values(item):
             if not (v is None or v == "" or (isinstance(v, list) and all(x in [None, "", []] for x in v)))
         }
     elif isinstance(item, list):
-        # Pulizia degli elementi della lista
         cleaned_list = [clean_empty_values(v) for v in item]
-        # Rimuove liste che contengono solo elementi vuoti
         return [v for v in cleaned_list if not (v is None or v == "" or (isinstance(v, list) and all(x in [None, "", []] for x in v)))]
     else:
         return item
@@ -51,13 +49,11 @@ for field in empty_fields_before:
 # Remove empty values
 cleaned_data = clean_empty_values(data)
 
-# Count empty values after cleanup
 empty_values_count_after, empty_fields_after = count_empty_values(cleaned_data)
 print(f'Total empty values in the file after cleanup: {empty_values_count_after}')
 print('First 5 empty fields after cleanup:')
 for field in empty_fields_after:
     print(field)
 
-# Save cleaned data to new file
 with open(output_path, 'w') as file:
     json.dump(cleaned_data, file, indent=4)

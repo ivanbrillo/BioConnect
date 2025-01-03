@@ -1,17 +1,14 @@
 import json
 import os
 
-# Percorso del file JSON
 json_file_path = os.path.join("dataset", "GraphDB", "CompletedUniprot.json")
 
 def extract_unique_actions(json_file_path):
-    unique_actions = set()  # Set per memorizzare azioni uniche
+    unique_actions = set()  
 
-    # Leggi il file JSON
     with open(json_file_path, 'r') as json_file:
         proteins_data = json.load(json_file)
 
-    # Itera su ogni proteina
     for protein in proteins_data.get("Proteins", []):
         for drug in protein.get("DrugBank", []):
             drug_action = drug.get("Action")
@@ -20,10 +17,9 @@ def extract_unique_actions(json_file_path):
 
     return unique_actions
 
-# Estrazione delle azioni uniche
+# Estract unique action
 actions = extract_unique_actions(json_file_path)
 
-# Stampa le azioni trovate
 print("\nAzioni uniche trovate nel campo DrugBank:")
 for action in sorted(actions):
     print(action + ",")

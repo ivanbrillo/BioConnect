@@ -11,6 +11,7 @@ class ExtractData(ContentHandler):
         self.curr_interaction = None
         self.curr_reference = None
 
+    # found a characters
     def characters(self, content):
         if self.limit == 2:
             self.curr_id = content
@@ -116,7 +117,7 @@ class ExtractData(ContentHandler):
                     self.drug_data[self.curr_id]['sequence'] = content  
 
 
-
+    # found a start element
     def startElement(self, name, attrs):
         if name == "drug":
             self.limit = 1

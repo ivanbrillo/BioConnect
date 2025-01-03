@@ -48,15 +48,10 @@ def process_subcellular_location(text):
 
 def process_sequence_similarities(text):
     if text.startswith("SIMILARITY: "):
-        # Rimuove "SIMILARITY: " iniziale
         cleaned_text = re.sub(r'SIMILARITY: ', '', text)
-        # Rimuove tutto il contenuto tra parentesi graffe
         cleaned_text = re.sub(r'\{.*?\}\.', '', cleaned_text).strip()
-        # Rimuove la parte "Belongs to the "
         cleaned_text = re.sub(r'^Belongs to the ', '', cleaned_text)
-        # Rende la prima lettera maiuscola
         cleaned_text = cleaned_text.capitalize()
-        # Rimuove il punto finale se presente
         cleaned_text = cleaned_text.rstrip('.')
         return cleaned_text.strip()
     
@@ -85,7 +80,6 @@ def process_json(input_file, output_file):
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
 
-# Esegui il processo
 input_file = 'UniProt.json'
 output_file = 'UniProt_DocumentDB.json'
 process_json(input_file, output_file)

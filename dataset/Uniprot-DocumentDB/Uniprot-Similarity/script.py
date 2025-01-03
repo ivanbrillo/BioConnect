@@ -2,18 +2,17 @@ import json
 from collections import defaultdict
 
 def group_proteins_by_similarity(input_file, output_file):
-    # Leggi il file JSON di input
     with open(input_file, 'r') as f:
         proteins = json.load(f)
 
-    # Raggruppa le proteine per "Sequence similarities"
+    # Group by "Sequence similarities"
     similarity_groups = defaultdict(list)
     for protein in proteins:
         similarity = protein.get("Sequence similarities")
         if similarity:
             similarity_groups[similarity].append(protein)
 
-    # Aggiungi il campo Protein_simily a ogni proteina
+    # Add field Protein_simily for each protein
     for protein in proteins:
         similarity = protein.get("Sequence similarities")
         if similarity:
@@ -27,11 +26,10 @@ def group_proteins_by_similarity(input_file, output_file):
                 for p in similar_proteins if p != protein
             ]
 
-    # Scrivi il risultato in un file JSON di output
+
     with open(output_file, 'w') as f:
         json.dump(proteins, f, indent=4)
 
-# Esempio di utilizzo
 input_file = "Uniprot_DocumentDB.json"
 output_file = "Protein-Similarity.json"
 group_proteins_by_similarity(input_file, output_file)

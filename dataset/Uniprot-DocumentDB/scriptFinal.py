@@ -27,7 +27,7 @@ def modify_json(input_file, output_file):
 
 
 # Example usage
-input_file = "output5.json"  # Replace with your input file name
-output_file = "output6.json"  # Replace with your desired output file name
+input_file = "output5.json"
+output_file = "output6.json"
 
 modify_json(input_file, output_file)
