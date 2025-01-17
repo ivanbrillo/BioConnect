@@ -44,7 +44,7 @@ public class AdminService {
 
     public void removeCommentByID(String user, String id) {
         executor.executeWithExceptionHandling(() -> {
-            if(!commentDAO.existsByUserAndComment(user, id))
+            if(userRepository.getByUserAndComment(user, id) == null)
                 throw new KeyException("Comment or User not found");
 
             userRepository.deleteCommentById(user, id);

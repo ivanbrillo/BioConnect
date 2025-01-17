@@ -26,10 +26,16 @@ public class UserController {
         return userService.getCommentsByUsername(username);
     }
 
-    @PostMapping("/profile/add_comment")
-    public String addComment(Authentication authentication, @RequestBody @NotNull @NotBlank String comment, @RequestParam @NotNull @NotBlank String elementId) {
+    @PostMapping("/profile/add_comment/protein")
+    public String addProteinComment(Authentication authentication, @RequestBody @NotNull @NotBlank String comment, @RequestParam @NotNull @NotBlank String elementId) {
         String username = authentication.getName(); // Get username from authentication context
-        return userService.addComment(username, comment, elementId);
+        return userService.addComment(username, comment, elementId, "protein");
+    }
+
+    @PostMapping("/profile/add_comment/drug")
+    public String addDrugComment(Authentication authentication, @RequestBody @NotNull @NotBlank String comment, @RequestParam @NotNull @NotBlank String elementId) {
+        String username = authentication.getName(); // Get username from authentication context
+        return userService.addComment(username, comment, elementId, "drug");
     }
 
     @DeleteMapping("/profile/removeComment/{commentId}")

@@ -22,9 +22,11 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Update("{ '$push': { 'comments': ?1 } }")
     void updateComment(String username, CommentDTO comment);
 
-
     @Query(value = "{ '_id': ?0, 'comments._id' : ?1 }")
     @Update("{ '$pull' : { 'comments' : { '_id' : ?1 } } }")
     void deleteCommentById(String user, String commentId);
+
+    @Query(value = "{ '_id': ?0, 'comments._id': ?1 }")
+    CommentDTO getByUserAndComment(String userId, String commentId);
 
 }
