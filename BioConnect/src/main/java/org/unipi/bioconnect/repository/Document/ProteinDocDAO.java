@@ -24,6 +24,8 @@ public class ProteinDocDAO {
 
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.match(Criteria.where("pathways").in(pathway)), // Match pathway
+                Aggregation.project()  // make more lightweight the document for the successive unwind
+                        .and("publications").as("publications"),
                 Aggregation.unwind("publications", false), // Unwind publications array, not preserving empty arrays
                 Aggregation.group("publications.year", "publications.type") // Group by year and type
                         .count().as("count"), // Count the number of publications in each group
@@ -38,7 +40,9 @@ public class ProteinDocDAO {
     public List<PathwayRecurrenceDTO> getPathwayRecurrence(String subsequence) {
 
         Aggregation aggregation = Aggregation.newAggregation(
-                Aggregation.match(Criteria.where("sequence").regex(subsequence, "i")), // Match sequence with subsequence
+                Aggregation.match(Criteria.where("sequence").regex(subsequence, "i")), // Match sequence with subsequence, case-insensitive
+                Aggregation.project()  // make more lightweight the document for the successive unwind
+                        .and("pathways").as("pathways"),
                 Aggregation.unwind("pathways", false), // Unwind pathways array, preserving documents with empty arrays
                 Aggregation.group("pathways") // Group by pathways
                         .count().as("count"), // Count the occurrences of each pathway
@@ -46,20 +50,6 @@ public class ProteinDocDAO {
         );
 
         AggregationResults<PathwayRecurrenceDTO> results = mongoTemplate.aggregate(aggregation, "Protein", PathwayRecurrenceDTO.class);
-        return results.getMappedResults();
-    }
-
-
-    public List<ProteinDocDTO> getProteinsByPathwayAndLocation(String pathway, String subcellularLocation) {
-
-        Aggregation aggregation = Aggregation.newAggregation(
-                Aggregation.match(Criteria.where("pathways").is(pathway)),
-                Aggregation.match(Criteria.where("subcellularLocations").is(subcellularLocation)),
-                Aggregation.project()
-                        .andExclude("_class")
-        );
-
-        AggregationResults<ProteinDocDTO> results = mongoTemplate.aggregate(aggregation, "Protein", ProteinDocDTO.class);
         return results.getMappedResults();
     }
 

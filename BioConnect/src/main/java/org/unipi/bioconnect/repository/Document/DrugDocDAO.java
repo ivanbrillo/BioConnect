@@ -1,5 +1,6 @@
 package org.unipi.bioconnect.repository.Document;
 
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -23,6 +24,8 @@ public class DrugDocDAO {
 
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.match(Criteria.where("categories").in(category)), // Match pathway
+                Aggregation.project()  // make more lightweight the document for the successive unwind
+                        .and("publications").as("publications"),
                 Aggregation.unwind("publications", false), // Unwind publications array, not preserving empty arrays
                 Aggregation.group("publications.year", "publications.type") // Group by year and type
                         .count().as("count"), // Count the number of publications in each group
@@ -43,30 +46,23 @@ public class DrugDocDAO {
                 // Match drugs with the specific category
                 Aggregation.match(Criteria.where("categories").is(category)),
 
-                // Unwind the patents array (so we can work with each patent individually)
+                Aggregation.project()  // make more lightweight the document for the successive unwind
+                        .and("patents").as("patents")
+                        .and("name").as("name"),
+
                 Aggregation.unwind("patents", false),
-
-                // Convert the 'year' field to an integer and filter patents older than the expired year
-                Aggregation.project()
-                        .and("patents.year").as("patentYear")
-                        .and("patents.country").as("patentCountry")
-                        .and("name").as("name"), // Include drug name in the projection
-
                 // Match patents older than the expired year
-                Aggregation.match(Criteria.where("patentYear").lt(expiredYear)),
+                Aggregation.match(Criteria.where("patents.year").lt(expiredYear)),
 
-                // Group by state (patents.country), and collect drug names with expired patents
-                Aggregation.group("patentCountry")
+                // Group by state (patents.country), and collect/count drug names with expired patents
+                Aggregation.group("patents.country")
                         .count().as("expiredPatentCount") // Count expired patents per country
                         .addToSet("name").as("drugNames"), // Collect drug names that have expired patents
 
-                // Sort by the number of expired patents (descending, most expired patents first)
                 Aggregation.sort(Sort.by(Sort.Order.desc("expiredPatentCount")))
         );
-        // Run the aggregation on the 'Drug' collection
-        AggregationResults<PatentStateAnalysisDTO> results = mongoTemplate.aggregate(aggregation, "Drug", PatentStateAnalysisDTO.class);
 
-        // Return the list of results (states and their corresponding expired patents count)
+        AggregationResults<PatentStateAnalysisDTO> results = mongoTemplate.aggregate(aggregation, "Drug", PatentStateAnalysisDTO.class);
         return results.getMappedResults();
     }
 

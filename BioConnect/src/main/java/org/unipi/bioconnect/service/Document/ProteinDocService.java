@@ -60,7 +60,7 @@ public class ProteinDocService {
     }
 
     public List<ProteinDocDTO> getProteinsByPathwayAndLocation(String pathway, String subsequence) {
-        return executor.executeWithExceptionHandling(() -> docDAO.getProteinsByPathwayAndLocation(pathway, subsequence), "MongoDB (protein recurrence)");
+        return executor.executeWithExceptionHandling(() -> docRepository.findByPathwayAndSubcellularLocation(pathway, subsequence), "MongoDB (find by pathway and location)");
     }
 
 }
