@@ -6,6 +6,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
+import org.springframework.data.mongodb.core.aggregation.ComparisonOperators;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 import org.unipi.bioconnect.DTO.Document.PatentStateAnalysisDTO;
@@ -43,16 +45,16 @@ public class DrugDocDAO {
         int expiredYear = java.time.Year.now().getValue() - 20;
 
         Aggregation aggregation = Aggregation.newAggregation(
-                // Match drugs with the specific category
                 Aggregation.match(Criteria.where("categories").is(category)),
 
-                Aggregation.project()  // make more lightweight the document for the successive unwind
-                        .and("patents").as("patents")
+                // Match patents older than the expired year
+                Aggregation.project()
+                        .and(ArrayOperators.Filter.filter("patents")
+                                .as("patent")
+                                .by(ComparisonOperators.Lt.valueOf("$$patent.year").lessThanValue(expiredYear))).as("patents")
                         .and("name").as("name"),
 
                 Aggregation.unwind("patents", false),
-                // Match patents older than the expired year
-                Aggregation.match(Criteria.where("patents.year").lt(expiredYear)),
 
                 // Group by state (patents.country), and collect/count drug names with expired patents
                 Aggregation.group("patents.country")

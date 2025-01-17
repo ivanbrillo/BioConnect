@@ -7,7 +7,6 @@ import org.unipi.bioconnect.exception.KeyException;
 import org.unipi.bioconnect.repository.CommentDAO;
 import org.unipi.bioconnect.repository.Document.DrugDocRepository;
 import org.unipi.bioconnect.repository.Document.ProteinDocRepository;
-import org.unipi.bioconnect.repository.Graph.GraphHelperRepository;
 import org.unipi.bioconnect.repository.UserRepository;
 
 import java.util.List;
