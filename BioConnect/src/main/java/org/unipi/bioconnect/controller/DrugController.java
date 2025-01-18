@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.DrugDTO;
 import org.unipi.bioconnect.service.Document.DrugDocService;
 import org.unipi.bioconnect.service.Graph.DrugGraphService;
+import org.unipi.bioconnect.service.AdminService;
 
 @RestController
 @RequestMapping("api/drug")
@@ -18,6 +19,9 @@ public class DrugController {
 
     @Autowired
     private DrugDocService drugDocService;
+
+    @Autowired
+    private AdminService AdminService;
 
 
     @PostMapping("/add")
@@ -44,6 +48,7 @@ public class DrugController {
     public String deleteDrugById(@PathVariable String drugID) {
         drugGraphService.deleteDrugById(drugID);
         drugDocService.deleteDrugById(drugID);
+        AdminService.deleteCommentsByElementID(drugID);
         return "Drug " + drugID + " deleted";
     }
 

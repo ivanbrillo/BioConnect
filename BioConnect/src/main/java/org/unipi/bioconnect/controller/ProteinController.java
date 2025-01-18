@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.ProteinDTO;
+import org.unipi.bioconnect.service.AdminService;
 import org.unipi.bioconnect.service.Document.ProteinDocService;
 import org.unipi.bioconnect.service.Graph.ProteinGraphService;
 
@@ -17,6 +18,8 @@ public class ProteinController {
     private ProteinGraphService proteinGraphService;
     @Autowired
     private ProteinDocService proteinDocService;
+    @Autowired
+    private AdminService AdminService;
 
 
     @PostMapping("/add")
@@ -44,6 +47,7 @@ public class ProteinController {
     public String deleteProteinById(@PathVariable String uniProtID) {
         proteinGraphService.deleteProteinById(uniProtID);
         proteinDocService.deleteProtein(uniProtID);
+        AdminService.deleteCommentsByElementID(uniProtID);
         return "Protein " + uniProtID + " deleted correctly";
     }
 

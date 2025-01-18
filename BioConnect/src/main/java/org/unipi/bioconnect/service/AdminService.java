@@ -65,4 +65,11 @@ public class AdminService {
         return "User " + credentials.getUsername() + " correctly registered, procede to login";
     }
 
+    public void deleteCommentsByElementID(String elementID) {
+        executor.executeWithExceptionHandling(() -> {
+            commentDAO.deleteCommentsByElementID(elementID);
+            return 1;
+        }, "MongoDB (delete comments)");
+    }
+
 }
