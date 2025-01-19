@@ -18,8 +18,7 @@ public class ProteinController {
     private ProteinGraphService proteinGraphService;
     @Autowired
     private ProteinDocService proteinDocService;
-    @Autowired
-    private AdminService AdminService;
+
 
 
     @PostMapping("/add")
@@ -28,7 +27,6 @@ public class ProteinController {
     public String saveProteinGraph(@RequestBody @Valid ProteinDTO proteinDTO) {
         proteinGraphService.saveProteinGraph(proteinDTO.getGraph());
         proteinDocService.saveProteinDoc(proteinDTO.getDocument());
-
         return "Protein " + proteinDTO.getDocument().getId() + " saved correctly";
     }
 
@@ -47,7 +45,6 @@ public class ProteinController {
     public String deleteProteinById(@PathVariable String uniProtID) {
         proteinGraphService.deleteProteinById(uniProtID);
         proteinDocService.deleteProtein(uniProtID);
-        AdminService.deleteCommentsByElementID(uniProtID);
         return "Protein " + uniProtID + " deleted correctly";
     }
 

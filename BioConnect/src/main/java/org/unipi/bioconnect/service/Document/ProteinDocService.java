@@ -4,9 +4,11 @@ package org.unipi.bioconnect.service.Document;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.unipi.bioconnect.DTO.Document.PathwayRecurrenceDTO;
 import org.unipi.bioconnect.DTO.Document.ProteinDocDTO;
 import org.unipi.bioconnect.DTO.Document.TrendAnalysisDTO;
+import org.unipi.bioconnect.service.AdminService;
 import org.unipi.bioconnect.service.DatabaseOperationExecutor;
 import org.unipi.bioconnect.exception.KeyException;
 import org.unipi.bioconnect.model.Document.ProteinDoc;
@@ -21,12 +23,12 @@ public class ProteinDocService {
 
     @Autowired
     private ProteinDocRepository docRepository;
-
     @Autowired
     private ProteinDocDAO docDAO;
-
     @Autowired
     private DatabaseOperationExecutor executor;
+    @Autowired
+    private AdminService AdminService;
 
     public void saveProteinDoc(ProteinDocDTO proteinDocDTO) {
         executor.executeWithExceptionHandling(() -> docRepository.insert(new ProteinDoc(proteinDocDTO)), "MongoDB (save)");
@@ -40,11 +42,14 @@ public class ProteinDocService {
         }, "MongoDB (update)");
     }
 
+    @Transactional(value = "mongoTransactionManager")
     public void deleteProtein(String uniProtID) {
         long numDeleted = executor.executeWithExceptionHandling(() -> docRepository.deleteByUniProtID(uniProtID), "MongoDB (delete)");
 
         if (numDeleted == 0)
             throw new KeyException("No Protein with ID: " + uniProtID + " found");
+
+        AdminService.deleteCommentsByElementID(uniProtID);
     }
 
     public List<ProteinDocDTO> searchProteinDoc(String searchedText) {

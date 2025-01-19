@@ -19,10 +19,7 @@ public class DrugController {
 
     @Autowired
     private DrugDocService drugDocService;
-
-    @Autowired
-    private AdminService AdminService;
-
+    
 
     @PostMapping("/add")
     @Operation(summary = "Add a drug to Neo4j and MongoDB databases")
@@ -48,7 +45,6 @@ public class DrugController {
     public String deleteDrugById(@PathVariable String drugID) {
         drugGraphService.deleteDrugById(drugID);
         drugDocService.deleteDrugById(drugID);
-        AdminService.deleteCommentsByElementID(drugID);
         return "Drug " + drugID + " deleted";
     }
 

@@ -20,7 +20,6 @@ public class DiseaseGraphController {
 
     @PostMapping("/add")
     @Operation(summary = "Add a disease to Neo4j database")
-    @Transactional
     public String saveDiseaseGraph(@RequestBody @Valid DiseaseGraphDTO diseaseGraphDTO) {
         diseaseGraphService.saveDiseaseGraph(diseaseGraphDTO);
         return "Disease " + diseaseGraphDTO.getId() + " saved";
@@ -28,7 +27,6 @@ public class DiseaseGraphController {
 
     @PutMapping("/update")
     @Operation(summary = "Update a disease in the Neo4j database")
-    @Transactional
     public String updateDiseaseById(@RequestBody @Valid DiseaseGraphDTO diseaseGraphDTO) {
         diseaseGraphService.updateDiseaseById(diseaseGraphDTO);
         return "Disease " + diseaseGraphDTO.getId() + " updated";
@@ -36,7 +34,6 @@ public class DiseaseGraphController {
 
     @DeleteMapping("/delete/{diseaseID}")
     @Operation(summary = "Delete a disease in the Neo4j database by its disease ID")
-    @Transactional
     public String deleteDiseaseById(@PathVariable String diseaseID) {
         diseaseGraphService.deleteDiseaseById(diseaseID);
         return "Disease " + diseaseID + " deleted";
