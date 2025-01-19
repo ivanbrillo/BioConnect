@@ -67,7 +67,7 @@ public class AdminService {
 
     public void deleteCommentsByElementID(String elementID) {
         executor.executeWithExceptionHandling(() -> {
-            commentDAO.deleteCommentsByElementID(elementID);
+            userRepository.deleteCommentsByElementId(elementID);
             return 1;
         }, "MongoDB (delete comments)");
     }

@@ -29,4 +29,8 @@ public interface UserRepository extends MongoRepository<User, String> {
     @Query(value = "{ '_id': ?0, 'comments._id': ?1 }")
     CommentDTO getByUserAndComment(String userId, String commentId);
 
+    @Query(value = "{ 'comments.elementId': ?0 }")
+    @Update("{ '$pull': { 'comments': { 'elementId': ?0 } } }")
+    void deleteCommentsByElementId(String elementId);
+
 }

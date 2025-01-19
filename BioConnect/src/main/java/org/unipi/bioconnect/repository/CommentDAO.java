@@ -40,15 +40,4 @@ public class CommentDAO {
         return results.getMappedResults();
     }
 
-    // Java
-    public void deleteCommentsByElementID(String elementID) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("comments.elementId").is(elementID));
-
-        List<User> users = mongoTemplate.find(query, User.class);
-        for (User user : users) {
-            user.getComments().removeIf(comment -> comment.getElementId().equals(elementID));
-            mongoTemplate.save(user);
-        }
-    }
 }
