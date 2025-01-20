@@ -45,13 +45,12 @@ public interface DiseaseGraphRepository extends Neo4jRepository<DiseaseGraph, St
     List<BaseNodeDTO> getDiseaseByDrug(@Param("drugId") String drugId);
 
     //2. Shortest path
+    // n IN nodes(p)[1..-1]  -> all nodes except the first and the last that are Diseases
     @Query("""
-                MATCH p = SHORTEST 1 (d1:Disease)-[*..4]-(d2:Disease)
-                WHERE d1.id = $disease1Id
-                  AND d2.id = $disease2Id
-                  AND ALL(n IN nodes(p)[1..-1] WHERE n:Protein)
-                RETURN
-                    [node IN nodes(p) | node {id: node.id, name: node.name}]
+                MATCH p = allShortestPaths((d1:Disease)-[*..5]-(d2:Disease))
+                WHERE d1.id = $disease1Id AND d2.id = $disease2Id
+                AND ALL(n IN nodes(p)[1..-1] WHERE n:Protein)
+                RETURN [node IN nodes(p) | node {id: node.id, name: node.name}]
             """)
     List<BaseNodeDTO> findShortestPathBetweenDiseases(@Param("disease1Id") String disease1Id, @Param("disease2Id") String disease2Id);
 

@@ -54,7 +54,7 @@ public class DiseaseGraphController {
 
     @GetMapping("/shortestPath/{disease1Id}/{disease2Id}")
     @Operation(summary = "Get the shortest path between two diseases")
-    public List<BaseNodeDTO> getShortestPathBetweenDiseases(@PathVariable String disease1Id, @PathVariable String disease2Id) {
+    public List<List<BaseNodeDTO>> getShortestPathBetweenDiseases(@PathVariable String disease1Id, @PathVariable String disease2Id) {
         return diseaseGraphService.getShortestPathBetweenDiseases(disease1Id, disease2Id);
     }
 

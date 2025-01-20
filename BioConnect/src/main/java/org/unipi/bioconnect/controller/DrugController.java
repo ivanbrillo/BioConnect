@@ -19,7 +19,7 @@ public class DrugController {
 
     @Autowired
     private DrugDocService drugDocService;
-    
+
 
     @PostMapping("/add")
     @Operation(summary = "Add a drug to Neo4j and MongoDB databases")

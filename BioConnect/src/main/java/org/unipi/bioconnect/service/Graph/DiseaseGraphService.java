@@ -6,7 +6,9 @@ import org.unipi.bioconnect.DTO.Graph.BaseNodeDTO;
 import org.unipi.bioconnect.DTO.Graph.DiseaseGraphDTO;
 import org.unipi.bioconnect.service.DatabaseOperationExecutor;
 import org.unipi.bioconnect.repository.Graph.DiseaseGraphRepository;
+import org.unipi.bioconnect.utils.GraphUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,7 +43,10 @@ public class DiseaseGraphService {
         return executor.executeWithExceptionHandling(() -> diseaseGraphRepository.getDiseaseByDrug(drugId), "Neo4j (disease by drug)");
     }
 
-    public List<BaseNodeDTO> getShortestPathBetweenDiseases(String disease1Id, String disease2Id) {
-        return executor.executeWithExceptionHandling(() -> diseaseGraphRepository.findShortestPathBetweenDiseases(disease1Id, disease2Id), "Neo4j (shortest path diseases)");
+    public List<List<BaseNodeDTO>> getShortestPathBetweenDiseases(String disease1Id, String disease2Id) {
+        return executor.executeWithExceptionHandling(() -> GraphUtils.separateShortestPath(diseaseGraphRepository.findShortestPathBetweenDiseases(disease1Id, disease2Id)), "Neo4j (shortest path diseases)");
     }
+
+
+
 }
