@@ -34,20 +34,17 @@ public class GraphUtils {
         );
     }
 
-    // Method to separate shortest path in a flat list e.g. [D1 P1 P2 D2 D1 P3 P4 D3] -> [[D1 P1 P2 D2], [D1 P3 P4 D3]]
+    // Method to separate shortest path in a flat list e.g. [D1 P1 P2 D2 D1 P3 P4 D2] -> [[D1 P1 P2 D2], [D1 P3 P4 D2]]
     public static List<List<BaseNodeDTO>> separateShortestPath(List<BaseNodeDTO> nodes) {
         if (nodes == null || nodes.isEmpty())
             return new ArrayList<>();
 
         List<List<BaseNodeDTO>> result = new ArrayList<>();
         List<BaseNodeDTO> currentList = new ArrayList<>();
-
-        // Get the last element of the main list - this is our separator
         BaseNodeDTO lastElement = nodes.get(nodes.size() - 1);   // last disease element, common for all shortest path
 
         for (BaseNodeDTO node : nodes) {
             currentList.add(node);
-
             if (node.getName().equals(lastElement.getName())) {   // new shortest path
                 result.add(new ArrayList<>(currentList));
                 currentList = new ArrayList<>();
