@@ -34,11 +34,11 @@ public class UserService {
 
     public String addComment(String username, String comment, String elementId, String type) {
         return executor.executeWithExceptionHandling(() -> {
-            if (!((type.equals("protein") && proteinDocRepository.existsById(elementId)) || type.equals("drug") && drugDocRepository.existsById(elementId)))  // if it doesn't exist:
+            if (!((type.equals("protein") && proteinDocRepository.existsById(elementId)) || (type.equals("drug") && drugDocRepository.existsById(elementId))))  // if it doesn't exist:
                 throw new KeyException(type + " with ID: " + elementId + " does not exist");
 
             CommentDTO commentDTO = new CommentDTO(UUID.randomUUID().toString(), comment, elementId, null);
-            userRepository.updateComment(username, commentDTO);
+            userRepository.addComment(username, commentDTO);
             return "Comment added successfully";
 
         }, "MongoDB (add comment)");
