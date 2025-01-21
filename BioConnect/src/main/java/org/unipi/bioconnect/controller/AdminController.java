@@ -41,7 +41,6 @@ public class AdminController {
         return "Comment removed correctly";
     }
 
-
     @PostMapping("/registerAdmin")
     @Operation(summary = "Register a new admin")
     public String register(@RequestBody @Valid CredentialsDTO credentials) {

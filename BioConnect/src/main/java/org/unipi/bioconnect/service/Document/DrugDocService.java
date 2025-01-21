@@ -39,7 +39,7 @@ public class DrugDocService {
         }, "MongoDB (update)");
     }
 
-    @Transactional(value = "mongoTransactionManager")
+    //    @Transactional(value = "mongoTransactionManager")
     public void deleteDrugById(String drugBankID) {
         long numDeleted = executor.executeWithExceptionHandling(() -> docRepository.deleteByDrugBankID(drugBankID), "MongoDB (delete)");
 
@@ -54,7 +54,13 @@ public class DrugDocService {
     }
 
     public List<TrendAnalysisDTO> getTrendAnalysisForCategory(String category) {
-        return executor.executeWithExceptionHandling(() -> docDAO.getTrendAnalysisForCategory(category), "MongoDB (trend analysis)");
+        List<TrendAnalysisDTO> trend = executor.executeWithExceptionHandling(() -> docDAO.getTrendAnalysisForCategory(category), "MongoDB (trend analysis)");
+
+        if (trend.isEmpty())
+            throw new IllegalArgumentException("No Drug saved with the specified category: " + category);
+
+        return trend;
+
     }
 
     public List<PatentStateAnalysisDTO> getExpiredPatentsByStateForCategory(String category) {

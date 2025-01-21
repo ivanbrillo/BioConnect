@@ -33,6 +33,7 @@ public class GraphServiceCRUD {
         executor.executeWithExceptionHandling(() -> {
             if (entityRepository.existEntityById(entityGraphDTO.getId()))
                 throw new KeyException(entityGraphDTO.getNodeType() + " with ID " + entityGraphDTO.getId() + " already exist");
+
             return saveEntityHelper(entityGraphDTO, entityRepository);
         }, "Neo4j (save)");
     }
@@ -40,8 +41,7 @@ public class GraphServiceCRUD {
     public BaseNodeDTO getEntityById(String id, GraphEntityRepository entityRepository) {
         GraphModel entityGraph = executor.executeWithExceptionHandling(() -> entityRepository.getEntityById(id), "Neo4j (get)");
 
-        if (entityGraph == null)
-            throw new KeyException("Entity with ID " + id + " does not exist");
+        if (entityGraph == null) throw new KeyException("Entity with ID " + id + " does not exist");
         return entityGraph.getDTO();
     }
 
@@ -49,6 +49,7 @@ public class GraphServiceCRUD {
         executor.executeWithExceptionHandling(() -> {
             if (!entityRepository.existEntityById(entityId))
                 throw new KeyException("Entity with ID " + entityId + " does not exist");
+
             entityRepository.deleteEntityById(entityId);
             return 1;
         }, "Neo4j (delete)");

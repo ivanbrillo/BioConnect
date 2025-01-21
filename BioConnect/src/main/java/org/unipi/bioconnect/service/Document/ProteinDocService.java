@@ -38,11 +38,12 @@ public class ProteinDocService {
         executor.executeWithExceptionHandling(() -> {
             if (!docRepository.existsById(proteinDocDTO.getId()))
                 throw new KeyException("Protein with ID: " + proteinDocDTO.getId() + " does not exist");
+
             return docRepository.save(new ProteinDoc(proteinDocDTO));
         }, "MongoDB (update)");
     }
 
-    @Transactional(value = "mongoTransactionManager")
+    //    @Transactional(value = "mongoTransactionManager")
     public void deleteProtein(String uniProtID) {
         long numDeleted = executor.executeWithExceptionHandling(() -> docRepository.deleteByUniProtID(uniProtID), "MongoDB (delete)");
 
@@ -57,15 +58,24 @@ public class ProteinDocService {
     }
 
     public List<TrendAnalysisDTO> getTrendAnalysisForPathway(String pathway) {
-        return executor.executeWithExceptionHandling(() -> docDAO.getTrendAnalysisForPathway(pathway), "MongoDB (trend analysis)");
+        List<TrendAnalysisDTO> trend =  executor.executeWithExceptionHandling(() -> docDAO.getTrendAnalysisForPathway(pathway), "MongoDB (trend analysis)");
+
+        if (trend.isEmpty())
+            throw new IllegalArgumentException("No protein saved with the specified pathway: " + pathway);
+
+        return trend;
+
     }
 
     public List<PathwayRecurrenceDTO> getPathwayRecurrence(String subsequence) {
+        if (!subsequence.matches("^[A-Z]+$"))  // amino acids subsequence must be uppercase letters
+            throw new IllegalArgumentException("Subsequence must contain only uppercase letters, got: " + subsequence);
+
         return executor.executeWithExceptionHandling(() -> docDAO.getPathwayRecurrence(subsequence), "MongoDB (pathway recurrence)");
     }
 
-    public List<ProteinDocDTO> getProteinsByPathwayAndLocation(String pathway, String subsequence) {
-        return executor.executeWithExceptionHandling(() -> docRepository.findByPathwayAndSubcellularLocation(pathway, subsequence), "MongoDB (find by pathway and location)");
+    public List<ProteinDocDTO> getProteinsByPathwayAndLocation(String pathway, String subcellularLocation) {
+        return executor.executeWithExceptionHandling(() -> docRepository.findByPathwayAndSubcellularLocation(pathway, subcellularLocation), "MongoDB (find by pathway and location)");
     }
 
 }

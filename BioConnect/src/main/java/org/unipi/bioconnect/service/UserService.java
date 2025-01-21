@@ -29,13 +29,20 @@ public class UserService {
 
 
     public List<CommentDTO> getCommentsByUsername(String username) {
-        return executor.executeWithExceptionHandling(() -> commentDAO.findUserComments(username), "MongoDB (my comments)");
+        return executor.executeWithExceptionHandling(() -> {
+            if(!userRepository.existsById(username))
+                throw new KeyException("User not found");
+
+            return commentDAO.findUserComments(username);}, "MongoDB (my comments)");
     }
 
     public String addComment(String username, String comment, String elementId, String type) {
         return executor.executeWithExceptionHandling(() -> {
             if (!((type.equals("protein") && proteinDocRepository.existsById(elementId)) || (type.equals("drug") && drugDocRepository.existsById(elementId))))  // if it doesn't exist:
                 throw new KeyException(type + " with ID: " + elementId + " does not exist");
+
+            if(!userRepository.existsById(username))
+                throw new KeyException("User not found");
 
             CommentDTO commentDTO = new CommentDTO(UUID.randomUUID().toString(), comment, elementId, null);
             userRepository.addComment(username, commentDTO);

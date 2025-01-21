@@ -6,12 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.unipi.bioconnect.DTO.ProteinDTO;
-import org.unipi.bioconnect.service.AdminService;
 import org.unipi.bioconnect.service.Document.ProteinDocService;
 import org.unipi.bioconnect.service.Graph.ProteinGraphService;
 
 @RestController
-@RequestMapping("api/protein")
+@RequestMapping("/api/admin/protein")
 public class ProteinController {
 
     @Autowired
@@ -19,12 +18,10 @@ public class ProteinController {
     @Autowired
     private ProteinDocService proteinDocService;
 
-
-
     @PostMapping("/add")
     @Operation(summary = "Add a protein to Neo4j and MongoDB databases")
     @Transactional
-    public String saveProteinGraph(@RequestBody @Valid ProteinDTO proteinDTO) {
+    public String saveProteinById(@RequestBody @Valid ProteinDTO proteinDTO) {
         proteinGraphService.saveProteinGraph(proteinDTO.getGraph());
         proteinDocService.saveProteinDoc(proteinDTO.getDocument());
         return "Protein " + proteinDTO.getDocument().getId() + " saved correctly";
