@@ -9,9 +9,10 @@ uniprot_path = os.path.join(script_dir, "CompletedUniprot.json")
 proteins_interact_path = os.path.join(script_dir, "proteins_interact.json")
 proteins_similar_path = os.path.join(script_dir, "Protein-Similarity.json")
 protein_name_path = os.path.join(script_dir, "Protein_names.json")
+drugs_path = os.path.join(script_dir, "drugs.json")
 
-nodes_csv = os.path.join(script_dir, "nodes_2.csv")
-relationships_csv = os.path.join(script_dir, "relationships_2.csv")
+nodes_csv = os.path.join(script_dir, "nodes_2-2.csv")
+relationships_csv = os.path.join(script_dir, "relationships_2-2.csv")
 
 
 def get_protein_short_name(protein_name):
@@ -25,7 +26,7 @@ def get_simplified_action(action):
         "inhibition of synthesis", "inhibitor", "inhibitory allosteric modulator", "inverse agonist",
         "incorporation into and destabilization", "negative modulator", "nist", "nucleotide exchange blocker",
         "oxidizer", "suppressor", "translocation inhibitor", "weak inhibitor", "inhibits downstream inflammation cascades",
-        "antibody", "antisense oligonucleotide", "chelator", "cleavage", "d", "inducer", "other", "other/unknown"
+        "antibody", "antisense oligonucleotide", "chelator", "cleavage", "d", "inducer", "other", "other/unknown", "NULL"
     ]
     enhanced_by_actions = [
         "activator", "agonist", "allosteric modulator", "binder", "binding", "carrier", "chaperone",
@@ -74,10 +75,13 @@ with open(proteins_similar_path, 'r') as json_file:
 with open(protein_name_path, 'r') as json_file:
     protein_name_list = json.load(json_file)
 
+with open(drugs_path, 'r', encoding='utf-8') as json_file:
+    drugs_data = json.load(json_file)
+
 protein_name_data = {item['_id']: item['name'] for item in protein_name_list}
 
-with open(nodes_csv, mode='w', newline='') as nodes_file, \
-     open(relationships_csv, mode='w', newline='') as relationships_file:
+with open(nodes_csv, mode='w', newline='', encoding='utf-8') as nodes_file, \
+     open(relationships_csv, mode='w', newline='', encoding='utf-8') as relationships_file:
 
     # Writer noded
     nodes_writer = csv.writer(nodes_file)
@@ -131,6 +135,16 @@ with open(nodes_csv, mode='w', newline='') as nodes_file, \
             if simplified_action != "UNKNOWN" and (drug_id, protein_id) not in relationships_csv_written:
                 relationships_writer.writerow([protein_id, drug_id, simplified_action])
                 relationships_csv_written.add((drug_id, protein_id))
+
+    # Importo tutti i drug restanti
+    for drug in tqdm(drugs_data, desc="Processing Drugs"):
+        drug_id = drug["_id"]
+        drug_name = drug["name"]
+
+        if drug_id and drug_name:
+            if drug_id not in nodes_csv_written:
+                nodes_writer.writerow([drug_id, drug_name, "Drug"])
+                nodes_csv_written[drug_id] = drug_name
 
     # Relation between proteins
     for protein in tqdm(proteins_interact_data, desc="Processing Protein Interactions"):

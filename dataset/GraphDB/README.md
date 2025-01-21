@@ -9,11 +9,16 @@
     - ✅Oppure andate nella cartella bin all'interno del dbms ed eseguite il comando (ovviamente cambiando i percorsi dei due file)
 
 ```bash
+CORRETTO
 neo4j-admin database import full ^
-     --nodes="C:\Users\danie\.Neo4jDesktop\relate-data\dbmss\dbms-d0c7f232-59a5-46f7-8886-7610afb73ff7\import\nodes.csv" ^
-     --relationships="C:\Users\danie\.Neo4jDesktop\relate-data\dbmss\dbms-d0c7f232-59a5-46f7-8886-7610afb73ff7\import\relationships.csv" ^
+     --nodes="C:\Users\danie\.Neo4jDesktop\relate-data\dbmss\dbms-6e21c582-f01c-4cca-92b5-9e5a313cb2ca\import\nodes_2-2.csv" ^
+     --relationships="C:\Users\danie\.Neo4jDesktop\relate-data\dbmss\dbms-6e21c582-f01c-4cca-92b5-9e5a313cb2ca\import\relationships_2-2.csv" ^
      --overwrite-destination ^
      --verbose
+
+extra
+     --node-ids="C:\Users\danie\.Neo4jDesktop\relate-data\dbmss\dbms-d0c7f232-59a5-46f7-8886-7610afb73ff7\import\nodes.csv:id" ^
+
 
 neo4j-admin database import full ^
     --nodes="C:\Users\danie\.Neo4jDesktop\relate-data\dbmss\dbms-4b53888a-f633-4467-b4d3-2413da0a5ecc\import\nodes_2.csv" ^
