@@ -23,7 +23,7 @@ public class CommentDAO {
                 Aggregation.project("comments._id", "comments.comment", "comments.elementId", "comments.username")
         );
 
-        AggregationResults<CommentDTO> results = mongoTemplate.aggregate(aggregation, "Users", CommentDTO.class);
+        AggregationResults<CommentDTO> results = mongoTemplate.aggregate(aggregation, "User", CommentDTO.class);
         return results.getMappedResults();
     }
 
@@ -34,7 +34,7 @@ public class CommentDAO {
                 Aggregation.project("comments._id", "comments.comment", "comments.elementId")  // no password, role or class
         );
 
-        AggregationResults<CommentDTO> results = mongoTemplate.aggregate(aggregation, "Users", CommentDTO.class);
+        AggregationResults<CommentDTO> results = mongoTemplate.aggregate(aggregation, "User", CommentDTO.class);
         return results.getMappedResults();
     }
 
