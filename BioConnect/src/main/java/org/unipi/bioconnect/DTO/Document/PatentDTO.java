@@ -8,7 +8,7 @@ import lombok.Data;
 
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL) // Esclude i campi nulli
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PatentDTO {
 
     @NotBlank(message="patent state cannot be blank")

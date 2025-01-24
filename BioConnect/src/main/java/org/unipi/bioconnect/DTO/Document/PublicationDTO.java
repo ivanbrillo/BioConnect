@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL) // Esclude i campi nulli
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PublicationDTO {
 
     @NotNull(message = "publication title is required")

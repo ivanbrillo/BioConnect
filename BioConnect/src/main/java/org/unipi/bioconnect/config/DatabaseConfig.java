@@ -23,4 +23,5 @@ public class DatabaseConfig {
     Neo4jTransactionManager neo4jTransactionManager(Driver driver) {
         return new Neo4jTransactionManager(driver);
     }
+
 }

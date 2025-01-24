@@ -12,47 +12,47 @@ import org.unipi.bioconnect.service.Graph.DiseaseGraphService;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/diseaseGraph")
+@RequestMapping("api")
 public class DiseaseGraphController {
 
     @Autowired
     private DiseaseGraphService diseaseGraphService;
 
-    @PostMapping("/add")
+    @PostMapping("/admin/diseaseGraph/add")
     @Operation(summary = "Add a disease to Neo4j database")
     public String saveDiseaseGraph(@RequestBody @Valid DiseaseGraphDTO diseaseGraphDTO) {
         diseaseGraphService.saveDiseaseGraph(diseaseGraphDTO);
         return "Disease " + diseaseGraphDTO.getId() + " saved";
     }
 
-    @PutMapping("/update")
+    @PutMapping("/admin/diseaseGraph/update")
     @Operation(summary = "Update a disease in the Neo4j database")
     public String updateDiseaseById(@RequestBody @Valid DiseaseGraphDTO diseaseGraphDTO) {
         diseaseGraphService.updateDiseaseById(diseaseGraphDTO);
         return "Disease " + diseaseGraphDTO.getId() + " updated";
     }
 
-    @DeleteMapping("/delete/{diseaseID}")
+    @DeleteMapping("/admin/diseaseGraph/delete/{diseaseID}")
     @Operation(summary = "Delete a disease in the Neo4j database by its disease ID")
     public String deleteDiseaseById(@PathVariable String diseaseID) {
         diseaseGraphService.deleteDiseaseById(diseaseID);
         return "Disease " + diseaseID + " deleted";
     }
 
-    @GetMapping("/{diseaseID}")
+    @GetMapping("/diseaseGraph/{diseaseID}")
     @Operation(summary = "Get a disease from the Neo4j database by its disease ID")
     public DiseaseGraphDTO getDiseaseByID(@PathVariable String diseaseID) {
         return diseaseGraphService.getDiseaseById(diseaseID);
     }
 
     //* Advanced Operations
-    @GetMapping("/diseaseByDrug/{drugId}")
+    @GetMapping("/diseaseGraph/diseaseByDrug/{drugId}")
     @Operation(summary = "Get diseases linked to a particular drug")
     public List<BaseNodeDTO> getDiseaseByDrug(@PathVariable String drugId) {
         return diseaseGraphService.getDiseaseByDrug(drugId);
     }
 
-    @GetMapping("/shortestPath/{disease1Id}/{disease2Id}")
+    @GetMapping("/diseaseGraph/shortestPath/{disease1Id}/{disease2Id}")
     @Operation(summary = "Get the shortest path between two diseases")
     public List<List<BaseNodeDTO>> getShortestPathBetweenDiseases(@PathVariable String disease1Id, @PathVariable String disease2Id) {
         return diseaseGraphService.getShortestPathBetweenDiseases(disease1Id, disease2Id);
