@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL) // Esclude i campi nulli
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PathwayRecurrenceDTO {
 
     @Field("_id")

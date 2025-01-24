@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL) // Esclude i campi nulli
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProteinDocDTO {
 
     @Field("_id")
