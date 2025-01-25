@@ -43,7 +43,7 @@ public class AdminService {
 
     public void removeCommentByID(String user, String id) {
         executor.executeWithExceptionHandling(() -> {
-            if(userRepository.getByUserAndComment(user, id) == null)
+            if (userRepository.getByUserAndComment(user, id) == null)
                 throw new KeyException("Comment or User not found");
 
             userRepository.deleteCommentById(user, id);
@@ -51,6 +51,15 @@ public class AdminService {
         }, "MongoDB (remove comment)");
     }
 
+    public void removeUserByID(String user) {
+        executor.executeWithExceptionHandling(() -> {
+            if (! userRepository.existsById(user))
+                throw new KeyException("User not found");
+
+            userRepository.deleteById(user);
+            return 1;
+        }, "MongoDB (remove user)");
+    }
 
     public List<UserDTO> getAllUsers() {
         return executor.executeWithExceptionHandling(() -> userRepository.findAllUser(), "MongoDB (all users)");

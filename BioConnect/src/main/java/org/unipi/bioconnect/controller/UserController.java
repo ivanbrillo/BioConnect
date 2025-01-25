@@ -105,4 +105,12 @@ public class UserController {
         return "Comment removed correctly";
     }
 
+    @DeleteMapping("/profile/deleteAccount")
+    @Operation(summary = "Allows the user to remove his account",
+            description = "Allows the user to remove his account and all the related information")
+    public String deleteAccount(Authentication authentication) {
+        adminService.removeUserByID(authentication.getName());
+        return "User removed correctly";
+    }
+
 }

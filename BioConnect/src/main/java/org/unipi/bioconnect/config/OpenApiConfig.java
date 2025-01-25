@@ -35,7 +35,7 @@ public class OpenApiConfig {
     // traverse all OpenAPI default responses (200, 403 etc...), and keep only the 200, the other ones will be mapped manually
     public OpenApiCustomizer removeDefaultResponses() {
 
-        Set<String> requireIdValidation = Set.of("getDrugByID", "getDrugTargetSimilarProtein", "getDrugOppositeEffectsProtein", "getProteinById", "getUserByUsername", "removeComment", "getShortestPathBetweenDiseases", "getDiseaseByDrug", "getDiseaseByID", "addProteinComment", "addDrugComment");
+        Set<String> requireIdValidation = Set.of("getDrugByID", "getDrugTargetSimilarProtein", "getDrugOppositeEffectsProtein", "getProteinById", "getUserByUsername", "removeComment", "getShortestPathBetweenDiseases", "getDiseaseByDrug", "getDiseaseByID", "addProteinComment", "addDrugComment", "deleteAccount", "removeUser");
 
 
         return openApi -> {

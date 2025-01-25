@@ -93,4 +93,19 @@ public class AdminController {
         return adminService.register(credentials, Role.ADMIN);
     }
 
+
+    @DeleteMapping("/users/removeUser/{user}")
+    @Operation(summary = "Removes a User",
+            description = "Removes a User and its related information (eg. comments)")
+    public String removeUser(
+            @Parameter(
+                    description = "The unique ID of the user to delete",
+                    example = "test_user1",
+                    required = true,
+                    schema = @Schema(type = "string")
+            ) @PathVariable String user) {
+        adminService.removeUserByID(user);
+        return "User removed correctly";
+    }
+
 }
