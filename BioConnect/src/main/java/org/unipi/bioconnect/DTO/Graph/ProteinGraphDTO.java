@@ -9,7 +9,9 @@ import org.unipi.bioconnect.model.Graph.DrugGraph;
 import org.unipi.bioconnect.model.Graph.GraphModel;
 import org.unipi.bioconnect.model.Graph.ProteinGraph;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -65,15 +67,21 @@ public class ProteinGraphDTO extends BaseNodeDTO {
         return "Protein";
     }
 
-    public Set<BaseNodeDTO> getNodeRelationships() {
-        Set<BaseNodeDTO> set = new HashSet<>();
-        set.addAll(proteinInteractions);
-        set.addAll(proteinSimilarities);
-        set.addAll(drugInhibitBy);
-        set.addAll(drugEnhancedBy);
-        set.addAll(diseaseInvolvedIn);
+    public List<Set<BaseNodeDTO>> getNodeRelationships() {
+        Set<BaseNodeDTO> setProtein = new HashSet<>();
+        Set<BaseNodeDTO> setDrug = new HashSet<>();
 
-        return set;
+        setProtein.addAll(proteinInteractions);
+        setProtein.addAll(proteinSimilarities);
+        setDrug.addAll(drugInhibitBy);
+        setDrug.addAll(drugEnhancedBy);
+
+        List<Set<BaseNodeDTO>> relationships = new ArrayList<>();
+        relationships.add(setProtein);
+        relationships.add(setDrug);
+        relationships.add(diseaseInvolvedIn);
+
+        return relationships;
     }
 
     public GraphModel getGraphModel() {

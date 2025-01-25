@@ -11,10 +11,25 @@ import java.util.List;
 public interface GraphHelperRepository extends Neo4jRepository<GraphModel, String> {
 
     @Query("""
-                MATCH (n)
+                MATCH (n: Protein)
                 WHERE n.id IN $ids
                 RETURN n.id AS id, n.name AS name
             """)
-    List<BaseNodeDTO> findEntityNamesByIds(@Param("ids") List<String> ids);
+    List<BaseNodeDTO> findProteinNamesByIds(@Param("ids") List<String> ids);
+
+    @Query("""
+                MATCH (n: Drug)
+                WHERE n.id IN $ids
+                RETURN n.id AS id, n.name AS name
+            """)
+    List<BaseNodeDTO> findDrugNamesByIds(@Param("ids") List<String> ids);
+
+    @Query("""
+                MATCH (n: Disease)
+                WHERE n.id IN $ids
+                RETURN n.id AS id, n.name AS name
+            """)
+    List<BaseNodeDTO> findDiseaseNamesByIds(@Param("ids") List<String> ids);
+
 
 }

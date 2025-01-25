@@ -11,6 +11,7 @@ import org.unipi.bioconnect.repository.Graph.GraphEntityRepository;
 import org.unipi.bioconnect.repository.Graph.GraphHelperRepository;
 import org.unipi.bioconnect.utils.GraphUtils;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -23,7 +24,7 @@ public class GraphServiceCRUD {
     private DatabaseOperationExecutor executor;
 
     private GraphModel saveEntityHelper(BaseNodeDTO entityGraphDTO, GraphEntityRepository entityRepository) {
-        Set<BaseNodeDTO> relationships = entityGraphDTO.getNodeRelationships();
+        List<Set<BaseNodeDTO>> relationships = entityGraphDTO.getNodeRelationships();
         GraphUtils.updateRelationships(relationships, graphHelperRepository);
         GraphModel entityModel = entityGraphDTO.getGraphModel();
         return entityRepository.saveEntity(entityModel);
