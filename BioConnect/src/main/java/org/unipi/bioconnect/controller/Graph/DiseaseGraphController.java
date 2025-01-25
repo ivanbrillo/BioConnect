@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +42,17 @@ public class DiseaseGraphController {
                                 )
                         )
                 ))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(mediaType = "text/plain",
+                            schema = @Schema(type = "string", example = "Disease {id} saved")))
+    })
     public String saveDiseaseGraph(@RequestBody @Valid DiseaseGraphDTO diseaseGraphDTO) {
         diseaseGraphService.saveDiseaseGraph(diseaseGraphDTO);
         return "Disease " + diseaseGraphDTO.getId() + " saved";
     }
+
+
 
     @PutMapping("/admin/diseaseGraph/update")
     @Operation(summary = "Updates the details of an existing disease node in the graph database",
@@ -61,14 +70,26 @@ public class DiseaseGraphController {
                             )
                     )
             ))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(mediaType = "text/plain",
+                            schema = @Schema(type = "string", example = "Disease {id} updated")))
+    })
     public String updateDiseaseById(@RequestBody @Valid DiseaseGraphDTO diseaseGraphDTO) {
         diseaseGraphService.updateDiseaseById(diseaseGraphDTO);
         return "Disease " + diseaseGraphDTO.getId() + " updated";
     }
 
+
+
     @DeleteMapping("/admin/diseaseGraph/delete/{diseaseID}")
     @Operation(summary = "Delete a specific disease node from the graph database identified by its unique ID",
                 description = "Removes the disease node specified by the ID parameter from the database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(mediaType = "text/plain",
+                            schema = @Schema(type = "string", example = "Disease {id} deleted")))
+    })
     public String deleteDiseaseById(
             @Parameter(
                     description = "The unique ID of the disease to delete",
@@ -80,6 +101,8 @@ public class DiseaseGraphController {
         diseaseGraphService.deleteDiseaseById(diseaseID);
         return "Disease " + diseaseID + " deleted";
     }
+
+
 
     @GetMapping("/diseaseGraph/{diseaseID}")
     @Operation(summary = "Get details of a specific disease identified by its unique ID.",

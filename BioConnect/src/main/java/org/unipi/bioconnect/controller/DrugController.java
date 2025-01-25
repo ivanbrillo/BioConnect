@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,11 +45,18 @@ public class DrugController {
                     )
             ))
     @Transactional
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(mediaType = "text/plain",
+                            schema = @Schema(type = "string", example = "Drug {id} saved")))
+    })
     public String saveDrugById(@RequestBody @Valid DrugDTO drugDTO) {
         drugGraphService.saveDrugGraph(drugDTO.getGraph());
         drugDocService.saveDrugDoc(drugDTO.getDocument());
         return "Drug " + drugDTO.getDocument().getId() + " saved";
     }
+
+
 
     @PutMapping("/update")
     @Operation(summary = "Update the details of an existing drug in both MongoDB and Neo4j",
@@ -65,6 +74,11 @@ public class DrugController {
                             )
                     )
             ))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(mediaType = "text/plain",
+                            schema = @Schema(type = "string", example = "Drug {id} updated")))
+    })
     @Transactional
     public String updateDrugById(@RequestBody @Valid DrugDTO drugDTO) {
         drugGraphService.updateDrugById(drugDTO.getGraph());
@@ -75,6 +89,11 @@ public class DrugController {
     @DeleteMapping("/delete/{drugID}")
     @Operation(summary = "Delete a drug in the Neo4j and MongoDB databases by its drug ID",
                 description = "Delete a drug in the Neo4j and MongoDB databases by its drug ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(mediaType = "text/plain",
+                            schema = @Schema(type = "string", example = "Drug {id} deleted")))
+    })
     @Transactional
     public String deleteDrugById(
             @Parameter(

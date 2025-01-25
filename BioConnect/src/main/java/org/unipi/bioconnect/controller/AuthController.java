@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,9 +48,16 @@ public class AuthController {
                             )
                     )
             ))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(mediaType = "text/plain",
+                            schema = @Schema(type = "string", example = "User {username} correctly registered, procede to login")))
+    })
     public String register(@RequestBody @Valid CredentialsDTO credentials) {
         return adminService.register(credentials, Role.REGISTERED);
     }
+
+
 
     @PostMapping("/login")
     @Operation(summary = "Log user",
@@ -66,6 +75,11 @@ public class AuthController {
                             )
                     )
             ))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(mediaType = "text/plain",
+                            schema = @Schema(type = "string", example = "TokenAuth")))
+    })
     public String login(@RequestBody CredentialsDTO credentialsDTO) {
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -78,6 +92,8 @@ public class AuthController {
 
         return jwtTokenProvider.createToken(credentialsDTO.getUsername(), role);
     }
+
+
 
     private static boolean hasRole(String roleName) {
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
