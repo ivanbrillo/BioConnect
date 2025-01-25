@@ -44,7 +44,7 @@ public class OpenApiConfig {
                 ApiResponse successResponse = operation.getResponses().get("200");
                 newResponses.addApiResponse("200", successResponse);
 
-                if (pathUrl.contains("/admin") || pathUrl.contains("/user"))
+                if (pathUrl.contains("/admin") || pathUrl.contains("/profile"))
                     addErrorResponse(newResponses, Map.of("ErrorCode", "9", "Error", "Unauthorized, authentication required"), "Unauthorized - Invalid credentials", "401");
 
                 if (pathUrl.contains("/login"))
@@ -80,10 +80,10 @@ public class OpenApiConfig {
 
 
     private static void addErrorResponse(ApiResponses newResponses, Map<String, String> response, String description, String errorCode) {
-        ApiResponse unauthorizedResponse = new ApiResponse().description(description).content(new Content().addMediaType("application/json", new MediaType().schema(new Schema<>().type("object").example(response) // Example payload
+        ApiResponse resp = new ApiResponse().description(description).content(new Content().addMediaType("application/json", new MediaType().schema(new Schema<>().type("object").example(response) // Example payload
         )));
 
-        newResponses.addApiResponse(errorCode, unauthorizedResponse);
+        newResponses.addApiResponse(errorCode, resp);
     }
 
 }
