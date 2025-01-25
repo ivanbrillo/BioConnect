@@ -18,17 +18,15 @@ public class ProteinGraphController {
     @Autowired
     private ProteinGraphService proteinGraphService;
 
+
     @GetMapping("/{uniProtID}")
     @Operation(summary = "Get details of a specific protein, identified by its unique ID",
             description = "Fetches information about the protein specified by the ID parameter. The response includes the protein's interactions, similar proteins, drugs that enhance or inhibit the protein, and diseases the protein is involved in")
     public ProteinGraphDTO getProteinById(
             @Parameter(
-                    description = "The unique ID of the protein to retrieve",
-                    example = "P68871",
-                    required = true,
-                    schema = @Schema(type = "string")
-            )
-            @PathVariable String uniProtID) {
+                    description = "The unique ID of the protein to retrieve", example = "P68871",
+                    required = true, schema = @Schema(type = "string")
+            ) @PathVariable String uniProtID) {
         return proteinGraphService.getProteinById(uniProtID);
     }
 }

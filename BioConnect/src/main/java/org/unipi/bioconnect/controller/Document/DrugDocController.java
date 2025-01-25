@@ -24,41 +24,44 @@ public class DrugDocController {
     @Autowired
     private DrugDocService drugDocService;
 
+
+
+
     @GetMapping("/{searchedText}")
     @Operation(summary = "Details of a specific drug identified by its unique ID or name",
             description = "Fetches information about a drug specified by its unique ID or name. The response includes details such as the drug's ID, name, and other relevant attributes")
     public List<DrugDocDTO> searchDrug(
             @Parameter(
-                    description = "The unique ID or name of the drug to retrieve",
-                    example = "DB00945",
-                    required = true,
-                    schema = @Schema(type = "string")
+                    description = "The unique ID or name of the drug to retrieve", example = "DB00945",
+                    required = true, schema = @Schema(type = "string")
             ) @PathVariable String searchedText) {
         return drugDocService.searchDrugDoc(searchedText);
     }
+
+
+
 
     @GetMapping("/trend-analysis/{category}")
     @Operation(summary = "Publication analysis trends for a specific drug category",
             description = "Fetches publication analysis data, such as trends and frequency of publications, for drugs in a specific category. The response includes analysis related to publications over time for the specified drug category")
     public List<TrendAnalysisDTO> getTrendAnalysisForCategory(
             @Parameter(
-                    description = "The drug category to retrieve publication analysis for.",
-                    example = "Analgesics",
-                    required = true,
-                    schema = @Schema(type = "string")
+                    description = "The drug category to retrieve publication analysis for.", example = "Analgesics",
+                    required = true, schema = @Schema(type = "string")
             ) @PathVariable String category) {
         return drugDocService.getTrendAnalysisForCategory(category);
     }
+
+
+
 
     @GetMapping("/expired-patents/{category}")
     @Operation(summary = "List of expired patents by a specific drug category",
             description = "Fetches information on expired patents related to drugs in a specified category. The response includes the drug IDs and names associated with expired patents in that category")
     public List<PatentStateAnalysisDTO> getExpiredPatentsByStateForCategory(
             @Parameter(
-                    description = "The drug category to filter expired patents by",
-                    example = "Anticoagulants",
-                    required = true,
-                    schema = @Schema(type = "string")
+                    description = "The drug category to filter expired patents by",  example = "Anticoagulants",
+                    required = true, schema = @Schema(type = "string")
             ) @PathVariable String category) {
         return drugDocService.getExpiredPatentsByStateForCategory(category);
     }

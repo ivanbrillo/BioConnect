@@ -27,20 +27,15 @@ public class DrugController {
     @Autowired
     private DrugDocService drugDocService;
 
+
+
     @PostMapping("/add")
     @Operation(summary = "Add a new drug entry to both MongoDB and Neo4j",
             description = "Add a new drug entry to both MongoDB and Neo4j",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     required = true,
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = DrugDTO.class),
-                            examples = @ExampleObject(
-                                    value = "{\n" +
-                                            "  \"id\": \"DB00000\",\n" +
-                                            "  \"name\": \"New Drug\"\n" +
-                                            "}"
-                            )
+                            mediaType = "application/json", schema = @Schema(implementation = DrugDTO.class)
                     )
             ))
     @Transactional
@@ -55,6 +50,9 @@ public class DrugController {
         return "Drug " + drugDTO.getDocument().getId() + " saved";
     }
 
+
+
+
     @PutMapping("/update")
     @Operation(summary = "Update the details of an existing drug in both MongoDB and Neo4j",
             description = "Updates the details of an existing drug in both MongoDB and Neo4j",
@@ -62,13 +60,7 @@ public class DrugController {
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = DrugDTO.class),
-                            examples = @ExampleObject(
-                                    value = "{\n" +
-                                            "  \"id\": \"DB00000\",\n" +
-                                            "  \"name\": \"New Name\"\n" +
-                                            "}"
-                            )
+                            schema = @Schema(implementation = DrugDTO.class)
                     )
             ))
     @ApiResponses(value = {
@@ -83,6 +75,9 @@ public class DrugController {
         return "Drug " + drugDTO.getDocument().getId() + " updated";
     }
 
+
+
+
     @DeleteMapping("/delete/{drugID}")
     @Operation(summary = "Delete a drug in the Neo4j and MongoDB databases by its drug ID",
             description = "Delete a drug in the Neo4j and MongoDB databases by its drug ID")
@@ -94,10 +89,8 @@ public class DrugController {
     @Transactional
     public String deleteDrugById(
             @Parameter(
-                    description = "The unique identifier for the drug to delete",
-                    example = "DB00000",
-                    required = true,
-                    schema = @Schema(type = "string")
+                    description = "The unique identifier for the drug to delete", example = "DB00000",
+                    required = true, schema = @Schema(type = "string")
             ) @PathVariable String drugID) {
         drugGraphService.deleteDrugById(drugID);
         drugDocService.deleteDrugById(drugID);

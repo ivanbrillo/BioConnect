@@ -26,6 +26,8 @@ public class ProteinController {
     @Autowired
     private ProteinDocService proteinDocService;
 
+
+
     @PostMapping("/add")
     @Operation(summary = "Add a protein to Neo4j and MongoDB databases",
             description = "Adds a new protein entry to both MongoDB and Neo4j",
@@ -33,20 +35,13 @@ public class ProteinController {
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ProteinDTO.class),
-                            examples = @ExampleObject(
-                                    value = "{\n" +
-                                            "  \"id\": \"P68871\",\n" +
-                                            "  \"name\": \"New Hemoglobin\",\n" +
-                                            "  \"description\": \"Involved in oxygen transport\"\n" +
-                                            "}"
-                            )
+                            schema = @Schema(implementation = ProteinDTO.class)
                     )
             ))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(mediaType = "text/plain",
-                            schema = @Schema(type = "string", example = "Protein {id} saved correctly")))
+                    schema = @Schema(type = "string", example = "Protein {id} saved correctly")))
     })
     @Transactional
     public String saveProteinById(@RequestBody @Valid ProteinDTO proteinDTO) {
@@ -55,27 +50,22 @@ public class ProteinController {
         return "Protein " + proteinDTO.getDocument().getId() + " saved correctly";
     }
 
+
+
+
     @PutMapping("/update")
     @Operation(summary = "Updates an existing protein entry in both MongoDB and Neo4j",
             description = "Updates an existing protein entry in both MongoDB and Neo4j",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     required = true,
                     content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ProteinDTO.class),
-                            examples = @ExampleObject(
-                                    value = "{\n" +
-                                            "  \"id\": \"P68871\",\n" +
-                                            "  \"name\": \"New Name\",\n" +
-                                            "  \"description\": \"Involved in oxygen transport\"\n" +
-                                            "}"
-                            )
+                            mediaType = "application/json", schema = @Schema(implementation = ProteinDTO.class)
                     )
             ))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(mediaType = "text/plain",
-                            schema = @Schema(type = "string", example = "Protein {id} updated")))
+                    schema = @Schema(type = "string", example = "Protein {id} updated")))
     })
     @Transactional
     public String updateProteinById(@RequestBody @Valid ProteinDTO proteinDTO) {
@@ -84,13 +74,16 @@ public class ProteinController {
         return "Protein " + proteinDTO.getDocument().getId() + " updated";
     }
 
+
+
+
     @DeleteMapping("/delete/{uniProtID}")
     @Operation(summary = "Delete a protein in the Neo4j and MongoDB databases by its UniProt ID",
             description = "Delete a protein in the Neo4j and MongoDB databases by its UniProt ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(mediaType = "text/plain",
-                            schema = @Schema(type = "string", example = "Protein {id} deleted correctly")))
+                    schema = @Schema(type = "string", example = "Protein {id} deleted correctly")))
     })
     @Transactional
     public String deleteProteinById(

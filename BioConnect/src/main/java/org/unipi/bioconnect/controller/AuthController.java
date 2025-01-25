@@ -32,6 +32,8 @@ public class AuthController {
     @Autowired
     JwtTokenProvider jwtTokenProvider;
 
+
+
     @PostMapping("/register")
     @Operation(summary = "Register a new user",
             description = "Registers a new user by providing a username and password",
@@ -39,13 +41,7 @@ public class AuthController {
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = CredentialsDTO.class),
-                            examples = @ExampleObject(
-                                    value = "{\n" +
-                                            "  \"username\": \"Mario\",\n" +
-                                            "  \"password\": \"Password\"\n" +
-                                            "}"
-                            )
+                            schema = @Schema(implementation = CredentialsDTO.class)
                     )
             ))
     @ApiResponses(value = {
@@ -57,6 +53,9 @@ public class AuthController {
         return adminService.register(credentials, Role.REGISTERED);
     }
 
+
+
+
     @PostMapping("/login")
     @Operation(summary = "Log user",
             description = "Log user",
@@ -64,25 +63,17 @@ public class AuthController {
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = CredentialsDTO.class),
-                            examples = @ExampleObject(
-                                    value = "{\n" +
-                                            "  \"username\": \"Mario\",\n" +
-                                            "  \"password\": \"Password\"\n" +
-                                            "}"
-                            )
+                            schema = @Schema(implementation = CredentialsDTO.class)
                     )
             ))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(mediaType = "text/plain",
-                            schema = @Schema(type = "string", example = "TokenAuth")))
+                        schema = @Schema(type = "string", example = "TokenAuth")))
     })
     public String login(@RequestBody CredentialsDTO credentialsDTO) {
-
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                credentialsDTO.getUsername(),
-                credentialsDTO.getPassword()
+                credentialsDTO.getUsername(), credentialsDTO.getPassword()
         ));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -90,6 +81,8 @@ public class AuthController {
 
         return jwtTokenProvider.createToken(credentialsDTO.getUsername(), role);
     }
+
+
 
     private static boolean hasRole(String roleName) {
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()

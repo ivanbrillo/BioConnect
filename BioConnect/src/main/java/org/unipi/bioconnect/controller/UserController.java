@@ -29,6 +29,8 @@ public class UserController {
     @Autowired
     private AdminService adminService;
 
+
+
     @GetMapping("/profile/my_comments")
     @Operation(summary = "All comments made by the currently logged-in user",
             description = "Fetches all comments made by the user currently logged into the system. The user must be authenticated to access this endpoint")
@@ -36,6 +38,9 @@ public class UserController {
         String username = authentication.getName(); // Get username from authentication context
         return userService.getCommentsByUsername(username);
     }
+
+
+
 
     @PostMapping("/profile/add_comment/protein")
     @Operation(summary = "Add a comment to a specific protein",
@@ -50,20 +55,19 @@ public class UserController {
 
             @RequestBody @NotNull @NotBlank
             @Schema(
-                    description = "Comment to add to the protein",
-                    example = "This is a sample comment about a protein",
-                    type = "string"
+                    description = "Comment to add to the protein", example = "This is a sample comment about a protein", type = "string"
             ) String comment,
 
             @RequestParam @NotNull @NotBlank
             @Parameter(
-                    description = "The ID of the protein to add the comment to",
-                    example = "P68871",
-                    schema = @Schema(type = "string")
+                    description = "The ID of the protein to add the comment to", example = "P68871", schema = @Schema(type = "string")
             ) String elementId) {
         String username = authentication.getName(); // Get username from authentication context
         return userService.addComment(username, comment, elementId, "protein");
     }
+
+
+
 
     @PostMapping("/profile/add_comment/drug")
     @Operation(summary = "Add a comment to a specific drug",
@@ -78,19 +82,20 @@ public class UserController {
             @RequestBody @NotNull @NotBlank
             @Schema(
                     description = "Comment to add to the protein",
-                    example = "This is a sample comment about a protein",
-                    type = "string"
+                    example = "This is a sample comment about a protein", type = "string"
             ) String comment,
 
             @RequestParam @NotNull @NotBlank
             @Parameter(
                     description = "The ID of the protein to add the comment to",
-                    example = "DB00945",
-                    schema = @Schema(type = "string")
+                    example = "DB00945", schema = @Schema(type = "string")
             ) String elementId) {
         String username = authentication.getName(); // Get username from authentication context
         return userService.addComment(username, comment, elementId, "drug");
     }
+
+
+
 
     @DeleteMapping("/profile/removeComment/{commentId}")
     @Operation(summary = "Allows the user to remove a specific comment",
@@ -102,14 +107,15 @@ public class UserController {
     })
     public String removeComment(Authentication authentication,
                                 @Parameter(
-                                        description = "The unique identifier of the comment to be removed",
-                                        example = "39f2ae77-4091-4032-a72a-ae7d3ec02301",
-                                        required = true,
-                                        schema = @Schema(type = "string")
+                                        description = "The unique identifier of the comment to be removed", example = "39f2ae77-4091-4032-a72a-ae7d3ec02301",
+                                        required = true, schema = @Schema(type = "string")
                                 ) @PathVariable String commentId) {
         adminService.removeCommentByID(authentication.getName(), commentId);
         return "Comment removed correctly";
     }
+
+
+
 
     @DeleteMapping("/profile/deleteAccount")
     @Operation(summary = "Allows the user to remove his account",
@@ -117,10 +123,11 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(mediaType = "text/plain",
-                            schema = @Schema(type = "string", example = "User removed correctly")))
+                    schema = @Schema(type = "string", example = "User removed correctly")))
     })
     public String deleteAccount(Authentication authentication) {
         adminService.removeUserByID(authentication.getName());
         return "User removed correctly";
     }
+
 }

@@ -17,16 +17,16 @@ import java.util.List;
 public class DrugDoc {
 
     @Id
-    @Schema(description = "Unique identifier for the drug in DrugBank", example = "DB00001")
+    @Schema(description = "Unique identifier for the drug in DrugBank")
     private String drugBankID;
 
-    @Schema(description = "Name of the drug", example = "Lepirudin")
+    @Schema(description = "Name of the drug")
     private String name;
 
     @Schema(description = "Amino acid sequence of the drug")
     private String sequence;
 
-    @Schema(description = "Categories to which the drug belongs", example = "Anticoagulants")
+    @Schema(description = "Categories to which the drug belongs")
     private List<String> categories;
 
     @Schema(description = "List of publications related to the drug")
@@ -35,7 +35,7 @@ public class DrugDoc {
     @Schema(description = "Toxicity information of the drug")
     private String toxicity;
 
-    @Schema(description = "Description of the drug", example = "Lepirudin is an anticoagulant that prevents the formation of blood clots.")
+    @Schema(description = "Description of the drug")
     private String description;
 
     @Schema(description = "List of patents related to the drug")

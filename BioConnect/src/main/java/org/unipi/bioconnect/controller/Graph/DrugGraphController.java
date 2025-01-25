@@ -25,31 +25,35 @@ public class DrugGraphController {
     @Autowired
     private DrugGraphService drugGraphService;
 
+
+
     @GetMapping("/{drugID}")
     @Operation(summary = "Get a drug from the Neo4j database by its drug ID",
             description = "Fetches the details of a drug specified by the ID parameter in the request.")
     public DrugGraphDTO getDrugByID(
             @Parameter(
-                    description = "The unique ID of the drug to retrieve",
-                    example = "DB00945",
-                    required = true,
-                    schema = @Schema(type = "string")
+                    description = "The unique ID of the drug to retrieve", example = "DB00945",
+                    required = true, schema = @Schema(type = "string")
             ) @PathVariable String drugID) {
         return drugGraphService.getDrugById(drugID);
     }
+
+
+
 
     @GetMapping("/targetSimilarProtein/{uniProtId}")
     @Operation(summary = "Get drugs targeting proteins similar to a specified protein",
             description = "Fetches data on proteins that are similar to the one identified by the specified ID parameter. This helps in finding potential drug targets related to the given protein")
     public List<BaseNodeDTO> getDrugTargetSimilarProtein(
             @Parameter(
-                    description = "The unique ID of the protein for which similar targets are to be retrieved",
-                    example = "P68871",
-                    required = true,
-                    schema = @Schema(type = "string")
+                    description = "The unique ID of the protein for which similar targets are to be retrieved", example = "P68871",
+                    required = true, schema = @Schema(type = "string")
             ) @PathVariable String uniProtId) {
         return drugGraphService.getDrugTargetSimilarProtein(uniProtId);
     }
+
+
+
 
     @GetMapping("/oppositeEffectsOnProtein/{drugId}")
     @Operation(summary = "Get information about drugs with opposite effects on proteins, based on the specified drug ID",
@@ -58,9 +62,7 @@ public class DrugGraphController {
     public List<OppositeEffectDrugsDTO> getDrugOppositeEffectsProtein(
             @Parameter(
                     description = "The unique ID of the drug for which drugs with opposite effects on associated proteins are to be retrieved",
-                    example = "DB00945",
-                    required = true,
-                    schema = @Schema(type = "string")
+                    example = "DB00945", required = true, schema = @Schema(type = "string")
             ) @PathVariable String drugId) {
         return drugGraphService.getDrugOppositeEffectsProtein(drugId);
     }

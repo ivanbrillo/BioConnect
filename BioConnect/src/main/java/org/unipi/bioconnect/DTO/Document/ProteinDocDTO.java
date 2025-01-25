@@ -28,14 +28,14 @@ public class ProteinDocDTO {
     @Schema(description = "sequence of the protein", example = "MGLSDGEWQLVLNVWGKV...")
     private String sequence;
 
-    @Schema(description = "pathways of the protein", example = "['pathway1', 'pathway2']")
+    @Schema(description = "Pathways of the protein", example = "[\"Sulfur metabolism\", \"Glutathione metabolism\"]")
     private List<String> pathways;
 
-    @Schema(description = "subcellular locations of the protein", example = "['location1', 'location2']")
+    @Schema(description = "subcellular locations of the protein", example = "[\"Cytoplasm\", \"Nucleus\"]")
     private List<String> subcellularLocations;
 
     @Valid
-    @Schema(description = "Protein publications", example = "[{...}, {...}]")
+    @Schema(description = "Protein publications")
     private List<PublicationDTO> publications;
 
 }

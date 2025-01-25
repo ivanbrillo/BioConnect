@@ -21,7 +21,7 @@ public class DrugDocDTO {
     @Schema(description = "Name of the drug", example = "Lepirudin")
     private String name;
 
-    @Schema(description = "Amino acid sequence of the drug")
+    @Schema(description = "Amino acid sequence of the drug", example = "LTYTDCTESGQNLC...")
     private String sequence;
 
     @Schema(description = "Categories to which the drug belongs", example = "Anticoagulants")
@@ -31,7 +31,7 @@ public class DrugDocDTO {
     @Valid
     private List<PublicationDTO> publications;
 
-    @Schema(description = "Toxicity information of the drug")
+    @Schema(description = "Toxicity information of the drug", example= "The acute toxicity of intravenous lepirudin was evaluated in mice")
     private String toxicity;
 
     @Schema(description = "Description of the drug", example = "Lepirudin is an anticoagulant that prevents the formation of blood clots.")

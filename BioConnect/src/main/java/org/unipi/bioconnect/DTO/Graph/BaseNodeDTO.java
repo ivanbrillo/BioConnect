@@ -1,6 +1,7 @@
 package org.unipi.bioconnect.DTO.Graph;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,8 +19,10 @@ import java.util.Set;
 public class BaseNodeDTO {
 
     @NotNull(message = "id is required")
+    @Schema(description = "ID of object", example = "ID00000")
     protected String id;
 
+    @Schema(description = "Name of object", example = "MyName")
     protected String name = "";
 
     @JsonIgnore
