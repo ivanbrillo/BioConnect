@@ -34,10 +34,6 @@ public class GraphUtils {
             default -> throw new IllegalStateException("DEBUG: Unexpected value: " + entity);
         };
 
-        System.out.println(entity);
-        System.out.println(relationships);
-        System.out.println(entities);
-
         Map<String, String> idToNameMap = entities
                 .stream()
                 .collect(Collectors.toMap(
