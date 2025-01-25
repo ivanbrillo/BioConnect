@@ -7,7 +7,9 @@ import lombok.Setter;
 import org.unipi.bioconnect.model.Graph.DiseaseGraph;
 import org.unipi.bioconnect.model.Graph.ProteinGraph;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -32,8 +34,12 @@ public class DiseaseGraphDTO extends BaseNodeDTO {
         return "Disease";
     }
 
-    public Set<BaseNodeDTO> getNodeRelationships() {
-        return new HashSet<>(involve);
+    public List<Set<BaseNodeDTO>> getNodeRelationships() {
+        List<Set<BaseNodeDTO>> relationships = new ArrayList<>();
+        relationships.add(involve);
+        relationships.add(new HashSet<>());
+        relationships.add(new HashSet<>());
+        return relationships;
     }
 
     public DiseaseGraph getGraphModel() {

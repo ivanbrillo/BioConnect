@@ -43,7 +43,7 @@ public class ProteinDocService {
         }, "MongoDB (update)");
     }
 
-    //    @Transactional(value = "mongoTransactionManager")
+    @Transactional(value = "mongoTransactionManager")
     public void deleteProtein(String uniProtID) {
         long numDeleted = executor.executeWithExceptionHandling(() -> docRepository.deleteByUniProtID(uniProtID), "MongoDB (delete)");
 
@@ -58,7 +58,7 @@ public class ProteinDocService {
     }
 
     public List<TrendAnalysisDTO> getTrendAnalysisForPathway(String pathway) {
-        List<TrendAnalysisDTO> trend =  executor.executeWithExceptionHandling(() -> docDAO.getTrendAnalysisForPathway(pathway), "MongoDB (trend analysis)");
+        List<TrendAnalysisDTO> trend = executor.executeWithExceptionHandling(() -> docDAO.getTrendAnalysisForPathway(pathway), "MongoDB (trend analysis)");
 
         if (trend.isEmpty())
             throw new IllegalArgumentException("No protein saved with the specified pathway: " + pathway);

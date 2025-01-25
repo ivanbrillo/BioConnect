@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.unipi.bioconnect.model.Graph.GraphModel;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -26,8 +28,9 @@ public class BaseNodeDTO {
     }
 
     @JsonIgnore
-    public Set<BaseNodeDTO> getNodeRelationships() {
-        return new HashSet<>();
+    // first element Proteins, second element Drugs, third elements Diseases
+    public List<Set<BaseNodeDTO>> getNodeRelationships() {
+        return new ArrayList<>();
     }
 
     @JsonIgnore

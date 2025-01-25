@@ -11,13 +11,30 @@ import java.util.stream.Collectors;
 
 public class GraphUtils {
 
-    public static void updateRelationships(Set<BaseNodeDTO> relationships, GraphHelperRepository graphHelperRepository) {
+    public static void updateRelationships(List<Set<BaseNodeDTO>> relations, GraphHelperRepository graphHelperRepository) {
+        updateRelationsEntity(relations.get(0), "Protein", graphHelperRepository);
+        updateRelationsEntity(relations.get(1), "Drug", graphHelperRepository);
+        updateRelationsEntity(relations.get(2), "Disease", graphHelperRepository);
+    }
+
+
+    private static void updateRelationsEntity(Set<BaseNodeDTO> relationships, String entity, GraphHelperRepository graphHelperRepository) {
+
+        if (relationships.isEmpty())
+            return;
 
         List<String> interactionIds = relationships.stream()
                 .map(BaseNodeDTO::getId)
                 .toList();
 
-        Map<String, String> idToNameMap = graphHelperRepository.findEntityNamesByIds(interactionIds)
+        List<BaseNodeDTO> entities = switch (entity) {
+            case "Protein" -> graphHelperRepository.findProteinNamesByIds(interactionIds);
+            case "Drug" -> graphHelperRepository.findDrugNamesByIds(interactionIds);
+            case "Disease" -> graphHelperRepository.findDiseaseNamesByIds(interactionIds);
+            default -> throw new IllegalStateException("DEBUG: Unexpected value: " + entity);
+        };
+
+        Map<String, String> idToNameMap = entities
                 .stream()
                 .collect(Collectors.toMap(
                         BaseNodeDTO::getId,
