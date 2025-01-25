@@ -43,7 +43,7 @@ public class ProteinDocService {
         }, "MongoDB (update)");
     }
 
-    @Transactional(value = "mongoTransactionManager")
+//    @Transactional(value = "mongoTransactionManager")
     public void deleteProtein(String uniProtID) {
         long numDeleted = executor.executeWithExceptionHandling(() -> docRepository.deleteByUniProtID(uniProtID), "MongoDB (delete)");
 
