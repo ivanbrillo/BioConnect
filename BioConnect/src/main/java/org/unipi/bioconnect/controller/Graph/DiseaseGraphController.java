@@ -28,20 +28,20 @@ public class DiseaseGraphController {
 
     @PostMapping("/admin/diseaseGraph/add")
     @Operation(summary = "Add a new disease node to the graph database",
-                description = "Adds a new disease to the graph database by providing its details in the request body",
-                requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                        required = true,
-                        content = @Content(
-                                mediaType = "application/json",
-                                schema = @Schema(implementation = DiseaseGraphDTO.class),
-                                examples = @ExampleObject(
-                                        value = "{\n" +
-                                                "  \"id\": \"0000\",\n" +
-                                                "  \"name\": \"NewDisease\"\n" +
-                                                "}"
-                                )
-                        )
-                ))
+            description = "Adds a new disease to the graph database by providing its details in the request body",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = DiseaseGraphDTO.class),
+                            examples = @ExampleObject(
+                                    value = "{\n" +
+                                            "  \"id\": \"0000\",\n" +
+                                            "  \"name\": \"NewDisease\"\n" +
+                                            "}"
+                            )
+                    )
+            ))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(mediaType = "text/plain",
@@ -51,8 +51,6 @@ public class DiseaseGraphController {
         diseaseGraphService.saveDiseaseGraph(diseaseGraphDTO);
         return "Disease " + diseaseGraphDTO.getId() + " saved";
     }
-
-
 
     @PutMapping("/admin/diseaseGraph/update")
     @Operation(summary = "Updates the details of an existing disease node in the graph database",
@@ -80,11 +78,9 @@ public class DiseaseGraphController {
         return "Disease " + diseaseGraphDTO.getId() + " updated";
     }
 
-
-
     @DeleteMapping("/admin/diseaseGraph/delete/{diseaseID}")
     @Operation(summary = "Delete a specific disease node from the graph database identified by its unique ID",
-                description = "Removes the disease node specified by the ID parameter from the database")
+            description = "Removes the disease node specified by the ID parameter from the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(mediaType = "text/plain",
@@ -101,8 +97,6 @@ public class DiseaseGraphController {
         diseaseGraphService.deleteDiseaseById(diseaseID);
         return "Disease " + diseaseID + " deleted";
     }
-
-
 
     @GetMapping("/diseaseGraph/{diseaseID}")
     @Operation(summary = "Get details of a specific disease identified by its unique ID.",
@@ -121,7 +115,7 @@ public class DiseaseGraphController {
     //* Advanced Operations
     @GetMapping("/diseaseGraph/diseaseByDrug/{drugId}")
     @Operation(summary = "All diseases linked to a specific drug identified by the drug's unique ID",
-                description = "Fetches a list of diseases associated with the drug specified by the ID parameter")
+            description = "Fetches a list of diseases associated with the drug specified by the ID parameter")
     public List<BaseNodeDTO> getDiseaseByDrug(
             @Parameter(
                     description = "The unique ID of the drug to retrieve diseases",
@@ -135,7 +129,7 @@ public class DiseaseGraphController {
 
     @GetMapping("/diseaseGraph/shortestPath/{disease1Id}/{disease2Id}")
     @Operation(summary = "Shortest path between two diseases in the graph identified by their unique IDs",
-                description = "Computes and returns the shortest path between two diseases, as specified by the ID parameters")
+            description = "Computes and returns the shortest path between two diseases, as specified by the ID parameters")
     public List<List<BaseNodeDTO>> getShortestPathBetweenDiseases(
             @Parameter(
                     description = "The unique ID of the starting disease",
@@ -152,6 +146,4 @@ public class DiseaseGraphController {
             ) @PathVariable String disease2Id) {
         return diseaseGraphService.getShortestPathBetweenDiseases(disease1Id, disease2Id);
     }
-
-
 }

@@ -47,7 +47,7 @@ public class DrugGraphController {
                     example = "P68871",
                     required = true,
                     schema = @Schema(type = "string")
-            )@PathVariable String uniProtId) {
+            ) @PathVariable String uniProtId) {
         return drugGraphService.getDrugTargetSimilarProtein(uniProtId);
     }
 
@@ -61,7 +61,7 @@ public class DrugGraphController {
                     example = "DB00945",
                     required = true,
                     schema = @Schema(type = "string")
-            )@PathVariable String drugId) {
+            ) @PathVariable String drugId) {
         return drugGraphService.getDrugOppositeEffectsProtein(drugId);
     }
 }

@@ -28,21 +28,21 @@ public class ProteinController {
 
     @PostMapping("/add")
     @Operation(summary = "Add a protein to Neo4j and MongoDB databases",
-                description = "Adds a new protein entry to both MongoDB and Neo4j",
-                requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                        required = true,
-                        content = @Content(
-                                mediaType = "application/json",
-                                schema = @Schema(implementation = ProteinDTO.class),
-                                examples = @ExampleObject(
-                                        value = "{\n" +
-                                                "  \"id\": \"P68871\",\n" +
-                                                "  \"name\": \"New Hemoglobin\",\n" +
-                                                "  \"description\": \"Involved in oxygen transport\"\n" +
-                                                "}"
-                                )
-                        )
-                ))
+            description = "Adds a new protein entry to both MongoDB and Neo4j",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ProteinDTO.class),
+                            examples = @ExampleObject(
+                                    value = "{\n" +
+                                            "  \"id\": \"P68871\",\n" +
+                                            "  \"name\": \"New Hemoglobin\",\n" +
+                                            "  \"description\": \"Involved in oxygen transport\"\n" +
+                                            "}"
+                            )
+                    )
+            ))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(mediaType = "text/plain",
@@ -54,8 +54,6 @@ public class ProteinController {
         proteinDocService.saveProteinDoc(proteinDTO.getDocument());
         return "Protein " + proteinDTO.getDocument().getId() + " saved correctly";
     }
-
-
 
     @PutMapping("/update")
     @Operation(summary = "Updates an existing protein entry in both MongoDB and Neo4j",
@@ -86,10 +84,9 @@ public class ProteinController {
         return "Protein " + proteinDTO.getDocument().getId() + " updated";
     }
 
-
     @DeleteMapping("/delete/{uniProtID}")
     @Operation(summary = "Delete a protein in the Neo4j and MongoDB databases by its UniProt ID",
-                description = "Delete a protein in the Neo4j and MongoDB databases by its UniProt ID")
+            description = "Delete a protein in the Neo4j and MongoDB databases by its UniProt ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(mediaType = "text/plain",
@@ -107,6 +104,4 @@ public class ProteinController {
         proteinDocService.deleteProtein(uniProtID);
         return "Protein " + uniProtID + " deleted correctly";
     }
-
-
 }

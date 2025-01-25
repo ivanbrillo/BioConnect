@@ -31,6 +31,4 @@ public class ProteinGraphController {
             @PathVariable String uniProtID) {
         return proteinGraphService.getProteinById(uniProtID);
     }
-
-
 }

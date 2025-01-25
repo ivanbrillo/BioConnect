@@ -27,7 +27,6 @@ public class DrugController {
     @Autowired
     private DrugDocService drugDocService;
 
-
     @PostMapping("/add")
     @Operation(summary = "Add a new drug entry to both MongoDB and Neo4j",
             description = "Add a new drug entry to both MongoDB and Neo4j",
@@ -55,8 +54,6 @@ public class DrugController {
         drugDocService.saveDrugDoc(drugDTO.getDocument());
         return "Drug " + drugDTO.getDocument().getId() + " saved";
     }
-
-
 
     @PutMapping("/update")
     @Operation(summary = "Update the details of an existing drug in both MongoDB and Neo4j",
@@ -88,7 +85,7 @@ public class DrugController {
 
     @DeleteMapping("/delete/{drugID}")
     @Operation(summary = "Delete a drug in the Neo4j and MongoDB databases by its drug ID",
-                description = "Delete a drug in the Neo4j and MongoDB databases by its drug ID")
+            description = "Delete a drug in the Neo4j and MongoDB databases by its drug ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(mediaType = "text/plain",
@@ -101,7 +98,7 @@ public class DrugController {
                     example = "DB00000",
                     required = true,
                     schema = @Schema(type = "string")
-            )@PathVariable String drugID) {
+            ) @PathVariable String drugID) {
         drugGraphService.deleteDrugById(drugID);
         drugDocService.deleteDrugById(drugID);
         return "Drug " + drugID + " deleted";

@@ -57,8 +57,6 @@ public class AuthController {
         return adminService.register(credentials, Role.REGISTERED);
     }
 
-
-
     @PostMapping("/login")
     @Operation(summary = "Log user",
             description = "Log user",
@@ -92,8 +90,6 @@ public class AuthController {
 
         return jwtTokenProvider.createToken(credentialsDTO.getUsername(), role);
     }
-
-
 
     private static boolean hasRole(String roleName) {
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()

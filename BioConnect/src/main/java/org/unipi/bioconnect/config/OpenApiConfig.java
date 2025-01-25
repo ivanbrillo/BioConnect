@@ -65,8 +65,10 @@ public class OpenApiConfig {
                 if (pathUrl.contains("pathway-recurrence"))
                     addErrorResponse(newResponses, Map.of("ErrorCode", "5", "Error", "Subsequence must contain only uppercase letters, got: {subsequence}"), "Error - Illegal Argument", "400");
 
-                if (operation.getRequestBody() != null)
+                if (operation.getRequestBody() != null) {
                     addErrorResponse(newResponses, Map.of("ErrorCode", "1", "[{property}]*", "[{property} is required]*"), "Validation Error - Field Missing", "400bis");
+                    addErrorResponse(newResponses, Map.of("ErrorCode", "6", "Error", "JSON parse error: {reason}"), "Runtime Exception - JSON Wrong", "400bis2");
+                }
 
                 if ((pathUrl.contains("/admin/drug") || pathUrl.contains("/admin/protein") || pathUrl.contains("/admin/diseaseGraph")) && operation.getRequestBody() != null)
                     addErrorResponse(newResponses, Map.of("ErrorCode", "5", "Error", "Some relationships refer to non-existing ids"), "Error - Illegal Argument", "400tris");

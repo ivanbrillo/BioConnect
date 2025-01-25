@@ -28,22 +28,16 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-
-
-
     @GetMapping("/users")
     @Operation(summary = "List of all users in the system",
-                description = "Fetches a list of all users registered in the system. This includes user details such as their ID, name, and role")
+            description = "Fetches a list of all users registered in the system. This includes user details such as their ID, name, and role")
     public List<UserDTO> getAllUsers() {
         return adminService.getAllUsers();
     }
 
-
-
-
     @GetMapping("/users/{username}")
     @Operation(summary = "Details of a specific user by their username",
-                description = "Details of a specific user by their username")
+            description = "Details of a specific user by their username")
     public UserDTO getUserByUsername(
             @Parameter(
                     description = "The username of the user to retrieve details",
@@ -54,22 +48,16 @@ public class AdminController {
         return adminService.getUserDTOByUsername(username);
     }
 
-
-
-
     @GetMapping("/users/comments")
     @Operation(summary = "All comments made by users",
-                description = "Fetches all comments made by users, including details such as comment content, user who posted it and any associated metadata")
+            description = "Fetches all comments made by users, including details such as comment content, user who posted it and any associated metadata")
     public List<CommentDTO> getAllComments() {
         return adminService.getAllComments();
     }
 
-
-
-
     @DeleteMapping("/users/removeComment/{user}/{commentId}")
     @Operation(summary = "Removes a comment made by a specific user, identified by the user ID and comment ID",
-                description = "Removes a comment made by the user specified by userID, with the commentID parameter identifying the specific comment to be deleted")
+            description = "Removes a comment made by the user specified by userID, with the commentID parameter identifying the specific comment to be deleted")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(mediaType = "text/plain",
@@ -87,12 +75,10 @@ public class AdminController {
                     example = "0a5f1499-f0b3-4342-91da-f7f3858ebc43",
                     required = true,
                     schema = @Schema(type = "string")
-            )@PathVariable String commentId) {
+            ) @PathVariable String commentId) {
         adminService.removeCommentByID(user, commentId);
         return "Comment removed correctly";
     }
-
-
 
     @PostMapping("/registerAdmin")
     @Operation(summary = "Register a new admin",
@@ -119,8 +105,6 @@ public class AdminController {
         return adminService.register(credentials, Role.ADMIN);
     }
 
-
-
     @DeleteMapping("/users/removeUser/{user}")
     @Operation(summary = "Removes a User",
             description = "Removes a User and its related information (eg. comments)")
@@ -139,5 +123,4 @@ public class AdminController {
         adminService.removeUserByID(user);
         return "User removed correctly";
     }
-
 }
