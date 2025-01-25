@@ -1,6 +1,8 @@
 package org.unipi.bioconnect.controller.Graph;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +19,16 @@ public class ProteinGraphController {
     private ProteinGraphService proteinGraphService;
 
     @GetMapping("/{uniProtID}")
-    @Operation(summary = "Get a protein from the Neo4j database by its UniProt ID")
-    public ProteinGraphDTO getProteinById(@PathVariable String uniProtID) {
+    @Operation(summary = "Get details of a specific protein, identified by its unique ID",
+            description = "Fetches information about the protein specified by the ID parameter. The response includes the protein's interactions, similar proteins, drugs that enhance or inhibit the protein, and diseases the protein is involved in")
+    public ProteinGraphDTO getProteinById(
+            @Parameter(
+                    description = "The unique ID of the protein to retrieve",
+                    example = "P68871",
+                    required = true,
+                    schema = @Schema(type = "string")
+            )
+            @PathVariable String uniProtID) {
         return proteinGraphService.getProteinById(uniProtID);
     }
 

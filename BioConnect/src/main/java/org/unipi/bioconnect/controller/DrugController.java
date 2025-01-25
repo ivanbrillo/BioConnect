@@ -1,6 +1,11 @@
 package org.unipi.bioconnect.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +16,7 @@ import org.unipi.bioconnect.service.Graph.DrugGraphService;
 
 @RestController
 @RequestMapping("/api/admin/drug")
+@Tag(name = "Drug Controller", description = "API for Drug operations")
 public class DrugController {
 
     @Autowired
@@ -21,7 +27,21 @@ public class DrugController {
 
 
     @PostMapping("/add")
-    @Operation(summary = "Add a drug to Neo4j and MongoDB databases")
+    @Operation(summary = "Add a new drug entry to both MongoDB and Neo4j",
+            description = "Add a new drug entry to both MongoDB and Neo4j",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = DrugDTO.class),
+                            examples = @ExampleObject(
+                                    value = "{\n" +
+                                            "  \"id\": \"DB00000\",\n" +
+                                            "  \"name\": \"New Drug\"\n" +
+                                            "}"
+                            )
+                    )
+            ))
     @Transactional
     public String saveDrugById(@RequestBody @Valid DrugDTO drugDTO) {
         drugGraphService.saveDrugGraph(drugDTO.getGraph());
@@ -30,7 +50,21 @@ public class DrugController {
     }
 
     @PutMapping("/update")
-    @Operation(summary = "Update a drug in the Neo4j and MongoDB databases")
+    @Operation(summary = "Update the details of an existing drug in both MongoDB and Neo4j",
+            description = "Updates the details of an existing drug in both MongoDB and Neo4j",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = DrugDTO.class),
+                            examples = @ExampleObject(
+                                    value = "{\n" +
+                                            "  \"id\": \"DB00000\",\n" +
+                                            "  \"name\": \"New Name\"\n" +
+                                            "}"
+                            )
+                    )
+            ))
     @Transactional
     public String updateDrugById(@RequestBody @Valid DrugDTO drugDTO) {
         drugGraphService.updateDrugById(drugDTO.getGraph());
@@ -39,9 +73,16 @@ public class DrugController {
     }
 
     @DeleteMapping("/delete/{drugID}")
-    @Operation(summary = "Delete a drug in the Neo4j and MongoDB databases by its drug ID")
+    @Operation(summary = "Delete a drug in the Neo4j and MongoDB databases by its drug ID",
+                description = "Delete a drug in the Neo4j and MongoDB databases by its drug ID")
     @Transactional
-    public String deleteDrugById(@PathVariable String drugID) {
+    public String deleteDrugById(
+            @Parameter(
+                    description = "The unique identifier for the drug to delete",
+                    example = "DB00000",
+                    required = true,
+                    schema = @Schema(type = "string")
+            )@PathVariable String drugID) {
         drugGraphService.deleteDrugById(drugID);
         drugDocService.deleteDrugById(drugID);
         return "Drug " + drugID + " deleted";

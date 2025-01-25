@@ -1,6 +1,9 @@
 package org.unipi.bioconnect.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +31,41 @@ public class AuthController {
     JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/register")
-    @Operation(summary = "Register a new user")
+    @Operation(summary = "Register a new user",
+            description = "Registers a new user by providing a username and password",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = CredentialsDTO.class),
+                            examples = @ExampleObject(
+                                    value = "{\n" +
+                                            "  \"username\": \"Mario\",\n" +
+                                            "  \"password\": \"Password\"\n" +
+                                            "}"
+                            )
+                    )
+            ))
     public String register(@RequestBody @Valid CredentialsDTO credentials) {
         return adminService.register(credentials, Role.REGISTERED);
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Log user",
+            description = "Log user",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = CredentialsDTO.class),
+                            examples = @ExampleObject(
+                                    value = "{\n" +
+                                            "  \"username\": \"Mario\",\n" +
+                                            "  \"password\": \"Password\"\n" +
+                                            "}"
+                            )
+                    )
+            ))
     public String login(@RequestBody CredentialsDTO credentialsDTO) {
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
