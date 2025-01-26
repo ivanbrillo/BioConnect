@@ -66,7 +66,7 @@ public class OpenApiConfig {
                     addErrorResponse(newResponses, Map.of("ErrorCode", "5", "Error", "Subsequence must contain only uppercase letters, got: {subsequence}"), "Error - Illegal Argument", "400");
 
                 if (operation.getRequestBody() != null) {
-                    addErrorResponse(newResponses, Map.of("ErrorCode", "1", "[{property}]*", "[{property} is required]*"), "Validation Error - Field Missing", "400bis");
+                    addErrorResponse(newResponses, Map.of("ErrorCode", "1", "[{property1}]*", "[{property} is required]*", "[{property2}]*", "{validation error msg}"), "Validation Error - Field Missing", "400bis");
                     addErrorResponse(newResponses, Map.of("ErrorCode", "6", "Error", "JSON parse error: {reason}"), "Runtime Exception - JSON Wrong", "400bis2");
                 }
 
