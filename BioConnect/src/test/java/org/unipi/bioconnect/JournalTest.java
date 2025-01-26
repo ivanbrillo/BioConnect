@@ -25,7 +25,7 @@ public class JournalTest implements CommandLineRunner {
         // Perform database operations here
         for (int i = 0; i < 1000; i++) {
             ProteinDoc proteinDoc = new ProteinDoc();
-            proteinDoc.setUniProtID(UUID.randomUUID().toString());
+            proteinDoc.setUniProtID(i + "g");
             mongoTemplate.save(proteinDoc);
             addedProteinIds.add(proteinDoc.getUniProtID());
         }
