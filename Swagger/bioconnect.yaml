@@ -1,0 +1,2799 @@
+openapi: 3.0.1
+info:
+  title: BioConnect
+  description: API documentation for BioConnect
+  version: 1.0.0
+servers:
+  - url: http://10.92.192.197:8080
+    description: Generated server url
+security:
+  - bearerAuth: []
+tags:
+  - name: Protein Controller
+    description: API for Protein operations
+  - name: Drug Neo4j Controller
+    description: API for Drug Neo4j operations
+  - name: Protein Neo4j Controller
+    description: API for Protein Neo4j operations
+  - name: Admin Controller
+    description: API for Admin operations
+  - name: User Controller
+    description: API for User operations
+  - name: Authorization Controller
+    description: API for authentication operations
+  - name: Disease Neo4j Controller
+    description: API for Disease Neo4j operations
+  - name: Drug Controller
+    description: API for Drug operations
+  - name: Protein MongoDB Controller
+    description: API for Protein MongoDB operations
+  - name: Drug MongoDB Controller
+    description: API for Drug MongoDB operations
+paths:
+  /api/admin/protein/update:
+    put:
+      tags:
+        - Protein Controller
+      summary: Updates an existing protein entry in both MongoDB and Neo4j
+      description: Updates an existing protein entry in both MongoDB and Neo4j
+      operationId: updateProteinById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProteinDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Protein {id} updated
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease] with ID {} [already exists | does
+                    not exist]
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        400bis:
+          description: Validation Error - Field Missing
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  '[{property1}]*': '[{property} is required]*'
+                  ErrorCode: '1'
+                  '[{property2}]*': '{validation error msg}'
+        400bis2:
+          description: Runtime Exception - JSON Wrong
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '6'
+                  Error: 'JSON parse error: {reason}'
+        400tris:
+          description: Error - Illegal Argument
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '5'
+                  Error: Some relationships refer to non-existing ids
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/admin/drug/update:
+    put:
+      tags:
+        - Drug Controller
+      summary: Update the details of an existing drug in both MongoDB and Neo4j
+      description: Updates the details of an existing drug in both MongoDB and Neo4j
+      operationId: updateDrugById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DrugDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Drug {id} updated
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease] with ID {} [already exists | does
+                    not exist]
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        400bis:
+          description: Validation Error - Field Missing
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  '[{property1}]*': '[{property} is required]*'
+                  ErrorCode: '1'
+                  '[{property2}]*': '{validation error msg}'
+        400bis2:
+          description: Runtime Exception - JSON Wrong
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '6'
+                  Error: 'JSON parse error: {reason}'
+        400tris:
+          description: Error - Illegal Argument
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '5'
+                  Error: Some relationships refer to non-existing ids
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/admin/diseaseGraph/update:
+    put:
+      tags:
+        - Disease Neo4j Controller
+      summary: Updates the details of an existing disease node in the graph database
+      description: >-
+        Updates an existing disease node by providing its ID and the new details
+        in the request body
+      operationId: updateDiseaseById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiseaseGraphDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Disease {id} updated
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease] with ID {} [already exists | does
+                    not exist]
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        400bis:
+          description: Validation Error - Field Missing
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  '[{property1}]*': '[{property} is required]*'
+                  ErrorCode: '1'
+                  '[{property2}]*': '{validation error msg}'
+        400bis2:
+          description: Runtime Exception - JSON Wrong
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '6'
+                  Error: 'JSON parse error: {reason}'
+        400tris:
+          description: Error - Illegal Argument
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '5'
+                  Error: Some relationships refer to non-existing ids
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /register:
+    post:
+      tags:
+        - Authorization Controller
+      summary: Register a new user
+      description: Registers a new user by providing a username and password
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialsDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: User {username} correctly registered, procede to login
+        '400':
+          description: Registration failed - Bad credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: Entity with the provided ID already exists
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        400bis:
+          description: Validation Error - Field Missing
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  '[{property1}]*': '[{property} is required]*'
+                  ErrorCode: '1'
+                  '[{property2}]*': '{validation error msg}'
+        400bis2:
+          description: Runtime Exception - JSON Wrong
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '6'
+                  Error: 'JSON parse error: {reason}'
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /profile/add_comment/protein:
+    post:
+      tags:
+        - User Controller
+      summary: Add a comment to a specific protein
+      description: Add a comment to a specific protein
+      operationId: addProteinComment
+      parameters:
+        - name: elementId
+          in: query
+          description: The ID of the protein to add the comment to
+          required: true
+          schema:
+            type: string
+          example: P68871
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              description: Comment to add to the protein
+              example: This is a sample comment about a protein
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Comment added successfully
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease | User | Comment] with ID {} does
+                    not exist
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        400bis:
+          description: Validation Error - Field Missing
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  '[{property1}]*': '[{property} is required]*'
+                  ErrorCode: '1'
+                  '[{property2}]*': '{validation error msg}'
+        400bis2:
+          description: Runtime Exception - JSON Wrong
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '6'
+                  Error: 'JSON parse error: {reason}'
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /profile/add_comment/drug:
+    post:
+      tags:
+        - User Controller
+      summary: Add a comment to a specific drug
+      description: Add a comment to a specific drug
+      operationId: addDrugComment
+      parameters:
+        - name: elementId
+          in: query
+          description: The ID of the protein to add the comment to
+          required: true
+          schema:
+            type: string
+          example: DB00945
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              description: Comment to add to the protein
+              example: This is a sample comment about a protein
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Comment added successfully
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease | User | Comment] with ID {} does
+                    not exist
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        400bis:
+          description: Validation Error - Field Missing
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  '[{property1}]*': '[{property} is required]*'
+                  ErrorCode: '1'
+                  '[{property2}]*': '{validation error msg}'
+        400bis2:
+          description: Runtime Exception - JSON Wrong
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '6'
+                  Error: 'JSON parse error: {reason}'
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /login:
+    post:
+      tags:
+        - Authorization Controller
+      summary: Log user
+      description: Log user
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialsDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: TokenAuth
+        '401':
+          description: Login failed - Bad credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '8'
+                  Error: 'Login failed: Bad credentials'
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        400bis:
+          description: Validation Error - Field Missing
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  '[{property1}]*': '[{property} is required]*'
+                  ErrorCode: '1'
+                  '[{property2}]*': '{validation error msg}'
+        400bis2:
+          description: Runtime Exception - JSON Wrong
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '6'
+                  Error: 'JSON parse error: {reason}'
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/admin/protein/add:
+    post:
+      tags:
+        - Protein Controller
+      summary: Add a protein to Neo4j and MongoDB databases
+      description: Adds a new protein entry to both MongoDB and Neo4j
+      operationId: saveProteinById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProteinDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Protein {id} saved correctly
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease] with ID {} [already exists | does
+                    not exist]
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        400bis:
+          description: Validation Error - Field Missing
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  '[{property1}]*': '[{property} is required]*'
+                  ErrorCode: '1'
+                  '[{property2}]*': '{validation error msg}'
+        400bis2:
+          description: Runtime Exception - JSON Wrong
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '6'
+                  Error: 'JSON parse error: {reason}'
+        400tris:
+          description: Error - Illegal Argument
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '5'
+                  Error: Some relationships refer to non-existing ids
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/admin/drug/add:
+    post:
+      tags:
+        - Drug Controller
+      summary: Add a new drug entry to both MongoDB and Neo4j
+      description: Add a new drug entry to both MongoDB and Neo4j
+      operationId: saveDrugById
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DrugDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Drug {id} saved
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease] with ID {} [already exists | does
+                    not exist]
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        400bis:
+          description: Validation Error - Field Missing
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  '[{property1}]*': '[{property} is required]*'
+                  ErrorCode: '1'
+                  '[{property2}]*': '{validation error msg}'
+        400bis2:
+          description: Runtime Exception - JSON Wrong
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '6'
+                  Error: 'JSON parse error: {reason}'
+        400tris:
+          description: Error - Illegal Argument
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '5'
+                  Error: Some relationships refer to non-existing ids
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/admin/diseaseGraph/add:
+    post:
+      tags:
+        - Disease Neo4j Controller
+      summary: Add a new disease node to the graph database
+      description: >-
+        Adds a new disease to the graph database by providing its details in the
+        request body
+      operationId: saveDiseaseGraph
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiseaseGraphDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Disease {id} saved
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease] with ID {} [already exists | does
+                    not exist]
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        400bis:
+          description: Validation Error - Field Missing
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  '[{property1}]*': '[{property} is required]*'
+                  ErrorCode: '1'
+                  '[{property2}]*': '{validation error msg}'
+        400bis2:
+          description: Runtime Exception - JSON Wrong
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '6'
+                  Error: 'JSON parse error: {reason}'
+        400tris:
+          description: Error - Illegal Argument
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '5'
+                  Error: Some relationships refer to non-existing ids
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /admin/registerAdmin:
+    post:
+      tags:
+        - Admin Controller
+      summary: Register a new admin
+      description: Registers a new admin by providing a username and password
+      operationId: register_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialsDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: User {username} correctly registered, procede to login
+        '400':
+          description: Registration failed - Bad credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: Entity with the provided ID already exists
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        400bis:
+          description: Validation Error - Field Missing
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  '[{property1}]*': '[{property} is required]*'
+                  ErrorCode: '1'
+                  '[{property2}]*': '{validation error msg}'
+        400bis2:
+          description: Runtime Exception - JSON Wrong
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '6'
+                  Error: 'JSON parse error: {reason}'
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /profile/my_comments:
+    get:
+      tags:
+        - User Controller
+      summary: All comments made by the currently logged-in user
+      description: >-
+        Fetches all comments made by the user currently logged into the system.
+        The user must be authenticated to access this endpoint
+      operationId: getMyComments
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommentDTO'
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/proteinGraph/{uniProtID}:
+    get:
+      tags:
+        - Protein Neo4j Controller
+      summary: Get details of a specific protein, identified by its unique ID
+      description: >-
+        Fetches information about the protein specified by the ID parameter. The
+        response includes the protein's interactions, similar proteins, drugs
+        that enhance or inhibit the protein, and diseases the protein is
+        involved in
+      operationId: getProteinById
+      parameters:
+        - name: uniProtID
+          in: path
+          description: The unique ID of the protein to retrieve
+          required: true
+          schema:
+            type: string
+          example: P68871
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProteinGraphDTO'
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease | User | Comment] with ID {} does
+                    not exist
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/proteinDoc/{searchedText}:
+    get:
+      tags:
+        - Protein MongoDB Controller
+      summary: >-
+        Details of a specific protein document from the MongoDB collection,
+        identified by its unique ID
+      description: >-
+        Fetches detailed information about a protein specified by the ID
+        parameter. The response includes the protein's name and attributes
+      operationId: searchProtein
+      parameters:
+        - name: searchedText
+          in: path
+          description: The unique ID of the protein to search
+          required: true
+          schema:
+            type: string
+          example: P68871
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProteinDocDTO'
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/proteinDoc/trend-analysis/{pathway}:
+    get:
+      tags:
+        - Protein MongoDB Controller
+      summary: Trend analysis of publications related to a specific protein pathway
+      description: >-
+        Publication trends for a given pathway related to proteins. The response
+        includes data on publication frequency over time
+      operationId: getTrendAnalysisForPathway
+      parameters:
+        - name: pathway
+          in: path
+          description: The protein-related pathway for trend analysis
+          required: true
+          schema:
+            type: string
+          example: Lipid metabolism
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrendAnalysisDTO'
+        '400':
+          description: Error - Illegal Argument
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '5'
+                  Error: >-
+                    No [Drug | Protein] saved with the specified [category |
+                    pathway]: {name}
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/proteinDoc/pathway-recurrence/{subsequence}:
+    get:
+      tags:
+        - Protein MongoDB Controller
+      summary: Pathway recurrence data for a specific subsequence of a protein
+      description: >-
+        Searches for pathway recurrence information related to a given
+        subsequence of a protein. The response includes details on the pathways
+        in which the subsequence is involved
+      operationId: getPathwayRecurrence
+      parameters:
+        - name: subsequence
+          in: path
+          description: The subsequence of the protein to search
+          required: true
+          schema:
+            type: string
+          example: ATGT
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PathwayRecurrenceDTO'
+        '400':
+          description: Error - Illegal Argument
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '5'
+                  Error: >-
+                    Subsequence must contain only uppercase letters, got:
+                    {subsequence}
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/proteinDoc/getProteinsByPathwayAndLocation:
+    get:
+      tags:
+        - Protein MongoDB Controller
+      summary: Proteins associated with a specific pathway and subcellular location
+      description: Fetches proteins that are linked to a specific pathway and s
+      operationId: getProteinsByPathwayAndLocation
+      parameters:
+        - name: pathway
+          in: query
+          description: The pathway to filter proteins by
+          required: true
+          schema:
+            type: string
+          example: Lipid metabolism
+        - name: subcellularLocation
+          in: query
+          description: The subcellular location to filter proteins by
+          required: true
+          schema:
+            type: string
+          example: Microsome membrane
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProteinDocDTO'
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/drugGraph/{drugID}:
+    get:
+      tags:
+        - Drug Neo4j Controller
+      summary: Get a drug from the Neo4j database by its drug ID
+      description: >-
+        Fetches the details of a drug specified by the ID parameter in the
+        request.
+      operationId: getDrugByID
+      parameters:
+        - name: drugID
+          in: path
+          description: The unique ID of the drug to retrieve
+          required: true
+          schema:
+            type: string
+          example: DB00945
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DrugGraphDTO'
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease | User | Comment] with ID {} does
+                    not exist
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/drugGraph/targetSimilarProtein/{uniProtId}:
+    get:
+      tags:
+        - Drug Neo4j Controller
+      summary: Get drugs targeting proteins similar to a specified protein
+      description: >-
+        Fetches data on proteins that are similar to the one identified by the
+        specified ID parameter. This helps in finding potential drug targets
+        related to the given protein
+      operationId: getDrugTargetSimilarProtein
+      parameters:
+        - name: uniProtId
+          in: path
+          description: >-
+            The unique ID of the protein for which similar targets are to be
+            retrieved
+          required: true
+          schema:
+            type: string
+          example: P68871
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BaseNodeDTO'
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease | User | Comment] with ID {} does
+                    not exist
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/drugGraph/oppositeEffectsOnProtein/{drugId}:
+    get:
+      tags:
+        - Drug Neo4j Controller
+      summary: >-
+        Get information about drugs with opposite effects on proteins, based on
+        the specified drug ID
+      description: >-
+        Fetches data on drugs that have opposite effects on proteins associated
+        with the drug identified by the specified ID parameter. This endpoint
+        returns a list of drugs and their corresponding proteins with opposite
+        effects
+      operationId: getDrugOppositeEffectsProtein
+      parameters:
+        - name: drugId
+          in: path
+          description: >-
+            The unique ID of the drug for which drugs with opposite effects on
+            associated proteins are to be retrieved
+          required: true
+          schema:
+            type: string
+          example: DB00945
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OppositeEffectDrugsDTO'
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease | User | Comment] with ID {} does
+                    not exist
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/drugDoc/{searchedText}:
+    get:
+      tags:
+        - Drug MongoDB Controller
+      summary: Details of a specific drug identified by its unique ID or name
+      description: >-
+        Fetches information about a drug specified by its unique ID or name. The
+        response includes details such as the drug's ID, name, and other
+        relevant attributes
+      operationId: searchDrug
+      parameters:
+        - name: searchedText
+          in: path
+          description: The unique ID or name of the drug to retrieve
+          required: true
+          schema:
+            type: string
+          example: DB00945
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DrugDocDTO'
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/drugDoc/trend-analysis/{category}:
+    get:
+      tags:
+        - Drug MongoDB Controller
+      summary: Publication analysis trends for a specific drug category
+      description: >-
+        Fetches publication analysis data, such as trends and frequency of
+        publications, for drugs in a specific category. The response includes
+        analysis related to publications over time for the specified drug
+        category
+      operationId: getTrendAnalysisForCategory
+      parameters:
+        - name: category
+          in: path
+          description: The drug category to retrieve publication analysis for.
+          required: true
+          schema:
+            type: string
+          example: Analgesics
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrendAnalysisDTO'
+        '400':
+          description: Error - Illegal Argument
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '5'
+                  Error: >-
+                    No [Drug | Protein] saved with the specified [category |
+                    pathway]: {name}
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/drugDoc/expired-patents/{category}:
+    get:
+      tags:
+        - Drug MongoDB Controller
+      summary: List of expired patents by a specific drug category
+      description: >-
+        Fetches information on expired patents related to drugs in a specified
+        category. The response includes the drug IDs and names associated with
+        expired patents in that category
+      operationId: getExpiredPatentsByStateForCategory
+      parameters:
+        - name: category
+          in: path
+          description: The drug category to filter expired patents by
+          required: true
+          schema:
+            type: string
+          example: Anticoagulants
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PatentStateAnalysisDTO'
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/diseaseGraph/{diseaseID}:
+    get:
+      tags:
+        - Disease Neo4j Controller
+      summary: Get details of a specific disease identified by its unique ID.
+      description: >-
+        Fetches information about the disease specified by the ID parameter. The
+        response includes the disease's name and the proteins involved in the
+        disease.
+      operationId: getDiseaseByID
+      parameters:
+        - name: diseaseID
+          in: path
+          description: The unique ID of the disease to retrieve.
+          required: true
+          schema:
+            type: string
+          example: 612645
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DiseaseGraphDTO'
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease | User | Comment] with ID {} does
+                    not exist
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/diseaseGraph/shortestPath/{disease1Id}/{disease2Id}:
+    get:
+      tags:
+        - Disease Neo4j Controller
+      summary: >-
+        Shortest path between two diseases in the graph identified by their
+        unique IDs
+      description: >-
+        Computes and returns the shortest path between two diseases, as
+        specified by the ID parameters
+      operationId: getShortestPathBetweenDiseases
+      parameters:
+        - name: disease1Id
+          in: path
+          description: The unique ID of the starting disease
+          required: true
+          schema:
+            type: string
+          example: 619562
+        - name: disease2Id
+          in: path
+          description: The unique ID of the target disease
+          required: true
+          schema:
+            type: string
+          example: 612645
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/BaseNodeDTO'
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease | User | Comment] with ID {} does
+                    not exist
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/diseaseGraph/diseaseByDrug/{drugId}:
+    get:
+      tags:
+        - Disease Neo4j Controller
+      summary: >-
+        All diseases linked to a specific drug identified by the drug's unique
+        ID
+      description: >-
+        Fetches a list of diseases associated with the drug specified by the ID
+        parameter
+      operationId: getDiseaseByDrug
+      parameters:
+        - name: drugId
+          in: path
+          description: The unique ID of the drug to retrieve diseases
+          required: true
+          schema:
+            type: string
+          example: DB00945
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BaseNodeDTO'
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease | User | Comment] with ID {} does
+                    not exist
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /admin/users:
+    get:
+      tags:
+        - Admin Controller
+      summary: List of all users in the system
+      description: >-
+        Fetches a list of all users registered in the system. This includes user
+        details such as their ID, name, and role
+      operationId: getAllUsers
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserDTO'
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /admin/users/{username}:
+    get:
+      tags:
+        - Admin Controller
+      summary: Details of a specific user by their username
+      description: Details of a specific user by their username
+      operationId: getUserByUsername
+      parameters:
+        - name: username
+          in: path
+          description: The username of the user to retrieve details
+          required: true
+          schema:
+            type: string
+          example: test_user1
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease | User | Comment] with ID {} does
+                    not exist
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /admin/users/comments:
+    get:
+      tags:
+        - Admin Controller
+      summary: All comments made by users
+      description: >-
+        Fetches all comments made by users, including details such as comment
+        content, user who posted it and any associated metadata
+      operationId: getAllComments
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CommentDTO'
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /profile/removeComment/{commentId}:
+    delete:
+      tags:
+        - User Controller
+      summary: Allows the user to remove a specific comment
+      description: >-
+        Allows the logged-in user to remove a comment by providing its unique
+        commentId. The user must be authenticated to access this endpoint
+      operationId: removeComment
+      parameters:
+        - name: commentId
+          in: path
+          description: The unique identifier of the comment to be removed
+          required: true
+          schema:
+            type: string
+          example: 39f2ae77-4091-4032-a72a-ae7d3ec02301
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Comment removed correctly
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease | User | Comment] with ID {} does
+                    not exist
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /profile/deleteAccount:
+    delete:
+      tags:
+        - User Controller
+      summary: Allows the user to remove his account
+      description: Allows the user to remove his account and all the related information
+      operationId: deleteAccount
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: User removed correctly
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease | User | Comment] with ID {} does
+                    not exist
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/admin/protein/delete/{uniProtID}:
+    delete:
+      tags:
+        - Protein Controller
+      summary: Delete a protein in the Neo4j and MongoDB databases by its UniProt ID
+      description: Delete a protein in the Neo4j and MongoDB databases by its UniProt ID
+      operationId: deleteProteinById
+      parameters:
+        - name: uniProtID
+          in: path
+          description: The unique identifier for the protein to be deleted
+          required: true
+          schema:
+            type: string
+          example: P68871
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Protein {id} deleted correctly
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease] with ID {} [already exists | does
+                    not exist]
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/admin/drug/delete/{drugID}:
+    delete:
+      tags:
+        - Drug Controller
+      summary: Delete a drug in the Neo4j and MongoDB databases by its drug ID
+      description: Delete a drug in the Neo4j and MongoDB databases by its drug ID
+      operationId: deleteDrugById
+      parameters:
+        - name: drugID
+          in: path
+          description: The unique identifier for the drug to delete
+          required: true
+          schema:
+            type: string
+          example: DB00000
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Drug {id} deleted
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease] with ID {} [already exists | does
+                    not exist]
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /api/admin/diseaseGraph/delete/{diseaseID}:
+    delete:
+      tags:
+        - Disease Neo4j Controller
+      summary: >-
+        Delete a specific disease node from the graph database identified by its
+        unique ID
+      description: Removes the disease node specified by the ID parameter from the database
+      operationId: deleteDiseaseById
+      parameters:
+        - name: diseaseID
+          in: path
+          description: The unique ID of the disease to delete
+          required: true
+          schema:
+            type: string
+          example: 612645
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Disease {id} deleted
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease] with ID {} [already exists | does
+                    not exist]
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /admin/users/removeUser/{user}:
+    delete:
+      tags:
+        - Admin Controller
+      summary: Removes a User
+      description: Removes a User and its related information (eg. comments)
+      operationId: removeUser
+      parameters:
+        - name: user
+          in: path
+          description: The unique ID of the user to delete
+          required: true
+          schema:
+            type: string
+          example: test_user1
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: User removed correctly
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease | User | Comment] with ID {} does
+                    not exist
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+  /admin/users/removeComment/{user}/{commentId}:
+    delete:
+      tags:
+        - Admin Controller
+      summary: >-
+        Removes a comment made by a specific user, identified by the user ID and
+        comment ID
+      description: >-
+        Removes a comment made by the user specified by userID, with the
+        commentID parameter identifying the specific comment to be deleted
+      operationId: removeComment_1
+      parameters:
+        - name: user
+          in: path
+          description: The unique ID of the user who made the comment
+          required: true
+          schema:
+            type: string
+          example: test_user1
+        - name: commentId
+          in: path
+          description: The unique ID of the comment to be removed
+          required: true
+          schema:
+            type: string
+          example: 0a5f1499-f0b3-4342-91da-f7f3858ebc43
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Comment removed correctly
+        '400':
+          description: Operation not Performed - Bad Key
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '2'
+                  Error: >-
+                    [Protein | Drug | Disease | User | Comment] with ID {} does
+                    not exist
+        '401':
+          description: Unauthorized - Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '9'
+                  Error: Unauthorized, authentication required
+        '503':
+          description: Error Connection to Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '3'
+                  Error: Error during the connection to the database
+        503bis:
+          description: Generic Error Database(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  ErrorCode: '4'
+                  Error: '{description of the problem}'
+components:
+  schemas:
+    BaseNodeDTO:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of object
+          example: ID00000
+        name:
+          type: string
+          description: Name of object
+          example: MyName
+    ProteinDTO:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of object
+          example: ID00000
+        name:
+          type: string
+          description: Name of object
+          example: MyName
+        mass:
+          type: number
+          description: mass of the protein
+          format: float
+          example: 64.5
+        sequence:
+          type: string
+          description: sequence of the protein
+          example: MGLSDGEWQLVLNVWGKV...
+        pathways:
+          type: array
+          description: Pathways of the protein
+          example:
+            - Sulfur metabolism
+            - Glutathione metabolism
+          items:
+            type: string
+            description: Pathways of the protein
+            example: '["Sulfur metabolism","Glutathione metabolism"]'
+        subcellularLocations:
+          type: array
+          description: subcellular locations of the protein
+          example:
+            - Cytoplasm
+            - Nucleus
+          items:
+            type: string
+            description: subcellular locations of the protein
+            example: '["Cytoplasm","Nucleus"]'
+        publications:
+          type: array
+          description: Protein publications
+          items:
+            $ref: '#/components/schemas/PublicationDTO'
+        proteinInteractions:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseNodeDTO'
+        proteinSimilarities:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseNodeDTO'
+        drugEnhancedBy:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseNodeDTO'
+        drugInhibitBy:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseNodeDTO'
+        diseaseInvolvedIn:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseNodeDTO'
+    ProteinDocDTO:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: UniProt ID of the protein
+          example: P12345
+        name:
+          type: string
+          description: Name of the protein
+          example: Hemoglobin
+        mass:
+          type: number
+          description: mass of the protein
+          format: float
+          example: 64.5
+        sequence:
+          type: string
+          description: sequence of the protein
+          example: MGLSDGEWQLVLNVWGKV...
+        pathways:
+          type: array
+          description: Pathways of the protein
+          example:
+            - Sulfur metabolism
+            - Glutathione metabolism
+          items:
+            type: string
+            description: Pathways of the protein
+            example: '["Sulfur metabolism","Glutathione metabolism"]'
+        subcellularLocations:
+          type: array
+          description: subcellular locations of the protein
+          example:
+            - Cytoplasm
+            - Nucleus
+          items:
+            type: string
+            description: subcellular locations of the protein
+            example: '["Cytoplasm","Nucleus"]'
+        publications:
+          type: array
+          description: Protein publications
+          items:
+            $ref: '#/components/schemas/PublicationDTO'
+    ProteinGraphDTO:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of object
+          example: ID00000
+        name:
+          type: string
+          description: Name of object
+          example: MyName
+        proteinInteractions:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseNodeDTO'
+        proteinSimilarities:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseNodeDTO'
+        drugEnhancedBy:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseNodeDTO'
+        drugInhibitBy:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseNodeDTO'
+        diseaseInvolvedIn:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseNodeDTO'
+    PublicationDTO:
+      required:
+        - title
+        - type
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of publication
+          example: A comparison of lepirudin and argatroban outcomes
+        year:
+          minimum: 1850
+          exclusiveMinimum: false
+          type: integer
+          description: Year of publication
+          format: int32
+          example: 2005
+        type:
+          pattern: ^(publication|URL|book)$
+          type: string
+          description: Type of publication
+          example: article
+      description: List of publications related to the drug
+    DrugDTO:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of object
+          example: ID00000
+        name:
+          type: string
+          description: Name of object
+          example: MyName
+        sequence:
+          type: string
+          description: Amino acid sequence of the drug
+          example: LTYTDCTESGQNLC...
+        categories:
+          type: array
+          description: Categories to which the drug belongs
+          example: Anticoagulants
+          items:
+            type: string
+            description: Categories to which the drug belongs
+            example: Anticoagulants
+        publications:
+          type: array
+          description: List of publications related to the drug
+          items:
+            $ref: '#/components/schemas/PublicationDTO'
+        toxicity:
+          type: string
+          description: Toxicity information of the drug
+          example: The acute toxicity of intravenous lepirudin was evaluated in mice
+        description:
+          type: string
+          description: Description of the drug
+          example: >-
+            Lepirudin is an anticoagulant that prevents the formation of blood
+            clots.
+        patents:
+          type: array
+          description: List of patents related to the drug
+          items:
+            $ref: '#/components/schemas/PatentDTO'
+        enhance:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseNodeDTO'
+        inhibit:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseNodeDTO'
+    DrugDocDTO:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the drug in DrugBank
+          example: DB00001
+        name:
+          type: string
+          description: Name of the drug
+          example: Lepirudin
+        sequence:
+          type: string
+          description: Amino acid sequence of the drug
+          example: LTYTDCTESGQNLC...
+        categories:
+          type: array
+          description: Categories to which the drug belongs
+          example: Anticoagulants
+          items:
+            type: string
+            description: Categories to which the drug belongs
+            example: Anticoagulants
+        publications:
+          type: array
+          description: List of publications related to the drug
+          items:
+            $ref: '#/components/schemas/PublicationDTO'
+        toxicity:
+          type: string
+          description: Toxicity information of the drug
+          example: The acute toxicity of intravenous lepirudin was evaluated in mice
+        description:
+          type: string
+          description: Description of the drug
+          example: >-
+            Lepirudin is an anticoagulant that prevents the formation of blood
+            clots.
+        patents:
+          type: array
+          description: List of patents related to the drug
+          items:
+            $ref: '#/components/schemas/PatentDTO'
+    DrugGraphDTO:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of object
+          example: ID00000
+        name:
+          type: string
+          description: Name of object
+          example: MyName
+        enhance:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseNodeDTO'
+        inhibit:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseNodeDTO'
+    PatentDTO:
+      required:
+        - country
+      type: object
+      properties:
+        country:
+          type: string
+          description: Country of patent
+          example: United States
+        year:
+          minimum: 1850
+          exclusiveMinimum: false
+          type: integer
+          description: Year of patent
+          format: int32
+          example: 1992
+      description: List of patents related to the drug
+    DiseaseGraphDTO:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of object
+          example: ID00000
+        name:
+          type: string
+          description: Name of object
+          example: MyName
+        involve:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseNodeDTO'
+    CredentialsDTO:
+      required:
+        - password
+        - username
+      type: object
+      properties:
+        username:
+          type: string
+          description: Name of the user
+          example: Mario
+        password:
+          type: string
+          description: Encrypted password of the user
+          example: $2a$10$VBcMlUgL.13azfwGdncM5ekTf0BNRdzixb6rJ.vKTWKMezxOj7mcG
+    CommentDTO:
+      type: object
+      properties:
+        get_id:
+          type: string
+          description: Id of the comment
+          example: 4495b772-68f4
+        comment:
+          type: string
+          description: Text of comment
+          example: This is my comment
+        elementId:
+          type: string
+          description: Id of the commented object
+          example: P68871
+        username:
+          type: string
+          description: Username user who commented
+          example: Mario
+    TrendAnalysisDTO:
+      type: object
+      properties:
+        year:
+          type: integer
+          description: Year of publication
+          format: int32
+          example: 2005
+        type:
+          type: string
+          description: Type of publication
+          example: article
+        count:
+          type: integer
+          description: Number of publications for this year
+          format: int64
+          example: 5
+    PathwayRecurrenceDTO:
+      type: object
+      properties:
+        pathwayName:
+          type: string
+          description: Pathway name
+          example: Sulfur metabolism
+        count:
+          type: integer
+          description: Number of pathways having the specified subsequence
+          format: int32
+          example: 5
+    OppositeEffectDrugsDTO:
+      type: object
+      properties:
+        drug:
+          $ref: '#/components/schemas/BaseNodeDTO'
+        protein:
+          $ref: '#/components/schemas/BaseNodeDTO'
+        effect:
+          type: string
+          description: Type of effect between protein and drug
+          example: enhancer
+    PatentStateAnalysisDTO:
+      type: object
+      properties:
+        state:
+          type: string
+          description: Country where the patent was filed
+          example: United States
+        expiredPatentCount:
+          type: integer
+          description: Count of expired patents in that state
+          format: int32
+          example: 5
+        drugNames:
+          type: array
+          description: List of drug name
+          example:
+            - Enoxaparin
+            - Prasugrel
+          items:
+            type: string
+            description: List of drug name
+            example: '["Enoxaparin","Prasugrel"]'
+    UserDTO:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Name of the user
+          example: Mario
+        role:
+          type: string
+          description: Role of the user
+          example: REGISTERED
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommentDTO'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      name: bearerAuth
+      scheme: bearer
+      bearerFormat: JWT
