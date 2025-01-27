@@ -39,7 +39,7 @@ public class DrugDocService {
         }, "MongoDB (update)");
     }
 
-//    @Transactional(value = "mongoTransactionManager")
+    @Transactional(value = "mongoTransactionManager")
     public void deleteDrugById(String drugBankID) {
         long numDeleted = executor.executeWithExceptionHandling(() -> docRepository.deleteByDrugBankID(drugBankID), "MongoDB (delete)");
 
