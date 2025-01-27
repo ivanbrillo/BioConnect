@@ -30,24 +30,43 @@ public class UserService {
 
     public List<CommentDTO> getCommentsByUsername(String username) {
         return executor.executeWithExceptionHandling(() -> {
-            if(!userRepository.existsById(username))
+            if (!userRepository.existsById(username))
                 throw new KeyException("User not found");
 
-            return commentDAO.findUserComments(username);}, "MongoDB (my comments)");
+            return commentDAO.findUserComments(username);
+        }, "MongoDB (my comments)");
     }
 
-    public String addComment(String username, String comment, String elementId, String type) {
+    public String addComment(String username, String comment, String elementId, boolean isProtein) {
         return executor.executeWithExceptionHandling(() -> {
-            if (!((type.equals("protein") && proteinDocRepository.existsById(elementId)) || (type.equals("drug") && drugDocRepository.existsById(elementId))))  // if it doesn't exist:
-                throw new KeyException(type + " with ID: " + elementId + " does not exist");
-
-            if(!userRepository.existsById(username))
+            if (!userRepository.existsById(username))
                 throw new KeyException("User not found");
 
-            CommentDTO commentDTO = new CommentDTO(UUID.randomUUID().toString(), comment, elementId, null);
-            userRepository.addComment(username, commentDTO);
+            if (isProtein)
+                addProteinComment(username, comment, elementId);
+            else
+                addDrugComment(username, comment, elementId);
+
             return "Comment added successfully";
 
         }, "MongoDB (add comment)");
     }
+
+    private void addProteinComment(String username, String comment, String elementId) {
+        if (!proteinDocRepository.existsById(elementId))  // if it doesn't exist:
+            throw new KeyException("Protein with ID: " + elementId + " does not exist");
+
+        CommentDTO commentDTO = new CommentDTO(UUID.randomUUID().toString(), comment, elementId, null, null);
+        userRepository.addComment(username, commentDTO);
+    }
+
+    private void addDrugComment(String username, String comment, String elementId) {
+        if (!drugDocRepository.existsById(elementId))  // if it doesn't exist:
+            throw new KeyException("Drug with ID: " + elementId + " does not exist");
+
+        CommentDTO commentDTO = new CommentDTO(UUID.randomUUID().toString(), comment, null, elementId, null);
+        userRepository.addComment(username, commentDTO);
+    }
+
+
 }

@@ -16,8 +16,13 @@ public class CommentDTO {
     @Schema(description = "Text of comment" , example = "This is my comment")
     String comment;
 
-    @Schema(description = "Id of the commented object" , example = "P68871")
-    String elementId;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Schema(description = "Id of the commented protein" , example = "P68871")
+    String uniProtID;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Schema(description = "Id of the commented drug" , example = "DB00003")
+    String drugBankID;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Schema(description = "Username user who commented" , example = "Mario")
