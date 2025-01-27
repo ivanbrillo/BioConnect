@@ -73,9 +73,13 @@ public class AdminService {
         return "User " + credentials.getUsername() + " correctly registered, procede to login";
     }
 
-    public void deleteCommentsByElementID(String elementID) {
+    public void deleteCommentsByElementID(String elementID, boolean isProtein) {
         executor.executeWithExceptionHandling(() -> {
-            userRepository.deleteCommentsByElementId(elementID);
+            if (isProtein)
+                userRepository.deleteCommentsByUniProtID(elementID);
+            else
+                userRepository.deleteCommentsByDrugBankID(elementID);
+
             return 1;
         }, "MongoDB (delete comments)");
     }

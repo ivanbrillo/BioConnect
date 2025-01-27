@@ -46,7 +46,7 @@ public class DrugDocService {
         if (numDeleted == 0)
             throw new KeyException("No Drug with ID: " + drugBankID + " found");
 
-        AdminService.deleteCommentsByElementID(drugBankID);
+        AdminService.deleteCommentsByElementID(drugBankID, false);
     }
 
     public List<DrugDocDTO> searchDrugDoc(String searchedText) {
