@@ -63,7 +63,7 @@ public class UserController {
                     description = "The ID of the protein to add the comment to", example = "P68871", schema = @Schema(type = "string")
             ) String elementId) {
         String username = authentication.getName(); // Get username from authentication context
-        return userService.addComment(username, comment, elementId, "protein");
+        return userService.addComment(username, comment, elementId, true);
     }
 
 
@@ -91,7 +91,7 @@ public class UserController {
                     example = "DB00945", schema = @Schema(type = "string")
             ) String elementId) {
         String username = authentication.getName(); // Get username from authentication context
-        return userService.addComment(username, comment, elementId, "drug");
+        return userService.addComment(username, comment, elementId, false);
     }
 
 

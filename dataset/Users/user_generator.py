@@ -26,11 +26,22 @@ def generate_comment():
     element_ids = [
         "P68871", "P69905", "P00734", "A0A0C5B5G6", "DB00001", "DB00002", "DB00003"
     ]
-    return {
-        "_id": str(uuid.uuid4()),
-        "comment": random.choice(comments),
-        "elementId": random.choice(element_ids)
-    }
+
+    protein = ["P68871", "P69905", "P00734", "A0A0C5B5G6"]
+    elemId = random.choice(element_ids)
+
+    if elemId in protein:
+        return {
+            "_id": str(uuid.uuid4()),
+            "comment": random.choice(comments),
+            "uniProtID": elemId
+        }
+    else:
+        return {
+            "_id": str(uuid.uuid4()),
+            "comment": random.choice(comments),
+            "drugBankID": elemId
+        }
 
 # Genera un utente con o senza commenti
 def generate_user(user_id, password, role, num_comments=0):

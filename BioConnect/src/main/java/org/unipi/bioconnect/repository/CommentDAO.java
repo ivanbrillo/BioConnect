@@ -20,7 +20,7 @@ public class CommentDAO {
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.unwind("comments", false),  // Unwind comments array, not preserving empty arrays
                 Aggregation.addFields().addField("comments.username").withValue("$_id").build(),
-                Aggregation.project("comments._id", "comments.comment", "comments.elementId", "comments.username")
+                Aggregation.project("comments._id", "comments.comment", "comments.uniProtID", "comments.drugBankID", "comments.username")
         );
 
         AggregationResults<CommentDTO> results = mongoTemplate.aggregate(aggregation, "User", CommentDTO.class);
@@ -31,7 +31,7 @@ public class CommentDAO {
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.match(Criteria.where("_id").is(username)),
                 Aggregation.unwind("comments", false),  // Unwind comments array, not preserving empty arrays
-                Aggregation.project("comments._id", "comments.comment", "comments.elementId")  // no password, role or class
+                Aggregation.project("comments._id", "comments.comment", "comments.uniProtID", "comments.drugBankID")  // no password, role or class
         );
 
         AggregationResults<CommentDTO> results = mongoTemplate.aggregate(aggregation, "User", CommentDTO.class);

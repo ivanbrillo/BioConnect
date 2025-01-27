@@ -50,7 +50,7 @@ public class ProteinDocService {
         if (numDeleted == 0)
             throw new KeyException("No Protein with ID: " + uniProtID + " found");
 
-        AdminService.deleteCommentsByElementID(uniProtID);
+        AdminService.deleteCommentsByElementID(uniProtID, true);
     }
 
     public List<ProteinDocDTO> searchProteinDoc(String searchedText) {
